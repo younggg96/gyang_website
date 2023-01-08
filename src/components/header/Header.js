@@ -11,8 +11,8 @@ import { motion } from "framer-motion";
 // import icons
 import { CgMenuRight } from "react-icons/cg";
 import { IoMdClose } from "react-icons/io";
-import Signin from "../auth/Signin";
-import useOnClickOutside from "../../hooks/useOnClickOutside"
+import useOnClickOutside from "../../hooks/useOnClickOutside";
+import UserInfo from "../auth/UserInfo";
 
 const Links = [{ name: "About", link: "/about" }];
 
@@ -70,7 +70,7 @@ const menuVariants = {
 const MobileHeader = () => {
   const clickOutsideRef = useRef();
   const [openMenu, setOpenMenu] = useState(false);
-  useOnClickOutside(clickOutsideRef, () => setOpenMenu(false))
+  useOnClickOutside(clickOutsideRef, () => setOpenMenu(false));
   return (
     <nav className="text-primary xl:hidden">
       {/* nav open button */}
@@ -112,9 +112,9 @@ const MobileHeader = () => {
 
 const Header = () => {
   return (
-    <header className="fixed w-full px-[30px] lg:px-[100px] h-[100px] lg:h-[140px] flex items-center shadow-md shadow-gray-100">
+    <header className="fixed z-50 w-full px-[30px] lg:px-[100px] h-[100px] flex items-center shadow-md shadow-gray-100">
       <DesktopHeader />
-      <Signin />
+      <UserInfo />
       {/* mobile nav */}
       {/* <MobileHeader /> */}
     </header>

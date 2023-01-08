@@ -4,7 +4,7 @@ import WomanImg from '../img/contact/woman.png';
 // import motion
 import { motion } from 'framer-motion';
 // import transition
-import { transition1 } from '../transitions';
+import { transition } from '../helper/animation'
 // import context
 import { CursorContext } from '../context/CursorContext';
 
@@ -16,7 +16,7 @@ const Contact = () => {
       initial={{ opacity: 0, y: '100%' }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: '100%' }}
-      transition={transition1}
+      transition={transition}
       className='section bg-white'
     >
       <div className='container mx-auto h-full'>
@@ -26,7 +26,7 @@ const Contact = () => {
             initial={{ opacity: 0, y: '100%' }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: '100%' }}
-            transition={transition1}
+            transition={transition}
             className='hidden lg:flex bg-[#eef7f9] absolute bottom-0 left-0 right-0 top-72 -z-10'
           ></motion.div>
           {/* text & form */}
@@ -68,7 +68,7 @@ const Contact = () => {
             initial={{ opacity: 0, y: '100%' }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: '100%' }}
-            transition={{ transition: transition1, duration: 1.5 }}
+            transition={{ transition: transition, duration: 1.5 }}
             className='lg:flex-1'
           >
             <img src={WomanImg} alt='' />

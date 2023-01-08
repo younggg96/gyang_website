@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 // import motion
 import { motion } from "framer-motion";
 // import transition
-import { transition1 } from "../transitions";
+import { transition } from "../helper/animation"
 // import context
 import { CursorContext } from "../context/CursorContext";
 
@@ -20,7 +20,7 @@ const Portfolio = () => {
       initial={{ opacity: 0, y: "100%" }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: "100%" }}
-      transition={transition1}
+      transition={transition}
       className="section"
     >
       <div className="container mx-auto h-full relative">
@@ -32,7 +32,7 @@ const Portfolio = () => {
             initial={{ opacity: 0, y: "-80%" }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: "-80%" }}
-            transition={transition1}
+            transition={transition}
             className="flex flex-col lg:items-start"
           >
             <h1 className="h1">Portfolio</h1>

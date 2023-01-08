@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
 // import components
 import Header from "./components/header/Header";
-import AnimRoutes from "./components/AnimRoutes";
 // import router
 import { BrowserRouter as Router } from "react-router-dom";
 // import motion
 import { motion } from "framer-motion";
 // import cursor context
 import { CursorContext } from "./context/CursorContext";
+import AnimRoutes from "./components/Routes/AnimRoutes"
 
 const App = () => {
   const { cursorVariants, cursorBG } = useContext(CursorContext);
@@ -15,7 +15,7 @@ const App = () => {
     <>
       <Router>
         <Header />
-        <div className="pt-[100px] lg:pt-[140px]">
+        <div className="pt-[100px]">
           <AnimRoutes />
         </div>
       </Router>

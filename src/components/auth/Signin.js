@@ -1,53 +1,101 @@
 import React, { useState } from "react";
-import { FiUser } from "react-icons/fi";
-import GyPopup from "../../ui/GyPopup";
-import Logo from "../../img/header/logo.png";
-import { CgProfile } from "react-icons/cg";
-import { IoMdSettings } from "react-icons/io";
-const Signin = () => {
-  const [open, setOpen] = useState(false);
+import { useForm } from "react-hook-form";
+import { BsEye, BsEyeSlash } from "react-icons/bs";
+
+export const PwdInput = ({ form, placeholder }) => {
+  const [showPwd, setShowPwd] = useState(false);
+
+  const show = (event) => {
+    setShowPwd(event);
+  };
   return (
-    <>
-      <div className="relative">
-        <div
-          className="hidden xl:flex min-w-[120px] w-[200px] items-center justify-end mx-4 cursor-pointer"
-          onClick={() => setOpen(true)}
-        >
-          {/* <h4>Sign in</h4> */}
-          <FiUser className="text-lg mr-2 text-gray-500 w-8" />
-          <h4 className="overflow-hidden text-ellipsis whitespace-nowrap hover:underline underline-offset-2">
-            Yang j
-          </h4>
-        </div>
-        <GyPopup open={open} setOpen={setOpen}>
-          <section className="user-info-top flex flex-col p-4 items-center gap-4">
-            <img
-              src={Logo}
-              alt="user avatar"
-              className="rounded-full w-16 h-16 border bg-black"
-            />
-            <div className="flex flex-col gap-1">
-              <p className="text-md text-primary font-bold">User name</p>
-              <p className="text-sm text-gray-500">User Email</p>
-            </div>
-          </section>
-          <section className="user-info-btns border-t-2 border-b-2">
-            <ul className="w-full">
-              <li className="hover:bg-gray-600 hover:text-white py-2 pl-6 cursor-pointer flex items-center gap-3">
-                <CgProfile /> Profile
-              </li>
-              <li className="hover:bg-gray-600 hover:text-white py-2 pl-6 cursor-pointer flex items-center gap-3">
-                <IoMdSettings />
-                Settings
-              </li>
-            </ul>
-          </section>
-          <section className="flex justify-center py-2 px-4 my-2">
-            <button className="signout-btn border w-full rounded-full px-4 py-2 text-primary hover:bg-gray-500 hover:text-white transition-all">Sign Out</button>
-          </section>
-        </GyPopup>
-      </div>
-    </>
+    <div className="relative">
+      <input
+        className="input pr-10"
+        type={showPwd ? "text" : "password"}
+        name="pwd"
+        placeholder={placeholder}
+        {...form}
+      />
+
+      {showPwd ? (
+        <button type="button" onClick={() => show(false)}>
+          <BsEye className="show-eye-icon" />
+        </button>
+      ) : (
+        <button type="button" onClick={() => show(true)}>
+          <BsEyeSlash className="show-eye-icon" />
+        </button>
+      )}
+    </div>
+  );
+};
+
+export const EmailInput = ({ form }) => {
+  return (
+    <input
+      className="input"
+      type="text"
+      name="email"
+      placeholder="Email *"
+      {...form}
+    />
+  );
+};
+
+export const NormalInput = ({ form, type, category, required }) => {
+  const cateStr = `${category[0].toUpperCase()}${category
+    .slice(1)
+    .toLowerCase()}`;
+  return (
+    <input
+      className="input"
+      type={type}
+      name={category}
+      placeholder={required ? `${cateStr} *` : cateStr}
+      {...form}
+    />
+  );
+};
+
+const Signin = () => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    alert(JSON.stringify(data));
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <h1 className="title mb-6">Sign in</h1>
+      <section className="mb-2">
+        <EmailInput
+          form={register("email", {
+            required: "Email is required.",
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: "invalid email address",
+            },
+          })}
+        />
+        {errors.email && <p className="error-msg">{errors.email.message}</p>}
+      </section>
+      <section className="mb-2">
+        <PwdInput
+          placeholder="Password *"
+          form={register("password", { required: "Password is required." })}
+        />
+        {errors.password && <p className="error-msg">{errors.email.message}</p>}
+      </section>
+      <button type="submit" className="submit-btn my-2">
+        Sign In
+      </button>
+    </form>
   );
 };
 
