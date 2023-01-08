@@ -4,7 +4,10 @@
 
 @layer base {
   body {
-    @apply overflow-hidden text-primary font-secondary bg-white;
+    @apply overflow-hidden bg-gray-50 text-primary font-secondary;
+  }
+  .header {
+    @apply fixed w-full px-[30px] lg:px-[100px] h-[100px] flex items-center bg-white shadow-md shadow-gray-300;
   }
   .section {
     @apply h-screen w-screen;
@@ -22,7 +25,7 @@
     @apply text-[36px] font-primary font-medium capitalize leading-[120%] tracking-[-0.05em];
   }
   .auth-form {
-    @apply border p-8 sm:py-20 sm:px-16 rounded-md sm:w-[500px] w-[80%];
+    @apply bg-white border p-8 sm:py-20 sm:px-16 rounded-md sm:w-[500px] w-[80%] shadow-md shadow-gray-300;
   }
   .show-eye-icon {
     @apply absolute w-6 text-[24px] right-2 top-[calc(50%-12px)] cursor-pointer

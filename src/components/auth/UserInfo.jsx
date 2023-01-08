@@ -4,20 +4,26 @@ import GyPopup from "../../ui/GyPopup";
 import Logo from "../../img/header/logo.png";
 import { CgProfile } from "react-icons/cg";
 import { IoMdSettings } from "react-icons/io";
+import { Link } from "react-router-dom"
+
+const auth = false;
+
 const UserInfo = () => {
   const [open, setOpen] = useState(false);
   return (
     <>
       <div className="relative">
-        <div
-          className="hidden xl:flex min-w-[120px] w-[200px] items-center justify-end mx-4 cursor-pointer"
-          onClick={() => setOpen(true)}
-        >
-          {/* <h4>Sign in</h4> */}
-          <FiUser className="text-lg mr-2 text-gray-500 w-8" />
-          <h4 className="overflow-hidden text-ellipsis whitespace-nowrap hover:underline underline-offset-2">
-            Yang
-          </h4>
+        <div className="hidden xl:flex min-w-[120px] w-[200px] items-center justify-end mx-4 cursor-pointer">
+          {!auth ? (
+            <Link to={"/auth"}>Sign in</Link>
+          ) : (
+            <div onClick={() => setOpen(true)}>
+              <FiUser className="text-lg mr-2 text-gray-500 w-8" />
+              <h4 className="overflow-hidden text-ellipsis whitespace-nowrap hover:underline underline-offset-2">
+                Yang
+              </h4>
+            </div>
+          )}
         </div>
         <GyPopup open={open} setOpen={setOpen}>
           <section className="user-info-top flex flex-col p-4 items-center gap-4">

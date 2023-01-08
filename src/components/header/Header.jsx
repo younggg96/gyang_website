@@ -112,7 +112,7 @@ const MobileHeader = () => {
 
 const Header = () => {
   return (
-    <header className="fixed z-50 w-full px-[30px] lg:px-[100px] h-[100px] flex items-center shadow-md shadow-gray-100">
+    <header className="header">
       <DesktopHeader />
       <UserInfo />
       {/* mobile nav */}
