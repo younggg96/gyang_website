@@ -27,11 +27,11 @@
   .auth-form {
     @apply bg-white border p-8 sm:py-20 sm:px-16 rounded-md sm:w-[500px] w-[80%] shadow-md shadow-gray-300;
   }
-  .show-eye-icon {
-    @apply absolute w-6 text-[24px] right-2 top-[calc(50%-12px)] cursor-pointer
+  .show-eye-btn {
+    @apply absolute w-6 text-[24px] right-2 top-[calc(50%-12px)];
   }
   .submit-btn {
-    @apply w-full bg-slate-300 rounded-md py-2 sm:py-4 hover:border-black border cursor-pointer
+    @apply w-full bg-slate-300 rounded-md py-2 sm:py-4 hover:border-black border cursor-pointer;
   }
   .error-msg {
     @apply text-red-600;

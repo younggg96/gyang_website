@@ -19,12 +19,20 @@ export const PwdInput = ({ form, placeholder }) => {
       />
 
       {showPwd ? (
-        <button type="button" onClick={() => show(false)}>
-          <BsEye className="show-eye-icon" />
+        <button
+          type="button"
+          onClick={() => show(false)}
+          className="show-eye-btn"
+        >
+          <BsEye />
         </button>
       ) : (
-        <button type="button" onClick={() => show(true)}>
-          <BsEyeSlash className="show-eye-icon" />
+        <button
+          type="button"
+          onClick={() => show(true)}
+          className="show-eye-btn"
+        >
+          <BsEyeSlash />
         </button>
       )}
     </div>
