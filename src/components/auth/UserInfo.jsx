@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { FiUser } from "react-icons/fi";
-import GyPopup from "../../ui/GyPopup";
 import Logo from "../../img/header/logo.png";
 import { CgProfile } from "react-icons/cg";
 import { IoMdSettings } from "react-icons/io";
 import { Link } from "react-router-dom"
+import GyPopup from "../../ui/GyPopup"
 
 const auth = false;
 

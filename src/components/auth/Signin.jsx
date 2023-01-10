@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
+import { post } from "../../api/axios";
+import { TIME, TYPE, useToast } from "../../ui/GyToast/ToastProvider";
 
 export const PwdInput = ({ form, placeholder }) => {
   const [showPwd, setShowPwd] = useState(false);
@@ -73,9 +75,25 @@ const Signin = () => {
     watch,
     formState: { errors },
   } = useForm();
+  const { addToast } = useToast();
 
   const onSubmit = (data) => {
-    alert(JSON.stringify(data));
+    addToast({ content: "Log in, wait...", time: TIME.SHORT, type: TYPE.INFO });
+    post("/auth/login", data)
+      .then((res) => {
+        if(res.data) {
+          addToast({ content: "Welcome...", time: TIME.SHORT, type: TYPE.SUCCESS });
+        }
+      })
+      .catch((errs) => {
+        for (const value of Object.values(errs.response.data)) {
+          addToast({
+            content: `${value}`,
+            time: TIME.SHORT,
+            type: TYPE.ERROR,
+          });
+        }
+      });
   };
 
   return (
@@ -98,7 +116,9 @@ const Signin = () => {
           placeholder="Password *"
           form={register("password", { required: "Password is required." })}
         />
-        {errors.password && <p className="error-msg">{errors.email.message}</p>}
+        {errors.password && (
+          <p className="error-msg">{errors.password.message}</p>
+        )}
       </section>
       <button type="submit" className="submit-btn my-2">
         Sign In

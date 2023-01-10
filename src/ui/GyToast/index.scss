@@ -1,0 +1,33 @@
+$error: #ff1010;
+$error-bg: #f6d8d8;
+
+$success: #06ad03;
+$success-bg: #d1eed0;
+
+$info: #3498db;
+$info-bg: #dee7ee;
+
+$warning: #e1a325;
+$warning-bg: #fceacc;
+
+@mixin toast-style($color: $warning, $bg-color: $warning-bg) {
+  color: $color;
+  background-color: $bg-color;
+  border: 1px solid $color;
+}
+
+.success {
+  @include toast-style($success, $success-bg);
+}
+
+.info {
+  @include toast-style($info, $info-bg);
+}
+
+.error {
+  @include toast-style($error, $error-bg);
+}
+
+.warning {
+  @include toast-style($warning, $warning-bg);
+}

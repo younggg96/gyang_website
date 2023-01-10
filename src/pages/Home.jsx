@@ -6,12 +6,14 @@ import { Link } from "react-router-dom";
 // import motion
 import { motion } from "framer-motion";
 // import transition
-import { transition } from "../helper/animation"
+import { transition } from "../helper/animation";
 // cursor context
 import { CursorContext } from "../context/CursorContext";
+import { TIME, TYPE, useToast } from "../ui/GyToast/ToastProvider";
 
 const Home = () => {
   const { mouseEnterHandler, mouseLeaveHandler } = useContext(CursorContext);
+  const { addToast } = useToast();
   return (
     <motion.section
       initial={{ opacity: 0 }}
@@ -29,7 +31,15 @@ const Home = () => {
           onMouseEnter={mouseEnterHandler}
           onMouseLeave={mouseLeaveHandler}
         > */}
-          <h1 className="h1">sssaaa</h1>
+        <h1 className="h1">
+          <button
+            onClick={() =>
+              addToast({ content: "3", type: TYPE.SUCCESS })
+            }
+          >
+            click
+          </button>
+        </h1>
         {/* </motion.div> */}
       </div>
     </motion.section>

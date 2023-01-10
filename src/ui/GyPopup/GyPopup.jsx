@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { motion } from "framer-motion";
-import useOnClickOutside from "../hooks/useOnClickOutside";
-import { variants } from "../helper/animation";
+import useOnClickOutside from "../../hooks/useOnClickOutside";
+import { variants } from "../../helper/animation";
 
 const GyPopup = ({ open, setOpen, children }) => {
   const clickOutsideRef = useRef();
