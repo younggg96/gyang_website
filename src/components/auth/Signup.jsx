@@ -1,6 +1,8 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { EmailInput, NormalInput, PwdInput } from "./Signin";
+import { TIME, TYPE, useToast } from "../../ui/GyToast/ToastProvider";
+import { post } from "../../api/axios";
 
 const Signup = () => {
   const {
@@ -9,9 +11,63 @@ const Signup = () => {
     getValues,
     formState: { errors },
   } = useForm();
+  const { addToast } = useToast();
+
+  const signin = (data) => {
+    post("/auth/login", data)
+      .then((res) => {
+        if (res.data) {
+          addToast({
+            content: "Signin success, welcome...",
+            time: TIME.SHORT,
+            type: TYPE.SUCCESS,
+          });
+        }
+      })
+      .catch((errs) => {
+        for (const value of Object.values(errs.response.data)) {
+          addToast({
+            content: `${value}`,
+            time: TIME.SHORT,
+            type: TYPE.ERROR,
+          });
+        }
+      });
+  };
 
   const onSubmit = (data) => {
-    alert(JSON.stringify(data));
+    addToast({
+      content: "Sign up, wait...",
+      time: TIME.SHORT,
+      type: TYPE.INFO,
+    });
+    post("/auth/register", data)
+      .then((res) => {
+        if (res.data) {
+          addToast({
+            content: "Your account has been successfully created...",
+            time: TIME.SHORT,
+            type: TYPE.SUCCESS,
+          });
+          setTimeout(() => {
+            addToast({
+              content: "Sign in now, wait...",
+              time: TIME.SHORT,
+              type: TYPE.INFO,
+            });
+            signin({ email: data.email, password: data.password });
+          }, 500);
+        }
+      })
+      .catch((errs) => {
+        for (const value of Object.values(errs.response.data)) {
+          addToast({
+            content: `${value}`,
+            time: TIME.SHORT,
+            type: TYPE.ERROR,
+          });
+        }
+      });
   };
 
   return (
@@ -51,15 +107,15 @@ const Signup = () => {
       <section className="mb-2">
         <PwdInput
           placeholder="Password confirmation *"
-          form={register("password_comfirm", {
+          form={register("password_confirm", {
             required: "Please confirm your password.",
             validate: (value) =>
               value === getValues("password") ||
               "Password confirmation does not match.",
           })}
         />
-        {errors.password_comfirm && (
-          <p className="error-msg">{errors.password_comfirm.message}</p>
+        {errors.password_confirm && (
+          <p className="error-msg">{errors.password_confirm.message}</p>
         )}
       </section>
       <button type="submit" className="submit-btn my-2">

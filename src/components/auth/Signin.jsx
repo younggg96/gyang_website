@@ -78,11 +78,19 @@ const Signin = () => {
   const { addToast } = useToast();
 
   const onSubmit = (data) => {
-    addToast({ content: "Log in, wait...", time: TIME.SHORT, type: TYPE.INFO });
+    addToast({
+      content: "Sign in, wait...",
+      time: TIME.SHORT,
+      type: TYPE.INFO,
+    });
     post("/auth/login", data)
       .then((res) => {
-        if(res.data) {
-          addToast({ content: "Welcome...", time: TIME.SHORT, type: TYPE.SUCCESS });
+        if (res.data) {
+          addToast({
+            content: "Signin success, welcome...",
+            time: TIME.SHORT,
+            type: TYPE.SUCCESS,
+          });
         }
       })
       .catch((errs) => {

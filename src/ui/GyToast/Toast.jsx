@@ -43,7 +43,7 @@ const Toast = ({ children, id, time, type }) => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: "80%" }}
       transition={transition}
-      className={`flex items-center gap-2 mb-4 mr-4 min-w-[200px] max-w-[500px] p-4 border rounded-md shadow-md ${type}`}
+      className={`flex items-center gap-2 mb-4 mr-4 min-w-[200px] w-fit p-4 border rounded-md shadow-md ${type}`}
     >
       <ToastIcon />
       <div className="flex-1">{children}</div>
