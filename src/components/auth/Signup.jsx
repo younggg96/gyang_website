@@ -1,8 +1,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { EmailInput, NormalInput, PwdInput } from "./Signin";
+import { EmailInput, NormalInput, PwdInput } from "./AuthInput";
 import { TIME, TYPE, useToast } from "../../ui/GyToast/ToastProvider";
 import { post } from "../../api/axios";
+import { useRequest } from "ahooks";
 
 const Signup = () => {
   const {
@@ -13,61 +14,95 @@ const Signup = () => {
   } = useForm();
   const { addToast } = useToast();
 
-  const signin = (data) => {
-    post("/auth/login", data)
-      .then((res) => {
-        if (res.data) {
-          addToast({
-            content: "Signin success, welcome...",
-            time: TIME.SHORT,
-            type: TYPE.SUCCESS,
-          });
-        }
-      })
-      .catch((errs) => {
-        for (const value of Object.values(errs.response.data)) {
-          addToast({
-            content: `${value}`,
-            time: TIME.SHORT,
-            type: TYPE.ERROR,
-          });
-        }
-      });
-  };
+  /**
+   * POST method
+   * @param {string} url request url
+   * @param {object} data form info object
+   * @returns axios http request promise
+   */
+  const postRequest = (url, data) => post(url, data);
 
-  const onSubmit = (data) => {
-    addToast({
-      content: "Sign up, wait...",
-      time: TIME.SHORT,
-      type: TYPE.INFO,
-    });
-    post("/auth/register", data)
-      .then((res) => {
-        if (res.data) {
-          addToast({
-            content: "Your account has been successfully created...",
-            time: TIME.SHORT,
-            type: TYPE.SUCCESS,
-          });
-          setTimeout(() => {
-            addToast({
-              content: "Sign in now, wait...",
-              time: TIME.SHORT,
-              type: TYPE.INFO,
-            });
-            signin({ email: data.email, password: data.password });
-          }, 500);
-        }
-      })
-      .catch((errs) => {
-        for (const value of Object.values(errs.response.data)) {
-          addToast({
-            content: `${value}`,
-            time: TIME.SHORT,
-            type: TYPE.ERROR,
-          });
-        }
+  const sininUseRequest = useRequest(postRequest, {
+    manual: true,
+    onBefore: () => {
+      addToast({
+        content: "Sign in with new account, wait...",
+        time: TIME.SHORT,
+        type: TYPE.INFO,
       });
+    },
+    onSuccess: (res, data) => {
+      addToast({
+        content: "Signin success, welcome...",
+        time: TIME.SHORT,
+        type: TYPE.SUCCESS,
+      });
+    },
+    onError: (errs) => {
+      if (errs.response.status === 404) {
+        addToast({
+          content: `${errs.response.statusText} (404)`,
+          time: TIME.SHORT,
+          type: TYPE.ERROR,
+        });
+        return;
+      }
+      for (const value of Object.values(errs.response.data)) {
+        addToast({
+          content: `${value}`,
+          time: TIME.SHORT,
+          type: TYPE.ERROR,
+        });
+      }
+    },
+  });
+
+  const sinupUseRequest = useRequest(postRequest, {
+    manual: true,
+    onBefore: () => {
+      addToast({
+        content: "Sign up, wait...",
+        time: TIME.SHORT,
+        type: TYPE.INFO,
+      });
+    },
+    onSuccess: (res, data) => {
+      if (res.data) {
+        addToast({
+          content: "Your account has been successfully created...",
+          time: TIME.SHORT,
+          type: TYPE.SUCCESS,
+        });
+        setTimeout(() => {
+          sininUseRequest.run("/auth/login", data[1]);
+        }, 500);
+      }
+    },
+    onError: (errs) => {
+      if (errs.response.status === 404) {
+        addToast({
+          content: `${errs.response.statusText} (404)`,
+          time: TIME.SHORT,
+          type: TYPE.ERROR,
+        });
+        return;
+      }
+      for (const value of Object.values(errs.response.data)) {
+        addToast({
+          content: `${value}`,
+          time: TIME.SHORT,
+          type: TYPE.ERROR,
+        });
+      }
+    },
+  });
+
+  /**
+   * submit form
+   * @param {object} data form info object
+   */
+  const onSubmit = (data) => {
+    sinupUseRequest.run("/auth/register", data);
   };
 
   return (
@@ -79,7 +114,7 @@ const Signup = () => {
             required: "Email is required.",
             pattern: {
               value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-              message: "invalid email address",
+              message: "Invalid email address",
             },
           })}
         />
@@ -101,8 +136,7 @@ const Signup = () => {
           placeholder="Password *"
           form={register("password", { required: "Password is required." })}
         />
-        {/* getValues("test") */}
-        {errors.password && <p className="error-msg">{errors.email.message}</p>}
+        {errors.password && <p className="error-msg">{errors.password.message}</p>}
       </section>
       <section className="mb-2">
         <PwdInput
@@ -118,8 +152,8 @@ const Signup = () => {
           <p className="error-msg">{errors.password_confirm.message}</p>
         )}
       </section>
-      <button type="submit" className="submit-btn my-2">
-        Sign Up
+      <button type="submit" disabled={sinupUseRequest.loading || sininUseRequest.loading} className="submit-btn my-2">
+        {sinupUseRequest.loading || sininUseRequest.loading ? "Loading..." : "Sign Up"}
       </button>
     </form>
   );

@@ -4,10 +4,19 @@ import { motion } from "framer-motion";
 // import transition
 import { transition } from "../helper/animation";
 import Signup from "../components/auth/Signup";
-import Signin from "../components/auth/Signin"
+import Signin from "../components/auth/Signin";
+import ForgetPwd from "../components/auth/ForgetPwd";
+// import icon
+import { BiArrowBack } from "react-icons/bi";
+import ResetPwd from "../components/auth/ResetPwd";
 
 const Auth = () => {
   const [type, setType] = useState("signin");
+  const [userInfo, setUserInfo] = useState("");
+  const handleCheck = (user) => {
+    setType("resetPwd");
+    setUserInfo(user);
+  };
 
   return (
     <motion.section
@@ -19,24 +28,51 @@ const Auth = () => {
     >
       {type === "signin" && (
         <div className="auth-form">
-          <Signin />
-          <p
-            className="underline cursor-pointer"
-            onClick={() => setType("signup")}
-          >
+          <Signin>
+            <p className="flex mb-2">
+              <span
+                className="link ml-auto"
+                onClick={() => setType("forgetPwd")}
+              >
+                Forget an account?
+              </span>
+            </p>
+          </Signin>
+          <span className="link" onClick={() => setType("signup")}>
             Or create a new account?
-          </p>
+          </span>
         </div>
       )}
       {type === "signup" && (
         <div className="auth-form">
           <Signup />
-          <p
-            className="underline cursor-pointer"
+          <span className="link" onClick={() => setType("signin")}>
+            Having an account?
+          </span>
+        </div>
+      )}
+      {type === "forgetPwd" && (
+        <div className="auth-form">
+          <span
+            className="link flex items-center mb-6 w-fit"
             onClick={() => setType("signin")}
           >
-            Having an account?
-          </p>
+            <BiArrowBack className="mr-2" />
+            Back to signin
+          </span>
+          <ForgetPwd handleCheck={handleCheck} />
+        </div>
+      )}
+      {type === "resetPwd" && (
+        <div className="auth-form">
+          <span
+            className="link flex items-center mb-6 w-fit"
+            onClick={() => setType("signin")}
+          >
+            <BiArrowBack className="mr-2" />
+            Back to signin
+          </span>
+          <ResetPwd userInfo={userInfo} />
         </div>
       )}
     </motion.section>

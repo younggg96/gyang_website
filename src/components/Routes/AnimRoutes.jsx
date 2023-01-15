@@ -1,9 +1,6 @@
 import React from "react";
 // import pages
 import Home from "../../pages/Home";
-import About from "../../pages/About";
-import Portfolio from "../../pages/Portfolio";
-import Contact from "../../pages/Contact";
 import Auth from "../../pages/Auth";
 
 // import routes route & useLocation hook

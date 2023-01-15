@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
 // import components
-import Socials from "./Socials";
+// import Socials from "./Socials";
 import Logo from "../../img/header/logo.png";
 // import link
 import { Link } from "react-router-dom";
@@ -11,10 +11,11 @@ import { motion } from "framer-motion";
 // import icons
 import { CgMenuRight } from "react-icons/cg";
 import { IoMdClose } from "react-icons/io";
+// hooks
 import useOnClickOutside from "../../hooks/useOnClickOutside";
 import UserInfo from "../auth/UserInfo";
 
-const Links = [{ name: "About", link: "/about" }];
+const Links = [{ name: "Home", link: "/home" }];
 
 // desktop
 const DesktopHeader = () => {

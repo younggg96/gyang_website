@@ -6,9 +6,9 @@ import axios from "axios";
 axios.defaults.timeout = 100000;
 axios.defaults.baseURL = "http://localhost:3000/api";
 
-/**
- * http request 拦截器
- */
+// /**
+//  * http request 拦截器
+//  */
 // axios.interceptors.request.use(
 //   (config) => {
 //     config.data = JSON.stringify(config.data);
@@ -75,7 +75,7 @@ export function post(url, data) {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
-  }).then((res) => res.data)
+  }).then((res) => res.data);
 }
 
 /**
@@ -170,7 +170,4 @@ function landing(url, params, data) {
   }
 }
 
-
-export const errorhandler = () => {
-
-}
+export const errorhandler = () => {};

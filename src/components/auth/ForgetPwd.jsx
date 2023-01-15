@@ -1,11 +1,11 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { post } from "../../api/axios";
+import { EmailInput } from "./AuthInput";
 import { TIME, TYPE, useToast } from "../../ui/GyToast/ToastProvider";
+import { post } from "../../api/axios";
 import { useRequest } from "ahooks";
-import { EmailInput, PwdInput } from "./AuthInput";
 
-const Signin = ({ children }) => {
+const ForgetPwd = ({ handleCheck }) => {
   const {
     register,
     handleSubmit,
@@ -17,23 +17,26 @@ const Signin = ({ children }) => {
    * @param {object} data form info object
    * @returns axios http request promise
    */
-  const postSignin = (data) => post("/auth/login", data);
-
-  const { run, loading } = useRequest(postSignin, {
+  const postCheck = (data) => post("/auth/check", data);
+  const { run, loading } = useRequest(postCheck, {
     manual: true,
     onBefore: () => {
       addToast({
-        content: "Sign in, wait...",
+        content: "Check your email, wait...",
         time: TIME.SHORT,
         type: TYPE.INFO,
       });
     },
     onSuccess: (res, data) => {
-      addToast({
-        content: "Signin success, welcome...",
-        time: TIME.SHORT,
-        type: TYPE.SUCCESS,
-      });
+      const {userExist, ...userInfo} = res.data;
+      if (userExist) {
+        addToast({
+          content: "Account exists, reset your password...",
+          time: TIME.SHORT,
+          type: TYPE.SUCCESS,
+        });
+        handleCheck(userInfo);
+      }
     },
     onError: (errs) => {
       if (errs.response.status === 404) {
@@ -53,18 +56,13 @@ const Signin = ({ children }) => {
       }
     },
   });
-
-  /**
-   * submit form
-   * @param {object} data form info object
-   */
   const onSubmit = (data) => {
     run(data);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <h1 className="title mb-6">Sign in</h1>
+      <h1 className="title mb-6">Find your account</h1>
       <section className="mb-2">
         <EmailInput
           form={register("email", {
@@ -77,22 +75,11 @@ const Signin = ({ children }) => {
         />
         {errors.email && <p className="error-msg">{errors.email.message}</p>}
       </section>
-      <section className="mb-2">
-        <PwdInput
-          placeholder="Password *"
-          form={register("password", { required: "Password is required." })}
-        />
-        {errors.password && (
-          <p className="error-msg">{errors.password.message}</p>
-        )}
-      </section>
-      {/* forget pwd section */}
-      {children}
       <button type="submit" disabled={loading} className="submit-btn my-2">
-        {loading ? "Loading..." : "Sign In"}
+        {loading ? "Loading..." : "Check"}
       </button>
     </form>
   );
 };
 
-export default Signin;
+export default ForgetPwd;
