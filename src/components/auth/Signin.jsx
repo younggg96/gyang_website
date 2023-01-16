@@ -2,8 +2,10 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { post } from "../../api/axios";
 import { TIME, TYPE, useToast } from "../../ui/GyToast/ToastProvider";
+import useAuth from "../../hooks/useAuth";
 import { useRequest } from "ahooks";
 import { EmailInput, PwdInput } from "./AuthInput";
+import { useNavigate } from "react-router-dom"
 
 const Signin = ({ children }) => {
   const {
@@ -12,6 +14,8 @@ const Signin = ({ children }) => {
     formState: { errors },
   } = useForm();
   const { addToast } = useToast();
+  const { login } = useAuth();
+  const navigate = useNavigate();
   /**
    *
    * @param {object} data form info object
@@ -34,6 +38,9 @@ const Signin = ({ children }) => {
         time: TIME.SHORT,
         type: TYPE.SUCCESS,
       });
+      const { token, user } = res.data;
+      login(token, user);
+      navigate("/");
     },
     onError: (errs) => {
       if (errs.response.status === 404) {

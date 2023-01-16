@@ -18,7 +18,6 @@ const ResetPwd = ({ userInfo }) => {
    * @returns axios http request promise
    */
   const postReset = (data) => {
-    console.log({ ...data, email: userInfo.email });
     return post("/auth/resetPwd", { ...data, email: userInfo.email });
   };
   const { run, loading } = useRequest(postReset, {

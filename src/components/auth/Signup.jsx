@@ -4,6 +4,8 @@ import { EmailInput, NormalInput, PwdInput } from "./AuthInput";
 import { TIME, TYPE, useToast } from "../../ui/GyToast/ToastProvider";
 import { post } from "../../api/axios";
 import { useRequest } from "ahooks";
+import useAuth from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const {
@@ -13,6 +15,8 @@ const Signup = () => {
     formState: { errors },
   } = useForm();
   const { addToast } = useToast();
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   /**
    * POST method
@@ -37,6 +41,9 @@ const Signup = () => {
         time: TIME.SHORT,
         type: TYPE.SUCCESS,
       });
+      const { token, user } = res.data;
+      login(token, user);
+      navigate("/");
     },
     onError: (errs) => {
       if (errs.response.status === 404) {
@@ -136,7 +143,9 @@ const Signup = () => {
           placeholder="Password *"
           form={register("password", { required: "Password is required." })}
         />
-        {errors.password && <p className="error-msg">{errors.password.message}</p>}
+        {errors.password && (
+          <p className="error-msg">{errors.password.message}</p>
+        )}
       </section>
       <section className="mb-2">
         <PwdInput
@@ -152,8 +161,14 @@ const Signup = () => {
           <p className="error-msg">{errors.password_confirm.message}</p>
         )}
       </section>
-      <button type="submit" disabled={sinupUseRequest.loading || sininUseRequest.loading} className="submit-btn my-2">
-        {sinupUseRequest.loading || sininUseRequest.loading ? "Loading..." : "Sign Up"}
+      <button
+        type="submit"
+        disabled={sinupUseRequest.loading || sininUseRequest.loading}
+        className="submit-btn my-2"
+      >
+        {sinupUseRequest.loading || sininUseRequest.loading
+          ? "Loading..."
+          : "Sign Up"}
       </button>
     </form>
   );
