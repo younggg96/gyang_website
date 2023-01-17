@@ -50,7 +50,6 @@ const ToastProvider = ({ children }) => {
         removeToast,
       }}
     >
-      {/* <div className="fixed left-0 top-0 z-50">{JSON.stringify(toasts)}</div> */}
       <ToastContainer toasts={toasts} />
       {children}
     </ToastContext.Provider>

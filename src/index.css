@@ -2,15 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+#root {
+  width: 100%;
+  height: 100vh;
+}
+
 @layer base {
   body {
-    @apply overflow-hidden bg-gray-50 text-primary font-secondary;
+    @apply bg-gray-50 text-primary font-secondary;
   }
   .header {
-    @apply fixed w-full px-[30px] lg:px-[100px] h-[100px] flex items-center bg-white shadow-md shadow-gray-300;
+    @apply fixed z-50 w-full px-[30px] lg:px-[100px] h-[100px] flex items-center bg-white shadow-md shadow-gray-300;
   }
   .section {
     @apply h-screen w-screen;
+  }
+  .auth-section {
+    @apply flex justify-center items-center w-full h-full;
   }
   .btn {
     @apply py-[18px] px-[50px] h-[66px] flex items-center justify-center text-base uppercase font-secondary font-semibold bg-primary text-white;

@@ -24,7 +24,7 @@ const Auth = () => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 10 }}
       transition={transition}
-      className="section mx-auto h-[calc(100vh-100px)] flex justify-center items-center rounded-sm"
+      className="auth-section"
     >
       {type === "signin" && (
         <div className="auth-form">

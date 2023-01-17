@@ -70,7 +70,7 @@ const Signin = ({ children }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className="relative z-0">
       <h1 className="title mb-6">Sign in</h1>
       <section className="mb-2">
         <EmailInput
