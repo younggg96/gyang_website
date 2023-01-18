@@ -47,4 +47,11 @@
   .error-msg {
     @apply text-red-600;
   }
+  .pagination-btn {
+    @apply bg-white hover:bg-slate-300 hover:border-black w-12 h-12 border grid place-items-center rounded-md cursor-pointer select-none;
+  }
+  .pagination-btn.active {
+    cursor: unset;
+    @apply bg-slate-300 border-black;
+  }
 }

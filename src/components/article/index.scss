@@ -1,0 +1,28 @@
+.article-list {
+  .list {
+    border: 0.5px solid #ddd;
+
+    .article-item {
+      border-bottom: 1px solid #ddd;
+      &:first-child {
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+      }
+      &:last-child {
+        border-bottom: unset;
+        border-bottom-left-radius: 1rem;
+        border-bottom-right-radius: 1rem;
+      }
+
+      .article-date {
+        time {
+          display: inline-block;
+          text-transform: lowercase;
+          &:first-letter {
+            text-transform: uppercase;
+          }
+        }
+      }
+    }
+  }
+}
