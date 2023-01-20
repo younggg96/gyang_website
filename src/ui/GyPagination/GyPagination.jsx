@@ -1,34 +1,60 @@
-import React, { useState } from "react";
+import classNames from "classnames";
+import React, { useMemo } from "react";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 /**
  *
  * @param { row, currentPage, total, pageRow }
  * row: the number of items per page
- * total: the number of items
  * currentPage: current page number
  * pageRow: the number of pages
+ * hasPageBtn: whether it has page buttons
  * @returns
  */
-const GyPagination = ({ row, currentPage, total, pageRow }) => {
-  const [curPage, setCurrentPage] = useState(currentPage);
-  const rowArray = Array(row)
-    .fill()
-    .map((_, i) => i + 1);
+const GyPagination = ({
+  row,
+  curPage,
+  pageRow,
+  onCurPageChange,
+  hasPageBtn = true,
+}) => {
+  const range = (start, end) => {
+    const arr = [];
+    for (let i = start; i <= end; i++) {
+      arr.push(i);
+    }
+    return arr;
+  };
+
+  const rowArray = useMemo(() => {
+    const getPageItems = (pageRow, c) => {
+      if (pageRow <= 8) {
+        return range(1, pageRow);
+      }
+      if (c <= 5) {
+        return [...range(1, 7), -1, pageRow];
+      } else if (c >= pageRow - 4) {
+        return [1, -1, ...range(pageRow - 6, pageRow)];
+      } else {
+        return [1, -1, c - 2, c - 1, c, c + 1, c + 2, -1, pageRow];
+      }
+    };
+    return getPageItems(pageRow, curPage);
+  }, [curPage, pageRow]);
 
   const setPage = (item, active) => {
-    if (active) return;
-    setCurrentPage(item);
+    if (active || item === -1) return;
+    onCurPageChange(item);
   };
 
   const nextPage = () => {
-    if(curPage === pageRow) return;
-    setCurrentPage(curPage + 1);
-  }
+    if (curPage === pageRow) return;
+    onCurPageChange(curPage + 1);
+  };
 
   const prevPage = () => {
-    if(curPage === 1) return;
-    setCurrentPage(curPage - 1);
-  }
+    if (curPage === 1) return;
+    onCurPageChange(curPage - 1);
+  };
 
   return (
     <section className="gy-pagination grid place-items-center pt-8 pb-8">
@@ -36,15 +62,16 @@ const GyPagination = ({ row, currentPage, total, pageRow }) => {
         <li className="pagination-btn" onClick={prevPage}>
           <AiOutlineArrowLeft />
         </li>
-        {rowArray.map((item, index) => {
-          const active = item === curPage ? "active" : "";
+        {hasPageBtn && rowArray.map((item, index) => {
           return (
             <li
               key={index}
-              className={`pagination-btn ${active}`}
-              onClick={() => setPage(item, active)}
+              className={classNames("pagination-btn", {
+                active: item === curPage,
+              })}
+              onClick={() => setPage(item, item === curPage)}
             >
-              {item}
+              {item === -1 ? "..." : `${item}`}
             </li>
           );
         })}

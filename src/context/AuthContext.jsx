@@ -1,9 +1,9 @@
 // import localforage from "localforage";
 import { useEffect, useReducer } from "react";
 import { createContext } from "react";
-import { post } from "../api/axios";
 import axios from "axios";
-import { TIME, TYPE, useToast } from "../ui/GyToast/ToastProvider"
+import { TIME, TYPE, useToast } from "../ui/GyToast/ToastProvider";
+import { identifyUser } from "../api";
 
 const AUTH_TYPE = {
   INITIALIZE: "INITIALIZE",
@@ -64,7 +64,7 @@ const AuthProvider = ({ children }) => {
       if (token) {
         setSession(token);
         try {
-          const { data } = await post("/auth/identify");
+          const { data } = await identifyUser();
           if (data.identified) {
             dispatch({
               type: AUTH_TYPE.INITIALIZE,

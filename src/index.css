@@ -12,7 +12,7 @@
     @apply bg-gray-50 text-primary font-secondary;
   }
   .header {
-    @apply fixed z-50 w-full px-[30px] lg:px-[100px] h-[100px] flex items-center bg-white shadow-md shadow-gray-300;
+    @apply fixed z-50 w-full px-[30px] lg:px-[100px] h-[100px] flex items-center bg-white shadow;
   }
   .section {
     @apply h-screen w-screen;
@@ -20,12 +20,15 @@
   .auth-section {
     @apply flex justify-center items-center w-full h-full;
   }
-  .btn {
-    @apply py-[18px] px-[50px] h-[66px] flex items-center justify-center text-base uppercase font-secondary font-semibold bg-primary text-white;
-  }
 }
 
 @layer components {
+  .btn {
+    @apply py-[18px] px-[50px] h-[66px] rounded-md flex items-center justify-center text-base uppercase font-secondary font-semibold bg-primary text-white;
+  }
+  .btn-small {
+    @apply py-2 px-6 h-12 flex items-center justify-center rounded-md text-base font-secondary font-semibold bg-primary text-white;
+  }
   .input {
     @apply outline-none border-b border-b-primary h-[44px] sm:h-[60px] bg-transparent font-secondary w-full px-2 placeholder:text-[#757879];
   }

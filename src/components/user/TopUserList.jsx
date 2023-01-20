@@ -1,13 +1,26 @@
 import { useRequest } from "ahooks";
-import { get } from "../../api/axios";
 import UserHeader from "./UserHeader";
 import "./index.scss";
+import GyPagination from "../../ui/GyPagination/GyPagination";
+import { useEffect, useState } from "react";
+import { getTopUserList } from "../../api";
 
-const TopUserList = ({ page, row }) => {
-  const getTopUserList = () =>
-    get(`/auth/getTopUserList?page=${page}&row=${row}`);
-  const { data, error, loading } = useRequest(getTopUserList);
-  const userList = data?.data;
+const TopUserList = () => {
+  const [curPage, setCurPage] = useState(1);
+  const [userList, setUserList] = useState([]);
+  const [pagination, setPagination] = useState();
+
+  const { error, loading, run } = useRequest(getTopUserList, {
+    manual: true,
+    onSuccess: (result, params) => {
+      setUserList(result?.data);
+      setPagination(result?.meta);
+    },
+  });
+  useEffect(() => {
+    run(curPage);
+  }, [curPage]);
+
   if (error) {
     return <div>failed to load</div>;
   }
@@ -21,6 +34,15 @@ const TopUserList = ({ page, row }) => {
         {userList.map((item) => {
           return <UserHeader key={item.id} user={item} />;
         })}
+        <GyPagination
+          row={pagination?.row}
+          curPage={pagination?.current_page}
+          pageRow={pagination?.page_row}
+          hasPageBtn={false}
+          onCurPageChange={(page) => {
+            setCurPage(page);
+          }}
+        />
       </ul>
     </>
   );

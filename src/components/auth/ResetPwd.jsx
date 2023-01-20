@@ -1,9 +1,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { PwdInput } from "./AuthInput";
-import { post } from "../../api/axios";
 import { TIME, TYPE, useToast } from "../../ui/GyToast/ToastProvider";
 import { useRequest } from "ahooks";
+import { postReset } from "../../api";
 
 const ResetPwd = ({ userInfo }) => {
   const {
@@ -12,14 +12,7 @@ const ResetPwd = ({ userInfo }) => {
     formState: { errors },
   } = useForm();
   const { addToast } = useToast();
-  /**
-   *
-   * @param {object} data form info object
-   * @returns axios http request promise
-   */
-  const postReset = (data) => {
-    return post("/auth/resetPwd", { ...data, email: userInfo.email });
-  };
+
   const { run, loading } = useRequest(postReset, {
     manual: true,
     onBefore: () => {
@@ -56,8 +49,9 @@ const ResetPwd = ({ userInfo }) => {
       }
     },
   });
+
   const onSubmit = (data) => {
-    run(data);
+    run(data, userInfo.email);
   };
 
   return (

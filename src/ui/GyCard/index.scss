@@ -1,0 +1,10 @@
+@tailwind components;
+
+@layer components {
+  .gy-card {
+    @apply flex flex-col my-4 py-4 px-8 border bg-white shadow-lg rounded-2xl;
+    hr {
+      @apply my-4;
+    }
+  }
+}

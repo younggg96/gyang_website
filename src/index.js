@@ -3,13 +3,13 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 // import cursor context provider
-import CursorProvider from "./context/CursorContext";
+// import CursorProvider from "./context/CursorContext";
 import ToastProvider from "./ui/GyToast/ToastProvider";
 import { AuthProvider } from "./context/AuthContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <CursorProvider>
+  // <CursorProvider>
     <ToastProvider>
       <AuthProvider>
         {/* <React.StrictMode> */}
@@ -17,5 +17,5 @@ root.render(
         {/* </React.StrictMode> */}
       </AuthProvider>
     </ToastProvider>
-  </CursorProvider>
+  // </CursorProvider>
 );

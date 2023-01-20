@@ -2,10 +2,10 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { EmailInput, NormalInput, PwdInput } from "./AuthInput";
 import { TIME, TYPE, useToast } from "../../ui/GyToast/ToastProvider";
-import { post } from "../../api/axios";
 import { useRequest } from "ahooks";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { postRequest } from "../../api"
 
 const Signup = () => {
   const {
@@ -17,14 +17,6 @@ const Signup = () => {
   const { addToast } = useToast();
   const { login } = useAuth();
   const navigate = useNavigate();
-
-  /**
-   * POST method
-   * @param {string} url request url
-   * @param {object} data form info object
-   * @returns axios http request promise
-   */
-  const postRequest = (url, data) => post(url, data);
 
   const sininUseRequest = useRequest(postRequest, {
     manual: true,

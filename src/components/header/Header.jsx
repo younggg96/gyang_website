@@ -4,8 +4,6 @@ import React, { useContext, useRef, useState } from "react";
 import Logo from "../../img/header/logo.png";
 // import link
 import { Link } from "react-router-dom";
-// import cursor context
-import { CursorContext } from "../../context/CursorContext";
 // import motion
 import { motion } from "framer-motion";
 // import icons
@@ -19,13 +17,10 @@ const Links = [{ name: "Home", link: "/home" }];
 
 // desktop
 const DesktopHeader = () => {
-  const { mouseEnterHandler, mouseLeaveHandler } = useContext(CursorContext);
   return (
     <div className="flex flex-col lg:flex-row lg:items-center w-full justify-between">
       {/* logo */}
       <Link
-        onMouseEnter={mouseEnterHandler}
-        onMouseLeave={mouseLeaveHandler}
         to={"/"}
         className="flex items-center"
       >
@@ -35,8 +30,6 @@ const DesktopHeader = () => {
       {/* nav - initially hidden - show on desktop mode */}
       <nav
         className="hidden xl:flex gap-x-12 font-semibold"
-        onMouseEnter={mouseEnterHandler}
-        onMouseLeave={mouseLeaveHandler}
       >
         {Links.map((item, index) => {
           return (

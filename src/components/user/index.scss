@@ -1,3 +1,32 @@
+@tailwind components;
+
 .user-list {
   border: 0.5px solid #ddd;
+}
+
+@layer components {
+  .user-info-small {
+    @apply flex items-center justify-between;
+    .user-content {
+      @apply flex items-center gap-4;
+      img {
+        @apply rounded-full w-12;
+      }
+      .link {
+        @apply text-lg text-primary;
+      }
+    }
+    .article-num {
+      @apply bg-slate-400 rounded-full w-6 h-6 text-center grid place-items-center text-white;
+    }
+  }
+  .user-info-big {
+    @apply flex h-[120px] pt-2 relative;
+    .user-avatar {
+      @apply absolute left-4 -top-24 w-48 h-48 rounded-full flex items-center justify-center overflow-hidden bg-white;
+      img {
+        @apply w-[96%] h-[96%] object-cover rounded-full indent-[10000px];
+      }
+    }
+  }
 }

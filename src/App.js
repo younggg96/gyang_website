@@ -6,11 +6,11 @@ import { BrowserRouter as Router, useLocation } from "react-router-dom";
 // import motion
 import { motion } from "framer-motion";
 // import cursor context
-import { CursorContext } from "./context/CursorContext";
+// import { CursorContext } from "./context/CursorContext";
 import AnimRoutes from "./components/Routes/AnimRoutes";
 
 const App = () => {
-  const { cursorVariants, cursorBG } = useContext(CursorContext);
+  // const { cursorVariants, cursorBG } = useContext(CursorContext);
   return (
     <>
       <Router>

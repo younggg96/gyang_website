@@ -2,8 +2,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { EmailInput } from "./AuthInput";
 import { TIME, TYPE, useToast } from "../../ui/GyToast/ToastProvider";
-import { post } from "../../api/axios";
 import { useRequest } from "ahooks";
+import { postCheck } from "../../api"
 
 const ForgetPwd = ({ handleCheck }) => {
   const {
@@ -12,12 +12,7 @@ const ForgetPwd = ({ handleCheck }) => {
     formState: { errors },
   } = useForm();
   const { addToast } = useToast();
-  /**
-   *
-   * @param {object} data form info object
-   * @returns axios http request promise
-   */
-  const postCheck = (data) => post("/auth/check", data);
+
   const { run, loading } = useRequest(postCheck, {
     manual: true,
     onBefore: () => {

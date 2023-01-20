@@ -1,11 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { post } from "../../api/axios";
 import { TIME, TYPE, useToast } from "../../ui/GyToast/ToastProvider";
-import useAuth from "../../hooks/useAuth";
 import { useRequest } from "ahooks";
 import { EmailInput, PwdInput } from "./AuthInput";
-import { useNavigate } from "react-router-dom"
+import { postSignin } from "../../api";
+import useAuth from "../../hooks/useAuth";
 
 const Signin = ({ children }) => {
   const {
@@ -16,12 +16,6 @@ const Signin = ({ children }) => {
   const { addToast } = useToast();
   const { login } = useAuth();
   const navigate = useNavigate();
-  /**
-   *
-   * @param {object} data form info object
-   * @returns axios http request promise
-   */
-  const postSignin = (data) => post("/auth/login", data);
 
   const { run, loading } = useRequest(postSignin, {
     manual: true,
