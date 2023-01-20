@@ -33,7 +33,7 @@
     @apply outline-none border-b border-b-primary h-[44px] sm:h-[60px] bg-transparent font-secondary w-full px-2 placeholder:text-[#757879];
   }
   .title {
-    @apply text-[36px] font-primary font-medium capitalize leading-[120%] tracking-[-0.05em];
+    @apply text-[24px] md:text-[36px] font-primary font-medium capitalize leading-[120%] tracking-[-0.05em];
   }
   .link {
     @apply underline cursor-pointer;

@@ -24,7 +24,7 @@ const UserHeader = ({ user, type = "small" }) => {
         <div className="user-avatar">
           <img src={user?.avatar} alt={user?.username + "-avatar"} />
         </div>
-        <p className="title text-primary ml-60">
+        <p className="title text-primary mt-8 mb-6 md:m-auto ml-0 md:ml-60 w-full md:w-fit text-center md:text-left">
           {user?.username}
         </p>
       </section>
