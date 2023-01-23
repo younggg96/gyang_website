@@ -12,25 +12,28 @@ import { IoMdClose } from "react-icons/io";
 // hooks
 import useOnClickOutside from "../../hooks/useOnClickOutside";
 import UserInfo from "../auth/UserInfo";
+import { switchTheme } from "../../helper/theme";
+import { useToggle } from "ahooks";
 
 const Links = [{ name: "Home", link: "/home" }];
 
 // desktop
 const DesktopHeader = () => {
+  const [state, { toggle }] = useToggle();
+  const changeToDark = () => {
+    toggle()
+    switchTheme(state ? "dark" : "light");
+  };
   return (
     <div className="flex flex-col lg:flex-row lg:items-center w-full justify-between">
       {/* logo */}
-      <Link
-        to={"/"}
-        className="flex items-center"
-      >
+      <Link to={"/"} className="flex items-center">
         <img src={Logo} alt="logo" className="max-w-[100px]" />
         <h3 className="font-bold text-lg text-gray-500">CodeFish</h3>
+        <button onClick={changeToDark}>{state ? "dark" : "light"}</button>
       </Link>
       {/* nav - initially hidden - show on desktop mode */}
-      <nav
-        className="hidden xl:flex gap-x-12 font-semibold"
-      >
+      <nav className="hidden xl:flex gap-x-12 font-semibold">
         {Links.map((item, index) => {
           return (
             <Link

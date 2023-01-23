@@ -1,9 +1,5 @@
 @tailwind components;
 
-.user-list {
-  border: 0.5px solid #ddd;
-}
-
 @layer components {
   .user-info-small {
     @apply flex items-center justify-between;

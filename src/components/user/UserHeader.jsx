@@ -1,12 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import defaultAvatar from "../../assets/imgs/default-avatar.jpg";
 
 const UserHeader = ({ user, type = "small" }) => {
+  const avatar = user?.avatar ? user?.avatar : defaultAvatar;
+
   if (type === "small")
     return (
       <section className="user-info-small">
         <div className="user-content">
-          <img src={user?.avatar} alt={user?.username + "-avatar"} />
+          <img src={avatar} alt={user?.username + "-avatar"} />
           <Link to={`/profile/${user?.id}`} className="link">
             {user?.username}
           </Link>
@@ -22,7 +25,7 @@ const UserHeader = ({ user, type = "small" }) => {
     return (
       <section className="user-info-big">
         <div className="user-avatar">
-          <img src={user?.avatar} alt={user?.username + "-avatar"} />
+          <img src={avatar} alt={user?.username + "-avatar"} />
         </div>
         <p className="title text-primary mt-8 mb-6 md:m-auto ml-0 md:ml-60 w-full md:w-fit text-center md:text-left">
           {user?.username}

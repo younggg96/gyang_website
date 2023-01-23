@@ -1,0 +1,33 @@
+.loader {
+  width: 8px;
+  height: 40px;
+  border-radius: 4px;
+  display: block;
+  background-color: currentColor;
+  margin: 20px auto;
+  position: relative;
+  transform: translateY(-50%);
+  color: black;
+}
+
+.loader::after,
+.loader::before {
+  content: "";
+  width: 8px;
+  height: 40px;
+  border-radius: 4px;
+  background: currentColor;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.loader::after {
+  left: 20px;
+  animation-delay: .9s;
+}
+
+.loader::before {
+  left: -20px;
+  animation-delay: 0s;
+}

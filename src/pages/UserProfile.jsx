@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useRequest } from "ahooks";
+// import api
+import { getUserInfo } from "../api";
 // import motion
 import { motion } from "framer-motion";
 import { transition } from "../helper/animation";
-import { useParams } from "react-router-dom";
+// import components
 import UserHeader from "../components/user/UserHeader";
-import { useRequest } from "ahooks";
-import { getUserInfo } from "../api";
-import { useEffect } from "react";
 import AboutUser from "../components/profile/AboutUser";
 import ArticleList from "../components/article/ArticleList";
 

@@ -8,6 +8,7 @@ import UserHeader from "../user/UserHeader";
 import GyPagination from "../../ui/GyPagination/GyPagination";
 import { useEffect } from "react";
 import { getArticleList, getArticleListByUserId } from "../../api";
+import GyLoader from "../../ui/GyLoader/GyLoader";
 
 const CategoriesSection = ({ categories }) => {
   return (
@@ -70,13 +71,10 @@ const ArticleList = ({ userId = null }) => {
     return <div>failed to load</div>;
   }
 
-  if (loading) {
-    return <div>loading...</div>;
-  }
-
   return (
     <section className="article-list">
-      <div className="list flex flex-col my-4 bg-white shadow-lg rounded-2xl">
+      <div className="list flex flex-col mt-2 mb-4 bg-white shadow-lg rounded-2xl">
+        {loading && <GyLoader />}
         <ul>
           {articleList.map((item) => {
             return <ArticleItem key={item.id} data={item} />;

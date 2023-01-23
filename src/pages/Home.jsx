@@ -1,15 +1,19 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 // import motion
 import { motion } from "framer-motion";
 // import transition
 import { transition } from "../helper/animation";
 import ArticleList from "../components/article/ArticleList";
 import TopUserList from "../components/user/TopUserList";
+import Gytab from "../ui/GyTab/Gytab";
 // cursor context
 // import { CursorContext } from "../context/CursorContext";
 // import { TIME, TYPE, useToast } from "../ui/GyToast/ToastProvider";
 
 const Home = () => {
+  const tabs = ["Articles", "Moments"];
+  const [activeIndex, setActiveIndex] = useState(0);
+
   return (
     <motion.section
       initial={{ opacity: 0 }}
@@ -35,7 +39,9 @@ const Home = () => {
           </button>
         </h1> */}
         <section className="flex-1">
-          <ArticleList />
+          <Gytab data={tabs} activeIndex={activeIndex} setActiveIndex={setActiveIndex}>
+            {activeIndex === 0 ? <ArticleList /> : <div>Moments</div>}
+          </Gytab>
         </section>
         <section className="w-[300px]">
           <TopUserList row={5} page={1} />

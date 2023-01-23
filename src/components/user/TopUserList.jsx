@@ -4,6 +4,8 @@ import "./index.scss";
 import GyPagination from "../../ui/GyPagination/GyPagination";
 import { useEffect, useState } from "react";
 import { getTopUserList } from "../../api";
+import GyLoader from "../../ui/GyLoader/GyLoader";
+import GyCard from "../../ui/GyCard/GyCard";
 
 const TopUserList = () => {
   const [curPage, setCurPage] = useState(1);
@@ -12,6 +14,7 @@ const TopUserList = () => {
 
   const { error, loading, run } = useRequest(getTopUserList, {
     manual: true,
+    loadingDelay: 300,
     onSuccess: (result, params) => {
       setUserList(result?.data);
       setPagination(result?.meta);
@@ -24,26 +27,32 @@ const TopUserList = () => {
   if (error) {
     return <div>failed to load</div>;
   }
-  if (loading) {
-    return <div>loading...</div>;
-  }
+
   return (
     <>
-      <ul className="user-list flex flex-col my-4 bg-white shadow-lg rounded-2xl px-4 py-8 gap-4">
-        <h1 className="title">Top Users</h1>
-        {userList.map((item) => {
-          return <UserHeader key={item.id} user={item} />;
-        })}
-        <GyPagination
-          row={pagination?.row}
-          curPage={pagination?.current_page}
-          pageRow={pagination?.page_row}
-          hasPageBtn={false}
-          onCurPageChange={(page) => {
-            setCurPage(page);
-          }}
-        />
-      </ul>
+      <GyCard title={"Top Users"}>
+        <div className="min-h-[420px]">
+          {loading && <GyLoader />}
+          <ul className="user-list flex flex-col gap-4">
+            {userList.map((item) => {
+              return (
+                <li key={item.id}>
+                  <UserHeader user={item} />
+                </li>
+              );
+            })}
+          </ul>
+          <GyPagination
+            row={pagination?.row}
+            curPage={pagination?.current_page}
+            pageRow={pagination?.page_row}
+            hasPageBtn={false}
+            onCurPageChange={(page) => {
+              setCurPage(page);
+            }}
+          />
+        </div>
+      </GyCard>
     </>
   );
 };

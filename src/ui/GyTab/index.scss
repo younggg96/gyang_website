@@ -1,0 +1,16 @@
+@tailwind components;
+
+@layer components {
+  ul.gy-tab {
+    @apply flex flex-row mb-2 px-4 items-end flex-wrap gap-2 min-h-[80px];
+    li {
+      @apply cursor-pointer min-w-[160px] px-2 text-center relative
+      text-primary
+      dark:text-textDark dark:bg-backgroundDark;
+      &.title {
+        @apply transition-all
+        after:absolute after:w-full after:bg-primary after:h-1 after:bottom-1 after:left-0 after:rounded-md;
+      }
+    }
+  }
+}
