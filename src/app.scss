@@ -1,0 +1,33 @@
+@tailwind components;
+
+@layer components {
+  .body-section {
+    @apply pt-[100px];
+  }
+  .auth-section {
+    @apply flex justify-center items-center w-full h-full
+    dark:bg-backgroundDark;
+
+    .auth-form {
+      @apply bg-background border p-8 rounded-md w-[80%] shadow-md shadow-gray-300
+      sm:py-20 sm:px-16 sm:w-[500px]
+      dark:shadow-none dark:border-none;
+
+      .forget-link {
+        @apply flex mb-2;
+        span.link {
+          @apply ml-auto;
+        }
+      }
+      .back-signin {
+        @apply flex items-center mb-6 w-fit;
+        .back-icon {
+          @apply mr-2;
+        }
+      }
+    }
+  }
+  .home-section {
+    @apply container mx-auto flex flex-col-reverse lg:flex-row gap-4;
+  }
+}

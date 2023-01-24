@@ -1,6 +1,7 @@
-
 import { useState } from "react"
 import { BsEye, BsEyeSlash } from "react-icons/bs";
+
+import './index.scss';
 
 export const PwdInput = ({ form, placeholder }) => {
   const [showPwd, setShowPwd] = useState(false);
@@ -10,15 +11,14 @@ export const PwdInput = ({ form, placeholder }) => {
   };
 
   return (
-    <div className="relative">
+    <div className="pwd-input">
       <input
-        className="input pr-10"
+        className="input"
         type={showPwd ? "text" : "password"}
         name="pwd"
         placeholder={placeholder}
         {...form}
       />
-
       {showPwd ? (
         <button
           type="button"

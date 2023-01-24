@@ -7,6 +7,8 @@ import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { postRequest } from "../../api"
 
+import './index.scss';
+
 const Signup = () => {
   const {
     register,
@@ -105,9 +107,9 @@ const Signup = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <h1 className="title mb-6">Sign Up</h1>
-      <section className="mb-2">
+    <form onSubmit={handleSubmit(onSubmit)} className="auth-form-content">
+      <h1 className="title">Sign Up</h1>
+      <section>
         <EmailInput
           form={register("email", {
             required: "Email is required.",
@@ -119,7 +121,7 @@ const Signup = () => {
         />
         {errors.email && <p className="error-msg">{errors.email.message}</p>}
       </section>
-      <section className="mb-2">
+      <section>
         <NormalInput
           form={register("username", { required: "Username is required." })}
           type="text"
@@ -130,7 +132,7 @@ const Signup = () => {
           <p className="error-msg">{errors.username.message}</p>
         )}
       </section>
-      <section className="mb-2">
+      <section>
         <PwdInput
           placeholder="Password *"
           form={register("password", { required: "Password is required." })}
@@ -139,7 +141,7 @@ const Signup = () => {
           <p className="error-msg">{errors.password.message}</p>
         )}
       </section>
-      <section className="mb-2">
+      <section>
         <PwdInput
           placeholder="Password confirmation *"
           form={register("password_confirm", {
@@ -156,7 +158,7 @@ const Signup = () => {
       <button
         type="submit"
         disabled={sinupUseRequest.loading || sininUseRequest.loading}
-        className="submit-btn my-2"
+        className="submit-btn"
       >
         {sinupUseRequest.loading || sininUseRequest.loading
           ? "Loading..."

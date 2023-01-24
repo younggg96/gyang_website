@@ -7,7 +7,9 @@ import { Link } from "react-router-dom";
 import GyPopup from "../../ui/GyPopup";
 import useAuth from "../../hooks/useAuth";
 
-const UserInfo = () => {
+import "./index.scss";
+
+const UserPopup = () => {
   const [open, setOpen] = useState(false);
   const { state, logout } = useAuth();
   const { isAuth, user } = state;
@@ -18,29 +20,30 @@ const UserInfo = () => {
     }, 500);
   };
   return (
-    <div className="relative">
-      <div className="hidden xl:flex min-w-[120px] w-[200px] items-center justify-end mx-4 cursor-pointer">
+    <div className="user-info-popup">
+      <div className="user-info-popup-content">
         {!isAuth ? (
-          <Link to={"/auth"}>Sign in</Link>
+          <Link to={"/auth"} className="text">
+            Sign in
+          </Link>
         ) : (
-          <div className="flex items-center" onClick={() => setOpen(true)}>
-            <FiUser className="text-lg mr-2 text-gray-500 w-8" />
-            <h4 className="overflow-hidden text-ellipsis whitespace-nowrap hover:underline underline-offset-2">
-              {user?.username}
-            </h4>
+          <div className="user-info" onClick={() => setOpen(true)}>
+            <div className="user-icon">
+              <FiUser />
+            </div>
+            <h4 className="username">{user?.username}</h4>
           </div>
         )}
       </div>
       <GyPopup open={open} setOpen={setOpen}>
-        <section className="user-info-top flex flex-col p-4 items-center gap-4">
+        <section className="user-info-popup-top">
           <img
-            // src={Logo}
             src={!user?.avatar ? Logo : user?.avatar}
             alt="user avatar"
             className="rounded-full w-16 h-16 border bg-black"
           />
           <div className="flex flex-col gap-1 w-full">
-            <p className="text-md text-primary font-bold overflow-hidden text-ellipsis">
+            <p className="text-md text-text font-bold overflow-hidden text-ellipsis">
               {user?.username}
             </p>
             <p className="text-sm text-gray-500 overflow-hidden text-ellipsis">
@@ -48,28 +51,23 @@ const UserInfo = () => {
             </p>
           </div>
         </section>
-        <section className="user-info-btns border-t-2 border-b-2">
-          <ul className="w-full">
-            <li className="hover:bg-gray-100 py-2 pl-6 cursor-pointer flex items-center gap-3">
+        <section className="user-info-popup-btns">
+          <ul>
+            <li>
               <CgProfile /> Profile
             </li>
-            <li className="hover:bg-gray-100 py-2 pl-6 cursor-pointer flex items-center gap-3">
+            <li>
               <IoMdSettings />
               Settings
             </li>
           </ul>
         </section>
-        <section className="flex justify-center py-2 px-4 my-2">
-          <button
-            onClick={signout}
-            className="signout-btn border w-full rounded-full px-4 py-2 text-primary hover:bg-gray-500 hover:text-white transition-all"
-          >
-            Sign Out
-          </button>
+        <section className="user-info-popup-signout">
+          <button onClick={signout}>Sign Out</button>
         </section>
       </GyPopup>
     </div>
   );
 };
 
-export default UserInfo;
+export default UserPopup;

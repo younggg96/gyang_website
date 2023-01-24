@@ -1,5 +1,6 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 // import components
+import UserPopup from "../user/UserPopup"
 // import Socials from "./Socials";
 import Logo from "../../img/header/logo.png";
 // import link
@@ -11,41 +12,43 @@ import { CgMenuRight } from "react-icons/cg";
 import { IoMdClose } from "react-icons/io";
 // hooks
 import useOnClickOutside from "../../hooks/useOnClickOutside";
-import UserInfo from "../auth/UserInfo";
 import { switchTheme } from "../../helper/theme";
 import { useToggle } from "ahooks";
+// scss
+import "./index.scss";
 
-const Links = [{ name: "Home", link: "/home" }];
+const Links = [
+  { name: "Home", link: "/home" },
+  { name: "Home", link: "/home" },
+];
 
 // desktop
 const DesktopHeader = () => {
   const [state, { toggle }] = useToggle();
   const changeToDark = () => {
-    toggle()
+    toggle();
     switchTheme(state ? "dark" : "light");
   };
   return (
-    <div className="flex flex-col lg:flex-row lg:items-center w-full justify-between">
+    <div className="header-content">
       {/* logo */}
-      <Link to={"/"} className="flex items-center">
-        <img src={Logo} alt="logo" className="max-w-[100px]" />
-        <h3 className="font-bold text-lg text-gray-500">CodeFish</h3>
-        <button onClick={changeToDark}>{state ? "dark" : "light"}</button>
+      <Link to={"/"} className="logo">
+        <img src={Logo} alt="logo" />
+        <h3 className="logo-text">CodeFish</h3>
       </Link>
       {/* nav - initially hidden - show on desktop mode */}
-      <nav className="hidden xl:flex gap-x-12 font-semibold">
-        {Links.map((item, index) => {
-          return (
-            <Link
-              key={index}
-              to={item.link}
-              className="text-[#696c6d] hover:text-primary transition"
-            >
-              {item.name}
-            </Link>
-          );
-        })}
+      <nav className="links hidden lg:block">
+        <ul>
+          {Links.map((item, index) => {
+            return (
+              <li key={index}>
+                <Link to={item.link}>{item.name}</Link>
+              </li>
+            );
+          })}
+        </ul>
       </nav>
+      <button onClick={changeToDark}>{state ? "dark" : "light"}</button>
     </div>
   );
 };
@@ -69,7 +72,7 @@ const MobileHeader = () => {
   const [openMenu, setOpenMenu] = useState(false);
   useOnClickOutside(clickOutsideRef, () => setOpenMenu(false));
   return (
-    <nav className="text-primary xl:hidden">
+    <nav className="text-text xl:hidden">
       {/* nav open button */}
       <div
         onClick={() => setOpenMenu(true)}
@@ -88,12 +91,12 @@ const MobileHeader = () => {
         {/* icon */}
         <div
           onClick={() => setOpenMenu(false)}
-          className="text-4xl absolute z-30 left-4 top-14 text-primary cursor-pointer"
+          className="text-4xl absolute z-30 left-4 top-14 text-text cursor-pointer"
         >
           <IoMdClose />
         </div>
         {/* menu list */}
-        <ul className="h-full flex flex-col justify-center items-center gap-y-8 text-primary font-primary  font-bold text-3xl">
+        <ul className="h-full flex flex-col justify-center items-center gap-y-8 text-text font-primary  font-bold text-3xl">
           {Links.map((item, index) => {
             return (
               <Link key={index} to={item.link}>
@@ -111,7 +114,7 @@ const Header = () => {
   return (
     <header className="header">
       <DesktopHeader />
-      <UserInfo />
+      <UserPopup />
       {/* mobile nav */}
       {/* <MobileHeader /> */}
     </header>

@@ -1,6 +1,9 @@
 import classNames from "classnames";
 import React, { useMemo } from "react";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
+
+import "./index.scss";
+
 /**
  *
  * @param { row, currentPage, total, pageRow }
@@ -57,24 +60,26 @@ const GyPagination = ({
   };
 
   return (
-    <section className="gy-pagination grid place-items-center pt-8 pb-8">
-      <ul className="flex gap-2">
+    <section className="gy-pagination">
+      <ul>
         <li className="pagination-btn" onClick={prevPage}>
           <AiOutlineArrowLeft />
         </li>
-        {hasPageBtn && rowArray.map((item, index) => {
-          return (
-            <li
-              key={index}
-              className={classNames("pagination-btn", {
-                active: item === curPage,
-              })}
-              onClick={() => setPage(item, item === curPage)}
-            >
-              {item === -1 ? "..." : `${item}`}
-            </li>
-          );
-        })}
+        {hasPageBtn &&
+          rowArray.map((item, index) => {
+            return (
+              <li
+                key={index}
+                className={classNames("pagination-btn", {
+                  active: item === curPage,
+                  dot: item === -1
+                })}
+                onClick={() => setPage(item, item === curPage)}
+              >
+                {item === -1 ? "..." : `${item}`}
+              </li>
+            );
+          })}
         <li className="pagination-btn" onClick={nextPage}>
           <AiOutlineArrowRight />
         </li>

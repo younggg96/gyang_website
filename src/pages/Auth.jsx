@@ -9,6 +9,8 @@ import ForgetPwd from "../components/auth/ForgetPwd";
 // import icon
 import { BiArrowBack } from "react-icons/bi";
 import ResetPwd from "../components/auth/ResetPwd";
+// scss
+import "../app.scss";
 
 const Auth = () => {
   const [type, setType] = useState("signin");
@@ -29,11 +31,8 @@ const Auth = () => {
       {type === "signin" && (
         <div className="auth-form">
           <Signin>
-            <p className="flex mb-2">
-              <span
-                className="link ml-auto"
-                onClick={() => setType("forgetPwd")}
-              >
+            <p className="forget-link">
+              <span className="link" onClick={() => setType("forgetPwd")}>
                 Forget an account?
               </span>
             </p>
@@ -53,11 +52,8 @@ const Auth = () => {
       )}
       {type === "forgetPwd" && (
         <div className="auth-form">
-          <span
-            className="link flex items-center mb-6 w-fit"
-            onClick={() => setType("signin")}
-          >
-            <BiArrowBack className="mr-2" />
+          <span className="link back-signin" onClick={() => setType("signin")}>
+            <BiArrowBack className="back-icon" />
             Back to signin
           </span>
           <ForgetPwd handleCheck={handleCheck} />
@@ -65,11 +61,8 @@ const Auth = () => {
       )}
       {type === "resetPwd" && (
         <div className="auth-form">
-          <span
-            className="link flex items-center mb-6 w-fit"
-            onClick={() => setType("signin")}
-          >
-            <BiArrowBack className="mr-2" />
+          <span className="link back-signin" onClick={() => setType("signin")}>
+            <BiArrowBack className="back-icon" />
             Back to signin
           </span>
           <ResetPwd userInfo={userInfo} />

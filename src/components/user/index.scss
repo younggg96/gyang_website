@@ -2,18 +2,18 @@
 
 @layer components {
   .user-info-small {
-    @apply flex items-center justify-between;
+    @apply flex items-center justify-between gap-4;
     .user-content {
       @apply flex items-center gap-4;
       img {
         @apply rounded-full w-12;
       }
       .link {
-        @apply text-lg text-primary;
+        @apply text-lg text-text overflow-hidden text-ellipsis;
       }
     }
     .article-num {
-      @apply bg-slate-400 rounded-full w-6 h-6 text-center grid place-items-center text-white;
+      @apply bg-primary rounded-full w-6 h-6 text-center grid place-items-center text-white;
     }
   }
   .user-info-big {
@@ -22,6 +22,42 @@
       @apply absolute left-[calc(50%-4.5rem)] md:left-4 -top-24 w-32 h-32 md:w-48 md:h-48 rounded-full flex items-center justify-center overflow-hidden bg-white;
       img {
         @apply w-[96%] h-[96%] object-cover rounded-full indent-[10000px];
+      }
+    }
+  }
+  .user-info-popup {
+    &-content {
+      @apply hidden xl:flex min-w-[120px] w-[200px] items-center justify-end mx-4 cursor-pointer;
+      .text {
+        @apply py-2 px-4 rounded-lg hover:text-primary hover:bg-background
+        dark:hover:bg-accentDark dark:text-textDark;
+      }
+      .user-info {
+        @apply flex items-center justify-center min-w-[120px] w-[200px] py-2 px-4 rounded-lg gap-2 dark:hover:bg-accentDark text-text dark:text-textDark;
+        .user-icon {
+          @apply text-lg h-[40px] grid place-items-center;
+        }
+        .username {
+          @apply h-[40px] leading-9 overflow-hidden text-ellipsis whitespace-nowrap hover:underline underline-offset-2;
+        }
+      }
+    }
+    &-top {
+      @apply flex flex-col p-4 items-center gap-4;
+    }
+    &-btns {
+      @apply border-t-2 border-b-2;
+      ul {
+        @apply w-full;
+        li {
+          @apply hover:bg-gray-100 py-2 pl-6 cursor-pointer flex items-center gap-3;
+        }
+      }
+    }
+    &-signout {
+      @apply flex justify-center py-2 px-4 my-2;
+      button {
+        @apply border w-full rounded-full px-4 py-2 text-text hover:bg-gray-500 hover:text-white transition-all;
       }
     }
   }

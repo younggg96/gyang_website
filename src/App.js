@@ -1,28 +1,18 @@
-import React, { useContext } from "react";
+import React from "react";
 // import components
 import Header from "./components/header/Header";
 // import router
-import { BrowserRouter as Router, useLocation } from "react-router-dom";
-// import motion
-import { motion } from "framer-motion";
-// import cursor context
-// import { CursorContext } from "./context/CursorContext";
+import { BrowserRouter as Router } from "react-router-dom";
 import AnimRoutes from "./components/Routes/AnimRoutes";
+import "./app.scss";
 
 const App = () => {
-  // const { cursorVariants, cursorBG } = useContext(CursorContext);
   return (
     <>
       <Router>
         <Header />
         <AnimRoutes />
       </Router>
-      {/* cursor */}
-      {/* <motion.div
-        variants={cursorVariants}
-        animate={cursorBG}
-        className="w-[32px] h-[32px] bg-slate-300 fixed top-0 left-0 pointer-events-none z-50 rounded-full"
-      ></motion.div> */}
     </>
   );
 };

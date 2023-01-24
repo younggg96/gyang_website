@@ -5,6 +5,8 @@ import { TIME, TYPE, useToast } from "../../ui/GyToast/ToastProvider";
 import { useRequest } from "ahooks";
 import { postCheck } from "../../api"
 
+import './index.scss';
+
 const ForgetPwd = ({ handleCheck }) => {
   const {
     register,
@@ -56,9 +58,9 @@ const ForgetPwd = ({ handleCheck }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <h1 className="title mb-6">Find your account</h1>
-      <section className="mb-2">
+    <form onSubmit={handleSubmit(onSubmit)} className="auth-form-content">
+      <h1 className="title">Find your account</h1>
+      <section>
         <EmailInput
           form={register("email", {
             required: "Email is required.",
@@ -70,7 +72,7 @@ const ForgetPwd = ({ handleCheck }) => {
         />
         {errors.email && <p className="error-msg">{errors.email.message}</p>}
       </section>
-      <button type="submit" disabled={loading} className="submit-btn my-2">
+      <button type="submit" disabled={loading} className="submit-btn">
         {loading ? "Loading..." : "Check"}
       </button>
     </form>

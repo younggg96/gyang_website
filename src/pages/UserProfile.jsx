@@ -3,15 +3,13 @@ import { useParams } from "react-router-dom";
 import { useRequest } from "ahooks";
 // import api
 import { getUserInfo } from "../api";
-// import motion
-import { motion } from "framer-motion";
-import { transition } from "../helper/animation";
 // import components
 import UserHeader from "../components/user/UserHeader";
 import AboutUser from "../components/profile/AboutUser";
 import ArticleList from "../components/article/ArticleList";
 
 import { BsThreeDotsVertical } from "react-icons/bs";
+import GyBodySection from "../ui/GyBodySection/GyBodySection";
 
 const UserHeaderImg = ({ url }) => {
   return (
@@ -25,7 +23,9 @@ const UserHeaderImg = ({ url }) => {
 const UserContactBtns = () => {
   return (
     <div className="flex items-center gap-4 w-full lg:w-fit">
-      <button className="btn-small flex-1 lg:flex-auto hover:opacity-90">message</button>
+      <button className="btn-small flex-1 lg:flex-auto hover:opacity-90">
+        message
+      </button>
       <button className=" hover:bg-slate-300 border hover:border-black rounded-full w-12 h-12 grid place-items-center">
         <BsThreeDotsVertical />
       </button>
@@ -50,13 +50,7 @@ const UserProfile = () => {
   }, []);
 
   return (
-    <motion.section
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={transition}
-      className="pt-[100px]"
-    >
+    <GyBodySection>
       <div className="mx-auto">
         <UserHeaderImg
           url={
@@ -78,7 +72,7 @@ const UserProfile = () => {
           </div>
         </section>
       </div>
-    </motion.section>
+    </GyBodySection>
   );
 };
 

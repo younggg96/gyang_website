@@ -5,6 +5,8 @@ import { TIME, TYPE, useToast } from "../../ui/GyToast/ToastProvider";
 import { useRequest } from "ahooks";
 import { postReset } from "../../api";
 
+import './index.scss';
+
 const ResetPwd = ({ userInfo }) => {
   const {
     register,
@@ -55,9 +57,9 @@ const ResetPwd = ({ userInfo }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <h1 className="title mb-6">Hi, {userInfo.username}</h1>
-      <section className="mb-2">
+    <form onSubmit={handleSubmit(onSubmit)} className="auth-form-content">
+      <h1 className="title">Hi, {userInfo.username}</h1>
+      <section>
         <PwdInput
           placeholder="Old Password *"
           form={register("old_password", {
@@ -68,7 +70,7 @@ const ResetPwd = ({ userInfo }) => {
           <p className="error-msg">{errors.old_password.message}</p>
         )}
       </section>
-      <section className="mb-2">
+      <section>
         <PwdInput
           placeholder="New Password *"
           form={register("new_password", {
@@ -79,7 +81,7 @@ const ResetPwd = ({ userInfo }) => {
           <p className="error-msg">{errors.new_password.message}</p>
         )}
       </section>
-      <button type="submit" disabled={loading} className="submit-btn my-2">
+      <button type="submit" disabled={loading} className="submit-btn">
         {loading ? "Loading..." : "Update"}
       </button>
     </form>

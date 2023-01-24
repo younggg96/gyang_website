@@ -7,6 +7,8 @@ import { EmailInput, PwdInput } from "./AuthInput";
 import { postSignin } from "../../api";
 import useAuth from "../../hooks/useAuth";
 
+import './index.scss';
+
 const Signin = ({ children }) => {
   const {
     register,
@@ -64,9 +66,9 @@ const Signin = ({ children }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="relative z-0">
-      <h1 className="title mb-6">Sign in</h1>
-      <section className="mb-2">
+    <form onSubmit={handleSubmit(onSubmit)} className="auth-form-content">
+      <h1 className="title">Sign in</h1>
+      <section>
         <EmailInput
           form={register("email", {
             required: "Email is required.",
@@ -78,7 +80,7 @@ const Signin = ({ children }) => {
         />
         {errors.email && <p className="error-msg">{errors.email.message}</p>}
       </section>
-      <section className="mb-2">
+      <section>
         <PwdInput
           placeholder="Password *"
           form={register("password", { required: "Password is required." })}
@@ -89,7 +91,7 @@ const Signin = ({ children }) => {
       </section>
       {/* forget pwd section */}
       {children}
-      <button type="submit" disabled={loading} className="submit-btn my-2">
+      <button type="submit" disabled={loading} className="submit-btn">
         {loading ? "Loading..." : "Sign In"}
       </button>
     </form>

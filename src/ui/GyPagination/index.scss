@@ -1,0 +1,19 @@
+@tailwind components;
+
+@layer components {
+  .gy-pagination {
+    @apply grid place-items-center pt-8 pb-8;
+    ul {
+      @apply flex gap-2;
+      .pagination-btn {
+        @apply bg-background hover:bg-primary hover:border-accent w-12 h-12 border grid place-items-center rounded-md cursor-pointer select-none;
+        &.active {
+          @apply bg-primary border-accent cursor-default;
+        }
+        &.dot {
+          @apply cursor-default;
+        }
+      }
+    }
+  }
+}

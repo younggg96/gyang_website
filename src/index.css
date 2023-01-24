@@ -9,16 +9,10 @@
 
 @layer base {
   body {
-    @apply bg-gray-50 text-primary font-secondary;
-  }
-  .header {
-    @apply fixed z-50 w-full px-[30px] lg:px-[100px] h-[100px] flex items-center bg-white shadow;
+    @apply bg-background dark:bg-backgroundDark font-secondary;
   }
   .section {
     @apply h-screen w-screen;
-  }
-  .auth-section {
-    @apply flex justify-center items-center w-full h-full;
   }
 }
 
@@ -30,31 +24,12 @@
     @apply py-2 px-6 h-12 flex items-center justify-center rounded-md text-base font-secondary font-semibold bg-primary text-white;
   }
   .input {
-    @apply outline-none border-b border-b-primary h-[44px] sm:h-[60px] bg-transparent font-secondary w-full px-2 placeholder:text-[#757879];
+    @apply outline-none border-b border-b-text h-[44px] sm:h-[60px] bg-transparent font-secondary w-full px-2 placeholder:text-[#757879];
   }
   .title {
     @apply text-[24px] md:text-[36px] font-primary font-medium capitalize leading-[120%] tracking-[-0.05em];
   }
   .link {
     @apply underline cursor-pointer;
-  }
-  .auth-form {
-    @apply bg-white border p-8 sm:py-20 sm:px-16 rounded-md sm:w-[500px] w-[80%] shadow-md shadow-gray-300;
-  }
-  .show-eye-btn {
-    @apply absolute w-6 text-[24px] right-2 top-[calc(50%-12px)];
-  }
-  .submit-btn {
-    @apply w-full bg-slate-300 rounded-md py-2 sm:py-4 hover:border-black border cursor-pointer;
-  }
-  .error-msg {
-    @apply text-red-600;
-  }
-  .pagination-btn {
-    @apply bg-white hover:bg-slate-300 hover:border-black w-12 h-12 border grid place-items-center rounded-md cursor-pointer select-none;
-  }
-  .pagination-btn.active {
-    cursor: unset;
-    @apply bg-slate-300 border-black;
   }
 }

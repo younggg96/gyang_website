@@ -1,0 +1,29 @@
+@tailwind components;
+
+@layer components {
+  .auth-form-content {
+    @apply relative z-0;
+    .title {
+      @apply mb-6;
+    }
+    section {
+      @apply mb-2;
+    }
+    .submit-btn {
+      @apply w-full bg-secondary rounded-md py-2 sm:py-4 hover:border-primary border cursor-pointer my-2
+      dark:bg-backgroundDark dark:text-textDark dark:hover:border-textDark;
+    }
+    .pwd-input {
+      @apply relative;
+      .input {
+        @apply pr-10;
+      }
+      .show-eye-btn {
+        @apply absolute w-6 text-[24px] right-2 top-[calc(50%-12px)];
+      }
+    }
+  }
+  .error-msg {
+    @apply text-error;
+  }
+}

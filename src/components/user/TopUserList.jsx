@@ -1,11 +1,11 @@
 import { useRequest } from "ahooks";
-import UserHeader from "./UserHeader";
-import "./index.scss";
-import GyPagination from "../../ui/GyPagination/GyPagination";
 import { useEffect, useState } from "react";
 import { getTopUserList } from "../../api";
+import UserHeader from "./UserHeader";
+import GyPagination from "../../ui/GyPagination/GyPagination";
 import GyLoader from "../../ui/GyLoader/GyLoader";
 import GyCard from "../../ui/GyCard/GyCard";
+import "./index.scss";
 
 const TopUserList = () => {
   const [curPage, setCurPage] = useState(1);
@@ -14,7 +14,6 @@ const TopUserList = () => {
 
   const { error, loading, run } = useRequest(getTopUserList, {
     manual: true,
-    loadingDelay: 300,
     onSuccess: (result, params) => {
       setUserList(result?.data);
       setPagination(result?.meta);

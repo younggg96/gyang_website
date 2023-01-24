@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { motion } from "framer-motion";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
 import { variants } from "../../helper/animation";
+import "./index.scss";
 
 const GyPopup = ({ open, setOpen, children }) => {
   const clickOutsideRef = useRef();
@@ -13,10 +14,7 @@ const GyPopup = ({ open, setOpen, children }) => {
       initial="hidden"
       animate={open ? "show" : ""}
     >
-      <section
-        ref={clickOutsideRef}
-        className="gy-popup top-[calc(100%+.5rem)] left-8 absolute w-full min-h-min border border-slate-300 bg-white shadow-md rounded-lg"
-      >
+      <section ref={clickOutsideRef} className="gy-popup">
         {children}
       </section>
     </motion.div>

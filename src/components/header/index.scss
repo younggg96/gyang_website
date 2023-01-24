@@ -1,0 +1,33 @@
+@tailwind components;
+
+@layer components {
+  .header {
+    @apply fixed z-50 w-full px-[30px] lg:px-[100px] h-[100px] flex items-center bg-white shadow
+    dark:bg-primaryDark dark:shadow-none;
+  }
+  .header-content {
+    @apply flex flex-col lg:flex-row lg:items-center w-full justify-between;
+
+    .logo {
+      @apply flex items-center;
+      img {
+        @apply max-w-[100px];
+      }
+      &-text {
+        @apply font-bold text-base text-gray-600
+        dark:text-textDark;
+      }
+    }
+    .links {
+      ul {
+        @apply flex font-semibold gap-x-2;
+        li {
+          @apply relative text-text transition-all py-2 px-4 rounded-lg dark:hover:bg-accentDark
+          hover:text-primary hover:bg-background hover:after:w-[50%]
+          after:absolute after:w-0 after:bg-primary after:h-1 after:-bottom-2 after:left-[25%] after:rounded-md
+          dark:text-textDark dark:hover:text-primary;
+        }
+      }
+    }
+  }
+}

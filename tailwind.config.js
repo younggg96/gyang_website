@@ -14,15 +14,17 @@ module.exports = {
     },
     extend: {
       colors: {
-        primary: "#141416",
+        primary: "#ffc045",
         secondary: "#BDB7C2",
-        accent: "#7A7787",
         // light
         background: "#F2F1F5",
         text: "#565557",
+        accent: "#7A7787",
         // dark
-        backgroundDark: "#1f2123",
+        primaryDark: "#1d1d1d",
+        backgroundDark: "#171717",
         textDark: "#fdfdfe",
+        accentDark: "#262626",
         // status
         error: "#ff1010",
         errorBg: "#f6d8d8",
