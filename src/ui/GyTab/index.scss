@@ -8,7 +8,7 @@
       text-black dark:text-textDark;
       &.title {
         @apply transition-all
-        after:absolute after:w-[80%] after:bg-primary dark:after:bg-textDark after:h-1 after:bottom-1 after:left-[10%] after:rounded-md;
+        after:absolute after:w-[80%] after:bg-primary after:h-1 after:bottom-1 after:left-[10%] after:rounded-md;
       }
     }
   }

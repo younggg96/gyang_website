@@ -24,6 +24,11 @@
         @apply w-[96%] h-[96%] object-cover rounded-full indent-[10000px];
       }
     }
+    .title {
+      @apply text-black mt-8 mb-6 ml-0 w-full text-center text-4xl
+      md:m-auto md:ml-60 md:w-fit md:text-left
+      dark:text-textDark;
+    }
   }
   .user-info-popup {
     &-content {
