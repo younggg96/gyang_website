@@ -26,10 +26,17 @@ export const switchTheme = (theme = "light") => {
   }
 };
 
-// export const switchTheme = (theme) => {
-//   localStorage.theme = theme;
-//   initTheme();
-// };
+export const getTheme = () => {
+  if (
+    localStorage.theme === "dark" ||
+    (!("theme" in localStorage) &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches)
+  ) {
+    return "dark";
+  } else {
+    return "light";
+  }
+};
 // Whenever the user explicitly chooses light mode
 // localStorage.theme = "light";
 

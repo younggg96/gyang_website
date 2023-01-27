@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import ArticleList from "../components/article/ArticleList";
 import TopUserList from "../components/user/TopUserList";
+// import components
 import Gytab from "../ui/GyTab/Gytab";
 import GyBodySection from "../ui/GyBodySection/GyBodySection";
+import GySwitchBtn from "../ui/GySwitchBtn/GySwitchBtn"
 
 const Home = () => {
   const tabs = ["Articles", "Moments"];
@@ -12,6 +14,7 @@ const Home = () => {
     <GyBodySection>
       <div className="home-section">
         <section className="flex-1">
+          <GySwitchBtn />
           <Gytab
             data={tabs}
             activeIndex={activeIndex}

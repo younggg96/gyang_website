@@ -12,7 +12,7 @@ import { CgMenuRight } from "react-icons/cg";
 import { IoMdClose } from "react-icons/io";
 // hooks
 import useOnClickOutside from "../../hooks/useOnClickOutside";
-import { switchTheme } from "../../helper/theme";
+import { getTheme, switchTheme } from "../../helper/theme";
 import { useToggle } from "ahooks";
 // scss
 import "./index.scss";
@@ -48,7 +48,7 @@ const DesktopHeader = () => {
           })}
         </ul>
       </nav>
-      <button onClick={changeToDark}>{state ? "dark" : "light"}</button>
+      <button onClick={changeToDark}>{getTheme()}</button>
     </div>
   );
 };
