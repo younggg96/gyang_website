@@ -14,7 +14,7 @@ const Home = () => {
     <GyBodySection>
       <div className="home-section">
         <section className="flex-1">
-          <SwitchBtn.GySwitchBtn />
+          <SwitchBtn.GyThemeSwitchBtn />
           <Gytab
             data={tabs}
             activeIndex={activeIndex}

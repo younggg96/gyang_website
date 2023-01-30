@@ -12,5 +12,11 @@
         @apply left-[calc(100%-1.5rem)] bg-primary;
       }
     }
+    &-slider-theme {
+      @apply flex justify-center items-center rounded-full bg-gray-500 dark:bg-background w-5 h-5 absolute top-[50%] -translate-y-[50%] left-1 transition-all ease-in-out;
+      &.active {
+        @apply left-[calc(100%-1.5rem)] bg-primary rotate-180;
+      }
+    }
   }
 }
