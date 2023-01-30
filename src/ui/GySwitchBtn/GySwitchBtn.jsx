@@ -8,7 +8,10 @@ const GySwitchBtn = () => {
     setActive(!active);
   };
   return (
-    <div className="gy-switch-btn" onClick={onClickHandler}>
+    <div
+      className={classNames("gy-switch-btn", { active: active })}
+      onClick={onClickHandler}
+    >
       <div
         className={classNames("gy-switch-btn-slider", { active: active })}
       ></div>
@@ -16,4 +19,22 @@ const GySwitchBtn = () => {
   );
 };
 
-export default GySwitchBtn;
+const GyThemeSwitchBtn = () => {
+  const [active, setActive] = useState(false);
+  const onClickHandler = () => {
+    setActive(!active);
+  };
+  return (
+    <div
+      className={classNames("gy-switch-btn", { active: active })}
+      onClick={onClickHandler}
+    >
+      <div
+        className={classNames("gy-switch-btn-slider", { active: active })}
+      ></div>
+    </div>
+  );
+};
+
+// eslint-disable-next-line import/no-anonymous-default-export
+export default { GyThemeSwitchBtn, GySwitchBtn };

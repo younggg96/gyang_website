@@ -4,7 +4,7 @@ import TopUserList from "../components/user/TopUserList";
 // import components
 import Gytab from "../ui/GyTab/Gytab";
 import GyBodySection from "../ui/GyBodySection/GyBodySection";
-import GySwitchBtn from "../ui/GySwitchBtn/GySwitchBtn"
+import SwitchBtn from "../ui/GySwitchBtn/GySwitchBtn"
 
 const Home = () => {
   const tabs = ["Articles", "Moments"];
@@ -14,7 +14,7 @@ const Home = () => {
     <GyBodySection>
       <div className="home-section">
         <section className="flex-1">
-          <GySwitchBtn />
+          <SwitchBtn.GySwitchBtn />
           <Gytab
             data={tabs}
             activeIndex={activeIndex}

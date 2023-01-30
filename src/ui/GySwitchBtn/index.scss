@@ -2,9 +2,12 @@
 
 @layer components {
   .gy-switch-btn {
-    @apply w-full relative rounded-3xl border-2 lg:flex-auto lg:w-12 lg:h-8 cursor-pointer border-gray-300 dark:border-background;
+    @apply w-full relative rounded-3xl border-2 lg:flex-auto lg:w-12 lg:h-8 cursor-pointer border-text dark:border-background;
+    &.active {
+      @apply border-primary;
+    }
     &-slider {
-      @apply rounded-full bg-gray-300 dark:bg-background w-5 h-5 absolute top-[50%] -translate-y-[50%] left-1 transition-all ease-in-out;
+      @apply rounded-full bg-text dark:bg-background w-5 h-5 absolute top-[50%] -translate-y-[50%] left-1 transition-all ease-in-out;
       &.active {
         @apply left-[calc(100%-1.5rem)] bg-primary;
       }
