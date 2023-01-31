@@ -43,8 +43,8 @@ const DesktopHeader = () => {
             );
           })}
         </ul>
+        <GySwitchBtn.GyThemeSwitchBtn />
       </nav>
-      <GySwitchBtn.GyThemeSwitchBtn />
     </div>
   );
 };

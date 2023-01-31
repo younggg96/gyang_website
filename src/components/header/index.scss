@@ -19,6 +19,7 @@
       }
     }
     .links {
+      @apply flex items-center gap-8;
       ul {
         @apply flex font-semibold gap-x-2;
         li {

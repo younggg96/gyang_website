@@ -10,7 +10,7 @@
       @apply mb-2;
     }
     .submit-btn {
-      @apply w-full bg-secondary rounded-md py-2 sm:py-4 hover:border-primary border cursor-pointer my-2
+      @apply w-full bg-primary rounded-md py-2 sm:py-4 hover:border-text border cursor-pointer my-2
       dark:bg-backgroundDark dark:text-textDark dark:hover:border-textDark;
     }
     .pwd-input {

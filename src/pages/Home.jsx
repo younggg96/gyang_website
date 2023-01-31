@@ -4,6 +4,9 @@ import TopUserList from "../components/user/TopUserList";
 // import components
 import Gytab from "../ui/GyTab/Gytab";
 import GyBodySection from "../ui/GyBodySection/GyBodySection";
+// scss
+import "./style/home.scss";
+import GyButton from "../ui/GyButton/GyButton";
 
 const Home = () => {
   const tabs = ["Articles", "Moments"];
@@ -12,7 +15,8 @@ const Home = () => {
   return (
     <GyBodySection>
       <div className="home-section">
-        <section className="flex-1">
+        <section className="left-section">
+          <GyButton>click</GyButton>
           <Gytab
             data={tabs}
             activeIndex={activeIndex}
@@ -21,7 +25,7 @@ const Home = () => {
             {activeIndex === 0 ? <ArticleList /> : <div>Moments</div>}
           </Gytab>
         </section>
-        <section className="w-full lg:w-[300px]">
+        <section className="right-section">
           <TopUserList row={5} page={1} />
         </section>
       </div>

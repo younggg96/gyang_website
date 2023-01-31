@@ -38,12 +38,12 @@
         dark:hover:bg-accentDark dark:text-textDark;
       }
       .user-info {
-        @apply flex items-center justify-center min-w-[120px] w-[200px] py-2 px-4 rounded-lg gap-2 dark:hover:bg-accentDark text-text dark:text-textDark;
+        @apply flex items-center justify-center min-w-[120px] max-w-[200px] py-2 px-4 rounded-lg gap-2 dark:hover:bg-accentDark text-text dark:text-textDark;
         .user-icon {
-          @apply text-lg h-[40px] grid place-items-center;
+          @apply text-lg grid place-items-center;
         }
         .username {
-          @apply h-[40px] leading-9 overflow-hidden text-ellipsis whitespace-nowrap hover:underline underline-offset-2;
+          @apply leading-6 overflow-hidden text-ellipsis whitespace-nowrap hover:underline underline-offset-2;
         }
       }
     }

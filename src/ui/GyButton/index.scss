@@ -2,12 +2,14 @@
 
 @layer components {
   .gy-button {
-    @apply w-full flex-1 lg:flex-auto lg:w-40 hover:opacity-90;
+    // @apply w-full flex-1 lg:flex-auto lg:w-40 hover:opacity-90;
+    @apply bg-text rounded-md py-2 sm:py-4 hover:border-text border cursor-pointer my-2
+    dark:bg-backgroundDark dark:text-textDark dark:hover:border-textDark;
   }
   .btn {
-    @apply py-[18px] px-[50px] h-[66px] rounded-md flex items-center justify-center text-base uppercase font-secondary font-semibold bg-primary text-white;
+    @apply py-[18px] px-[50px] h-[66px] bg-primary;
   }
   .btn-small {
-    @apply py-2 px-6 h-12 flex items-center justify-center rounded-md text-base font-secondary font-semibold bg-primary text-white;
+    @apply py-2 px-6 h-12 bg-primary;
   }
 }

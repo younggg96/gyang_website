@@ -24,6 +24,6 @@
     @apply text-[24px] md:text-[36px] font-primary font-medium capitalize leading-[120%] tracking-[-0.05em];
   }
   .link {
-    @apply underline cursor-pointer;
+    @apply underline cursor-pointer hover:text-primary;
   }
 }
