@@ -2,7 +2,7 @@
 
 @layer components {
   .gy-switch-btn {
-    @apply w-full relative rounded-3xl border-2 lg:flex-auto lg:w-12 lg:h-8 cursor-pointer border-text dark:border-background;
+    @apply relative rounded-3xl border-2 lg:w-12 lg:h-8 cursor-pointer border-text dark:border-background;
     &.active {
       @apply border-primary;
     }

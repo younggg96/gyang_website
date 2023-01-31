@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 // import components
-import UserPopup from "../user/UserPopup"
+import UserPopup from "../user/UserPopup";
 // import Socials from "./Socials";
 import Logo from "../../img/header/logo.png";
 // import link
@@ -16,6 +16,7 @@ import { getTheme, switchTheme } from "../../helper/theme";
 import { useToggle } from "ahooks";
 // scss
 import "./index.scss";
+import GySwitchBtn from "../../ui/GySwitchBtn/GySwitchBtn";
 
 const Links = [
   { name: "Home", link: "/home" },
@@ -24,11 +25,6 @@ const Links = [
 
 // desktop
 const DesktopHeader = () => {
-  const [state, { toggle }] = useToggle();
-  const changeToDark = () => {
-    toggle();
-    switchTheme(state ? "dark" : "light");
-  };
   return (
     <div className="header-content">
       {/* logo */}
@@ -48,7 +44,7 @@ const DesktopHeader = () => {
           })}
         </ul>
       </nav>
-      <button onClick={changeToDark}>{getTheme()}</button>
+      <GySwitchBtn.GyThemeSwitchBtn />
     </div>
   );
 };
