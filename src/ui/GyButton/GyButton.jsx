@@ -1,9 +1,20 @@
 import React from "react";
+import classNames from "classnames";
 import "./index.scss";
 
-const GyButton = ({ children, click }) => {
+const GyButton = ({
+  children,
+  click,
+  size = "normal",
+  className,
+  ...props
+}) => {
   return (
-    <button className="gy-button btn-small" onClick={click}>
+    <button
+      className={classNames("gy-button", size, className)}
+      onClick={click}
+      {...props}
+    >
       {children}
     </button>
   );

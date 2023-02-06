@@ -12,14 +12,11 @@ import { CgMenuRight } from "react-icons/cg";
 import { IoMdClose } from "react-icons/io";
 // hooks
 import useOnClickOutside from "../../hooks/useOnClickOutside";
-import { getTheme, switchTheme } from "../../helper/theme";
-import { useToggle } from "ahooks";
 // scss
 import "./index.scss";
 import GySwitchBtn from "../../ui/GySwitchBtn/GySwitchBtn";
 
 const Links = [
-  { name: "Home", link: "/home" },
   { name: "Home", link: "/home" },
 ];
 

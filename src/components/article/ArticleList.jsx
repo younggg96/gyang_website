@@ -73,7 +73,7 @@ const ArticleList = ({ userId = null }) => {
 
   return (
     <section className="article-list">
-      <div className="list flex flex-col mt-2 mb-4 bg-white shadow-lg rounded-2xl">
+      <div className="list flex flex-col mt-4 mb-4 bg-white shadow-lg rounded-2xl">
         {loading && <GyLoader />}
         <ul>
           {articleList.map((item) => {

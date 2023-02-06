@@ -3,6 +3,7 @@ import React, { useMemo } from "react";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 
 import "./index.scss";
+import GyButton from "../GyButton/GyButton";
 
 /**
  *
@@ -19,6 +20,8 @@ const GyPagination = ({
   pageRow,
   onCurPageChange,
   hasPageBtn = true,
+  className,
+  ...props
 }) => {
   const range = (start, end) => {
     const arr = [];
@@ -60,28 +63,33 @@ const GyPagination = ({
   };
 
   return (
-    <section className="gy-pagination">
+    <section className={classNames("gy-pagination", className)} {...props}>
       <ul>
-        <li className="pagination-btn" onClick={prevPage}>
-          <AiOutlineArrowLeft />
+        <li>
+          <GyButton className="pagination-btn" onClick={prevPage}>
+            <AiOutlineArrowLeft />
+          </GyButton>
         </li>
         {hasPageBtn &&
           rowArray.map((item, index) => {
             return (
-              <li
-                key={index}
-                className={classNames("pagination-btn", {
-                  active: item === curPage,
-                  dot: item === -1
-                })}
-                onClick={() => setPage(item, item === curPage)}
-              >
-                {item === -1 ? "..." : `${item}`}
+              <li key={index}>
+                <GyButton
+                  onClick={() => setPage(item, item === curPage)}
+                  className={classNames("pagination-btn", {
+                    active: item === curPage,
+                    dot: item === -1,
+                  })}
+                >
+                  {item === -1 ? "..." : `${item}`}
+                </GyButton>
               </li>
             );
           })}
-        <li className="pagination-btn" onClick={nextPage}>
-          <AiOutlineArrowRight />
+        <li>
+          <GyButton className="pagination-btn" onClick={nextPage}>
+            <AiOutlineArrowRight />
+          </GyButton>
         </li>
       </ul>
     </section>

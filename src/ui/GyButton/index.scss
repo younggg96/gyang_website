@@ -2,14 +2,15 @@
 
 @layer components {
   .gy-button {
-    // @apply w-full flex-1 lg:flex-auto lg:w-40 hover:opacity-90;
-    @apply bg-text rounded-md py-2 sm:py-4 hover:border-text border cursor-pointer my-2
-    dark:bg-backgroundDark dark:text-textDark dark:hover:border-textDark;
-  }
-  .btn {
-    @apply py-[18px] px-[50px] h-[66px] bg-primary;
-  }
-  .btn-small {
-    @apply py-2 px-6 h-12 bg-primary;
+    @apply bg-white rounded-md py-2 my-2 border
+    sm:py-4
+    hover:border-accent hover:bg-primary
+    dark:bg-backgroundDark dark:text-textDark dark:hover:bg-primary dark:hover:text-primaryDark dark:hover:border-transparent;
+    &.lg {
+      @apply py-[18px] px-[50px] h-[66px] text-xl;
+    }
+    &.normal {
+      @apply py-2 px-6 h-12;
+    }
   }
 }

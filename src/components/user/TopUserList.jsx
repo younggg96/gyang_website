@@ -21,7 +21,7 @@ const TopUserList = () => {
   });
   useEffect(() => {
     run(curPage);
-  }, [curPage]);
+  }, [curPage, run]);
 
   if (error) {
     return <div>failed to load</div>;
@@ -30,18 +30,22 @@ const TopUserList = () => {
   return (
     <>
       <GyCard title={"Top Users"}>
-        <div className="min-h-[420px]">
-          {loading && <GyLoader />}
-          <ul className="user-list flex flex-col gap-4">
-            {userList.map((item) => {
-              return (
-                <li key={item.id}>
-                  <UserHeader user={item} />
-                </li>
-              );
-            })}
-          </ul>
+        <div className="user-list">
+          {loading ? (
+            <GyLoader />
+          ) : (
+            <ul className="user-list-content">
+              {userList.map((item) => {
+                return (
+                  <li key={item.id}>
+                    <UserHeader user={item} />
+                  </li>
+                );
+              })}
+            </ul>
+          )}
           <GyPagination
+            className="user-list-bottom"
             row={pagination?.row}
             curPage={pagination?.current_page}
             pageRow={pagination?.page_row}

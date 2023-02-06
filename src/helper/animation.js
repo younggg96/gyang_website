@@ -13,7 +13,6 @@ export const variants = {
 };
 
 export const transition = {
-  duration: .25,
+  duration: 0.25,
   ease: [0.6, 0.01, -0.05, 0.9],
-  // ease: [0.43, 0.13, 0.23, 0.96],
 };

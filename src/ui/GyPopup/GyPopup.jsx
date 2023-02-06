@@ -14,9 +14,11 @@ const GyPopup = ({ open, setOpen, children }) => {
       initial="hidden"
       animate={open ? "show" : ""}
     >
-      <section ref={clickOutsideRef} className="gy-popup">
-        {children}
-      </section>
+      {open && (
+        <section ref={clickOutsideRef} className="gy-popup">
+          {children}
+        </section>
+      )}
     </motion.div>
   );
 };

@@ -6,12 +6,13 @@
     ul {
       @apply flex gap-2;
       .pagination-btn {
-        @apply bg-background hover:bg-primary hover:border-accent w-12 h-12 border grid place-items-center rounded-md cursor-pointer select-none;
+        @apply hover:border-accent w-12 h-12 px-0 flex justify-center items-center;
         &.active {
-          @apply bg-primary border-accent cursor-default;
+          @apply bg-primary border-accent cursor-default
+          text-black;
         }
         &.dot {
-          @apply cursor-default;
+          @apply cursor-default hover:bg-white;
         }
       }
     }

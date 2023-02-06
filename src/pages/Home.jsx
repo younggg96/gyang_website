@@ -16,7 +16,7 @@ const Home = () => {
     <GyBodySection>
       <div className="home-section">
         <section className="left-section">
-          <GyButton>click</GyButton>
+          <GyButton size={"normal"}>click</GyButton>
           <Gytab
             data={tabs}
             activeIndex={activeIndex}

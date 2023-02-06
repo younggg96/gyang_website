@@ -8,6 +8,8 @@ import GyPopup from "../../ui/GyPopup";
 import useAuth from "../../hooks/useAuth";
 
 import "./index.scss";
+import GyAvatar from "../../ui/GyAvatar/GyAvatar";
+import GyButton from "../../ui/GyButton/GyButton"
 
 const UserPopup = () => {
   const [open, setOpen] = useState(false);
@@ -37,16 +39,15 @@ const UserPopup = () => {
       </div>
       <GyPopup open={open} setOpen={setOpen}>
         <section className="user-info-popup-top">
-          <img
+          <GyAvatar
             src={!user?.avatar ? Logo : user?.avatar}
-            alt="user avatar"
-            className="rounded-full w-16 h-16 border bg-black"
+            className="avatar"
           />
-          <div className="flex flex-col gap-1 w-full">
-            <p className="text-md text-text font-bold overflow-hidden text-ellipsis">
+          <div className="text">
+            <p className="username">
               {user?.username}
             </p>
-            <p className="text-sm text-gray-500 overflow-hidden text-ellipsis">
+            <p className="email">
               {user?.email}
             </p>
           </div>
@@ -63,7 +64,7 @@ const UserPopup = () => {
           </ul>
         </section>
         <section className="user-info-popup-signout">
-          <button onClick={signout}>Sign Out</button>
+          <GyButton onClick={signout} className="sign-out-btn">Sign Out</GyButton>
         </section>
       </GyPopup>
     </div>

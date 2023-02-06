@@ -1,6 +1,7 @@
 @tailwind components;
 
 @layer components {
+  // user header
   .user-info-small {
     @apply flex items-center justify-between gap-4;
     .user-content {
@@ -30,6 +31,7 @@
       dark:text-textDark;
     }
   }
+  // user info popup
   .user-info-popup {
     &-content {
       @apply hidden xl:flex min-w-[120px] w-[200px] items-center justify-end mx-4 cursor-pointer;
@@ -49,21 +51,46 @@
     }
     &-top {
       @apply flex flex-col p-4 items-center gap-4;
+      .avatar {
+        @apply w-16 h-16;
+      }
+      .text {
+        @apply flex flex-col gap-1 w-full;
+        p {
+          @apply overflow-hidden text-ellipsis;
+        }
+        .username {
+          @apply text-base text-text font-bold;
+        }
+        .email {
+          @apply text-sm text-gray-500;
+        }
+      }
     }
     &-btns {
       @apply border-t-2 border-b-2;
       ul {
         @apply w-full;
         li {
-          @apply hover:bg-gray-100 py-2 pl-6 cursor-pointer flex items-center gap-3;
+          @apply hover:bg-primary py-2 pl-6 cursor-pointer flex items-center gap-3;
         }
       }
     }
     &-signout {
-      @apply flex justify-center py-2 px-4 my-2;
-      button {
-        @apply border w-full rounded-full px-4 py-2 text-text hover:bg-gray-500 hover:text-white transition-all;
+      @apply flex justify-center py-2 px-4;
+      button.sign-out-btn {
+        @apply w-full rounded-full border hover:border-accent;
       }
+    }
+  }
+  // top user list
+  .user-list {
+    @apply min-h-[420px] relative;
+    &-content {
+      @apply flex flex-col gap-4;
+    }
+    &-bottom {
+      @apply absolute bottom-0 w-full;
     }
   }
 }

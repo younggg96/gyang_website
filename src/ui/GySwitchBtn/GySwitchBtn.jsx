@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./index.scss";
 import classNames from "classnames";
 import { BiSun, BiMoon } from "react-icons/bi";
 import { useToggle } from "ahooks";
-import { switchTheme } from "../../helper/theme";
+import { getTheme, switchTheme } from "../../helper/theme";
 
 const GySwitchBtn = () => {
   const [active, setActive] = useState(false);
@@ -23,21 +23,28 @@ const GySwitchBtn = () => {
 };
 
 const GyThemeSwitchBtn = () => {
-  const [state, { toggle }] = useToggle();
+  const [state, { toggle, set }] = useToggle("light", "dark");
   const onClickHandler = () => {
     toggle();
-    switchTheme(state ? "dark" : "light");
+    switchTheme(state);
   };
-  const color = state ? "#fdfdfe" : "";
+  const color = state === "dark" ? "#fdfdfe" : "";
+
+  useEffect(() => {
+    set(getTheme() === "dark" ? "light" : "dark");
+  }, []);
+
   return (
     <div
-      className={classNames("gy-switch-btn", { active: state })}
+      className={classNames("gy-switch-btn", { active: state === "dark" })}
       onClick={onClickHandler}
     >
       <div
-        className={classNames("gy-switch-btn-slider-theme", { active: state })}
+        className={classNames("gy-switch-btn-slider-theme", {
+          active: state === "dark",
+        })}
       >
-        {!state ? <BiMoon color={color} /> : <BiSun color={color} />}
+        {state === "light" ? <BiMoon color={color} /> : <BiSun color={color} />}
       </div>
     </div>
   );

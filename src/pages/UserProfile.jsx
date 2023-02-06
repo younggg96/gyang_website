@@ -13,6 +13,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 // scss
 import "./style/user-profile.scss";
 import GyButton from "../ui/GyButton/GyButton";
+import GyCard from "../ui/GyCard/GyCard";
 
 const UserHeaderImg = ({ url }) => {
   return (

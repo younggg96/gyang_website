@@ -1,9 +1,10 @@
 import React from "react";
 import "./index.scss";
+import classNames from "classnames";
 
-const GyCard = ({ title, children }) => {
+const GyCard = ({ title, children, className, ...props }) => {
   return (
-    <div className="gy-card">
+    <div className={classNames("gy-card", className)} {...props}>
       <header className="title">{title}</header>
       <hr />
       {children}
