@@ -8,32 +8,28 @@ import UserHeader from "../components/user/UserHeader";
 import AboutUser from "../components/profile/AboutUser";
 import ArticleList from "../components/article/ArticleList";
 import GyBodySection from "../ui/GyBodySection/GyBodySection";
+import GyButton from "../ui/GyButton/GyButton";
 // icons
 import { BsThreeDotsVertical } from "react-icons/bs";
 // scss
 import "./style/user-profile.scss";
-import GyButton from "../ui/GyButton/GyButton";
-import GyCard from "../ui/GyCard/GyCard";
 
 const UserHeaderImg = ({ url }) => {
   return (
     <div
       style={{ backgroundImage: `url(${url})` }}
-      className="w-full h-[230px] lg:h-[460px] bg-center bg-no-repeat bg-cover"
+      className="user-profile-header-img"
     ></div>
   );
 };
 
 const UserContactBtns = () => {
   return (
-    <div className="flex items-center gap-4 w-full lg:w-fit">
-      {/* <button className="btn-small flex-1 lg:flex-auto hover:opacity-90">
-        message
-      </button> */}
-      <GyButton>message</GyButton>
-      <button className=" hover:bg-slate-300 border hover:border-black rounded-full w-12 h-12 grid place-items-center">
+    <div className="user-profile-btns">
+      <GyButton className="message">message</GyButton>
+      <GyButton size="round" className="more">
         <BsThreeDotsVertical />
-      </button>
+      </GyButton>
     </div>
   );
 };

@@ -3,7 +3,11 @@
 @layer components {
   .gy-card {
     border: 0.5px solid #ddd;
-    @apply flex flex-col my-4 py-4 px-4 border bg-white shadow-lg dark:shadow-none rounded-2xl;
+    @apply flex flex-col my-4 py-4 px-4 border bg-white shadow-lg rounded-2xl
+    dark:shadow-none dark:bg-primaryDark dark:text-textDark;
+    .title {
+      @apply dark:text-primary;
+    }
     hr {
       @apply my-4;
     }

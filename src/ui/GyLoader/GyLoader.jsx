@@ -3,8 +3,8 @@ import "./index.scss";
 
 const GyLoader = () => {
   return (
-    <div className="h-[160px] flex items-center justify-center">
-      <div className="loader animate-loader before:animate-loader after:animate-loader"></div>
+    <div className="loader-wapper">
+      <div className="loader"></div>
     </div>
   );
 };

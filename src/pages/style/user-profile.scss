@@ -1,6 +1,9 @@
 @tailwind components;
 
 @layer components {
+  .user-profile-header-img {
+    @apply w-full h-[230px] lg:h-[460px] bg-center bg-no-repeat bg-cover;
+  }
   .user-profile {
     @apply container mx-auto;
     &-header {
@@ -8,6 +11,15 @@
     }
     &-content {
       @apply flex flex-col lg:flex-row gap-0 lg:gap-4 px-4;
+    }
+    &-btns {
+      @apply flex items-center gap-4 w-full lg:w-fit;
+      .message {
+        @apply shadow-lg flex-1 md:flex-auto;
+      }
+      .more {
+        @apply w-12 h-12 shadow-lg;
+      }
     }
   }
 }

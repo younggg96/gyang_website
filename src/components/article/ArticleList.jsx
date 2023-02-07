@@ -11,39 +11,36 @@ import { getArticleList, getArticleListByUserId } from "../../api";
 import GyLoader from "../../ui/GyLoader/GyLoader";
 
 const CategoriesSection = ({ categories }) => {
-  return (
-    <section className="article-categories flex items-center gap-4">
-      {categories?.map((cate) => {
-        return (
-          <Link
-            className="bg-slate-100 border rounded-3xl py-2 px-4 text-sm"
-            key={cate.id}
-          >
-            {cate.title}
-          </Link>
-        );
-      })}
-    </section>
-  );
+  if (categories?.length) {
+    return (
+      <section className="categories">
+        {categories?.map((cate) => {
+          return (
+            <Link className="category" key={cate.id}>
+              {cate.title}
+            </Link>
+          );
+        })}
+      </section>
+    );
+  } else {
+    return <></>;
+  }
 };
 
 const ArticleItem = (props) => {
   const { title, img, content, createdAt, categories } = props.data;
   return (
-    <li className="article-item article-item flex gap-2 lg:gap-4 p-4 flex-col lg:flex-row">
-      <img
-        src={img}
-        alt={title + "header-img"}
-        className="left w-full lg:w-[300px] md:h-fit lg:mt-4 lg:ml-4 object-contain"
-      />
-      <div className="right flex flex-col gap-2 lg:gap-4 px-2">
-        <h2 className="article-title title">{title}</h2>
-        {props.data.user && <UserHeader user={props.data.user} />}
-        <p className="article-content mb-4">{content}</p>
+    <li className="article-item">
+      <img src={img} alt={title + "header-img"} className="left" />
+      <div className="right">
+        <h2 className="title">{title}</h2>
+        <div className="user">
+          {props.data.user && <UserHeader user={props.data.user} />}
+          <GyTime date={createdAt} className="date" />
+        </div>
+        <p className="content">{content}</p>
         <CategoriesSection categories={categories} />
-        <p className="article-date">
-          <GyTime date={createdAt} />
-        </p>
       </div>
     </li>
   );
@@ -73,7 +70,7 @@ const ArticleList = ({ userId = null }) => {
 
   return (
     <section className="article-list">
-      <div className="list flex flex-col mt-4 mb-4 bg-white shadow-lg rounded-2xl">
+      <div className="list">
         {loading && <GyLoader />}
         <ul>
           {articleList.map((item) => {
