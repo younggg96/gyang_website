@@ -15,5 +15,8 @@
     &.round {
       @apply rounded-full flex justify-center items-center;
     }
+    &.icon {
+      @apply gap-4 flex justify-center items-center;
+    }
   }
 }

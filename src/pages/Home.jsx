@@ -6,7 +6,8 @@ import Gytab from "../ui/GyTab/Gytab";
 import GyBodySection from "../ui/GyBodySection/GyBodySection";
 // scss
 import "./style/home.scss";
-import GyButton from "../ui/GyButton/GyButton";
+import EditorBtns from "../components/editor/EditorBtns"
+// import GyButton from "../ui/GyButton/GyButton";
 
 const Home = () => {
   const tabs = ["Articles", "Moments"];
@@ -16,7 +17,7 @@ const Home = () => {
     <GyBodySection>
       <div className="home-section">
         <section className="left-section">
-          <GyButton size={"normal"}>click</GyButton>
+          {/* <GyButton size={"normal"}>click</GyButton> */}
           <Gytab
             data={tabs}
             activeIndex={activeIndex}
@@ -26,6 +27,7 @@ const Home = () => {
           </Gytab>
         </section>
         <section className="right-section">
+          <EditorBtns />
           <TopUserList row={5} page={1} />
         </section>
       </div>

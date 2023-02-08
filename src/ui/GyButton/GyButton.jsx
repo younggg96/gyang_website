@@ -6,15 +6,18 @@ const GyButton = ({
   children,
   click,
   size = "normal",
+  icon,
   className,
   ...props
 }) => {
+  console.log(icon);
   return (
     <button
-      className={classNames("gy-button", size, className)}
+      className={classNames("gy-button", size, className, icon && "icon")}
       onClick={click}
       {...props}
     >
+      {icon && icon()}
       {children}
     </button>
   );

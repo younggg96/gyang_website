@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { FiUser } from "react-icons/fi";
 import Logo from "../../img/header/logo.png";
+import { Link } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+// style
+import "./index.scss";
+// icons
+import { FiUser } from "react-icons/fi";
 import { CgProfile } from "react-icons/cg";
 import { IoMdSettings } from "react-icons/io";
-import { Link } from "react-router-dom";
+// components
 import GyPopup from "../../ui/GyPopup";
-import useAuth from "../../hooks/useAuth";
-
-import "./index.scss";
 import GyAvatar from "../../ui/GyAvatar/GyAvatar";
 import GyButton from "../../ui/GyButton/GyButton"
 

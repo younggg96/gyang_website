@@ -2,6 +2,6 @@
 
 @layer components {
   .gy-avatar {
-    @apply rounded-full;
+    @apply rounded-full w-8 h-8 object-contain;
   }
 }

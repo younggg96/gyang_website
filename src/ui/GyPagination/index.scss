@@ -6,7 +6,7 @@
     ul {
       @apply flex gap-2;
       .pagination-btn {
-        @apply hover:border-accent w-12 h-12 px-0 flex justify-center items-center;
+        @apply hover:border-accent w-8 h-8 px-0 flex justify-center items-center;
         &.active {
           @apply bg-primary border-accent cursor-default
           text-black;

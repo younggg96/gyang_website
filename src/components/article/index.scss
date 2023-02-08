@@ -13,7 +13,7 @@
       div.right {
         @apply flex flex-col gap-2 lg:gap-4 px-2;
         .title {
-          @apply text-3xl dark:text-primary;
+          @apply dark:text-primary;
         }
         .user {
           @apply flex justify-between items-center;
@@ -32,7 +32,7 @@
           }
         }
         .date {
-          @apply dark:text-textDark;
+          @apply text-xs dark:text-textDark;
         }
       }
       &:first-child {
