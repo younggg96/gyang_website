@@ -1,37 +1,19 @@
-.loader-wapper {
-  @apply h-[160px] flex items-center justify-center;
-  .loader {
-    @apply animate-loader before:animate-loader after:animate-loader;
-    width: 8px;
-    height: 40px;
-    border-radius: 4px;
-    display: block;
-    background-color: currentColor;
-    margin: 20px auto;
-    position: relative;
-    transform: translateY(-50%);
-    color: black;
-  }
+@tailwind components;
 
-  .loader::after,
-  .loader::before {
-    content: "";
-    width: 8px;
-    height: 40px;
-    border-radius: 4px;
-    background: currentColor;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-  }
+@layer components {
+  .loader-wapper {
+    @apply h-[160px] flex items-center justify-center;
+    .loader {
+      @apply w-[8px] h-[40px] my-[20px] mx-auto relative rounded-full animate-loader before:animate-loader after:animate-loader bg-backgroundDark dark:bg-primary
+      after:w-[8px] after:h-[40px] after:rounded-full after:absolute after:top-[50%] after:transform after:-translate-y-[50%] after:bg-backgroundDark after:content-[''] after:dark:bg-primary after:left-[20px]
+      before:w-[8px] before:h-[40px] before:rounded-full before:absolute before:top-[50%] before:transform before:-translate-y-[50%] before:bg-backgroundDark before:content-[''] before:dark:bg-primary before:-left-[20px];
+    }
+    .loader::after {
+      animation-delay: 0.6s;
+    }
 
-  .loader::after {
-    left: 20px;
-    animation-delay: 0.9s;
-  }
-
-  .loader::before {
-    left: -20px;
-    animation-delay: 0s;
+    .loader::before {
+      animation-delay: 0.3s;
+    }
   }
 }

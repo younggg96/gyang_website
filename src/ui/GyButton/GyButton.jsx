@@ -10,7 +10,6 @@ const GyButton = ({
   className,
   ...props
 }) => {
-  console.log(icon);
   return (
     <button
       className={classNames("gy-button", size, className, icon && "icon")}

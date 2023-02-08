@@ -29,12 +29,14 @@ const CategoriesSection = ({ categories }) => {
 };
 
 const ArticleItem = (props) => {
-  const { title, img, content, createdAt, categories } = props.data;
+  const { title, img, content, createdAt, categories, id } = props.data;
   return (
     <li className="article-item">
       <img src={img} alt={title + "header-img"} className="left" />
       <div className="right">
-        <h2 className="title">{title}</h2>
+        <h2 className="title">
+          <Link to={`/article/${id}`}>{title}</Link>
+        </h2>
         <div className="user">
           {props.data.user && <UserHeader user={props.data.user} />}
           <GyTime date={createdAt} className="date" />

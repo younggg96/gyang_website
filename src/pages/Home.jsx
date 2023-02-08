@@ -7,7 +7,7 @@ import GyBodySection from "../ui/GyBodySection/GyBodySection";
 // scss
 import "./style/home.scss";
 import EditorBtns from "../components/editor/EditorBtns"
-// import GyButton from "../ui/GyButton/GyButton";
+import GyLoader from "../ui/GyLoader/GyLoader"
 
 const Home = () => {
   const tabs = ["Articles", "Moments"];
@@ -15,9 +15,9 @@ const Home = () => {
 
   return (
     <GyBodySection>
+      {/* <GyLoader /> */}
       <div className="home-section">
         <section className="left-section">
-          {/* <GyButton size={"normal"}>click</GyButton> */}
           <Gytab
             data={tabs}
             activeIndex={activeIndex}
