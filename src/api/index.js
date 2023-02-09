@@ -4,6 +4,11 @@ import { get, post } from "./axios";
  * @param {number} curPage page
  * @returns current user's article list
  */
+export const getArticleByArticleId = (id) => get("/article/" + id);
+/**
+ * @param {number} curPage page
+ * @returns current user's article list
+ */
 export const getArticleList = (curPage) => get("/article?page=" + curPage);
 
 /**

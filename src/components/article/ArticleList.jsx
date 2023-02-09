@@ -9,24 +9,7 @@ import GyPagination from "../../ui/GyPagination/GyPagination";
 import { useEffect } from "react";
 import { getArticleList, getArticleListByUserId } from "../../api";
 import GyLoader from "../../ui/GyLoader/GyLoader";
-
-const CategoriesSection = ({ categories }) => {
-  if (categories?.length) {
-    return (
-      <section className="categories">
-        {categories?.map((cate) => {
-          return (
-            <Link className="category" key={cate.id}>
-              {cate.title}
-            </Link>
-          );
-        })}
-      </section>
-    );
-  } else {
-    return <></>;
-  }
-};
+import Categories from "./Categories";
 
 const ArticleItem = (props) => {
   const { title, img, content, createdAt, categories, id } = props.data;
@@ -42,7 +25,7 @@ const ArticleItem = (props) => {
           <GyTime date={createdAt} className="date" />
         </div>
         <p className="content">{content}</p>
-        <CategoriesSection categories={categories} />
+        <Categories categories={categories} />
       </div>
     </li>
   );

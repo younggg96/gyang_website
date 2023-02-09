@@ -6,8 +6,8 @@ import Gytab from "../ui/GyTab/Gytab";
 import GyBodySection from "../ui/GyBodySection/GyBodySection";
 // scss
 import "./style/home.scss";
-import EditorBtns from "../components/editor/EditorBtns"
-import GyLoader from "../ui/GyLoader/GyLoader"
+import EditorBtns from "../components/editor/EditorBtns";
+// import GyLoader from "../ui/GyLoader/GyLoader"
 
 const Home = () => {
   const tabs = ["Articles", "Moments"];
