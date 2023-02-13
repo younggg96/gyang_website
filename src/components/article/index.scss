@@ -53,7 +53,6 @@
       }
     }
   }
-
   .article-categories {
     @apply flex items-center gap-4;
     .item {
@@ -61,5 +60,15 @@
       hover:text-primary hover:border-primary
       dark:bg-backgroundDark dark:text-textDark dark:hover:text-primary;
     }
+  }
+  .article-details {
+    &-top {
+      @apply flex items-center gap-8 mt-2 mb-8;
+    }
+    &-content {
+      .article-img {
+        @apply mb-8;
+      }
+     }
   }
 }

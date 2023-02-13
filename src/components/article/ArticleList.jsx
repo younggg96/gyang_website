@@ -21,7 +21,7 @@ const ArticleItem = (props) => {
           <Link to={`/article/${id}`}>{title}</Link>
         </h2>
         <div className="user">
-          {props.data.user && <UserHeader user={props.data.user} />}
+          {props.data.user && <UserHeader user={props.data.user} size="sm" />}
           <GyTime date={createdAt} className="date" />
         </div>
         <p className="content">{content}</p>

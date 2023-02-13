@@ -54,3 +54,6 @@ export const getTopUserList = (curPage) =>
 export const getUserInfo = (id) => get("/auth/getUserInfo/" + id);
 
 export const identifyUser = () => post("/auth/identify");
+
+// user profile
+export const getUserProfile = (email) => get("/profile?email=" + email);

@@ -1,0 +1,7 @@
+@tailwind components;
+
+@layer components {
+  .gy-social {
+    @apply flex gap-2;
+  }
+}

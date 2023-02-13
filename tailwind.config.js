@@ -20,11 +20,13 @@ module.exports = {
         background: "#F2F1F5",
         text: "#565557",
         accent: "#7A7787",
+        border: "#dddddd",
         // dark
         primaryDark: "#1d1d1d",
         backgroundDark: "#171717",
         textDark: "#fdfdfe",
         accentDark: "#262626",
+        borderDark: "#30363d",
         // status
         error: "#ff1010",
         errorBg: "#f6d8d8",

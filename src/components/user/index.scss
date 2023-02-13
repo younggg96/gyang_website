@@ -2,31 +2,42 @@
 
 @layer components {
   // user header
-  .user-info-small {
-    @apply flex items-center justify-between gap-4;
-    .user-content {
-      @apply flex items-center gap-2;
-      .link {
-        @apply overflow-hidden text-ellipsis hover:text-primary
-        dark:text-textDark dark:hover:text-primary;
+  .user-info-header {
+    &-sm {
+      @apply flex items-center justify-between gap-4;
+      .user-content {
+        @apply flex items-center gap-2;
+        .link {
+          @apply overflow-hidden text-ellipsis hover:text-primary
+          dark:text-textDark dark:hover:text-primary;
+        }
+      }
+      .article-num {
+        @apply bg-primary rounded-full w-6 h-6 text-center grid place-items-center text-white;
       }
     }
-    .article-num {
-      @apply bg-primary rounded-full w-6 h-6 text-center grid place-items-center text-white;
-    }
-  }
-  .user-info-big {
-    @apply flex md:h-[120px] pt-2 relative;
-    .user-avatar {
-      @apply absolute left-[calc(50%-4.5rem)] md:left-4 -top-24 w-32 h-32 md:w-48 md:h-48 rounded-full flex items-center justify-center overflow-hidden bg-white;
-      img {
-        @apply w-[96%] h-[96%] object-cover rounded-full indent-[10000px];
+    &-lg {
+      @apply flex md:h-[120px] pt-2 relative;
+      .user-avatar {
+        @apply absolute left-[calc(50%-4.5rem)] md:left-4 -top-24 w-32 h-32 md:w-48 md:h-48 rounded-full flex items-center justify-center overflow-hidden bg-white;
+        img {
+          @apply w-[96%] h-[96%] object-cover rounded-full indent-[10000px];
+        }
+      }
+      .title {
+        @apply text-black mt-8 mb-6 ml-0 w-full text-center text-4xl
+        md:m-auto md:ml-60 md:w-fit md:text-left
+        dark:text-textDark;
       }
     }
-    .title {
-      @apply text-black mt-8 mb-6 ml-0 w-full text-center text-4xl
-      md:m-auto md:ml-60 md:w-fit md:text-left
-      dark:text-textDark;
+    &-normal {
+      @apply flex flex-col gap-2;
+      .avatar {
+        @apply w-16 h-16;
+      }
+      .link.title {
+        @apply text-primary mb-4;
+      }
     }
   }
   // user info popup
