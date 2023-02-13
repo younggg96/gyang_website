@@ -9,7 +9,7 @@
       @apply dark:text-primary;
     }
     hr {
-      @apply my-4;
+      @apply my-4 border-0 h-px bg-border dark:bg-borderDark;
     }
   }
 }

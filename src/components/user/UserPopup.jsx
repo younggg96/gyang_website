@@ -11,7 +11,7 @@ import { IoMdSettings } from "react-icons/io";
 // components
 import GyPopup from "../../ui/GyPopup";
 import GyAvatar from "../../ui/GyAvatar/GyAvatar";
-import GyButton from "../../ui/GyButton/GyButton"
+import GyButton from "../../ui/GyButton/GyButton";
 
 const UserPopup = () => {
   const [open, setOpen] = useState(false);
@@ -40,34 +40,34 @@ const UserPopup = () => {
         )}
       </div>
       <GyPopup open={open} setOpen={setOpen}>
-        <section className="user-info-popup-top">
-          <GyAvatar
-            src={!user?.avatar ? Logo : user?.avatar}
-            className="avatar"
-          />
-          <div className="text">
-            <p className="username">
-              {user?.username}
-            </p>
-            <p className="email">
-              {user?.email}
-            </p>
-          </div>
-        </section>
-        <section className="user-info-popup-btns">
-          <ul>
-            <li>
-              <CgProfile /> Profile
-            </li>
-            <li>
-              <IoMdSettings />
-              Settings
-            </li>
-          </ul>
-        </section>
-        <section className="user-info-popup-signout">
-          <GyButton onClick={signout} className="sign-out-btn">Sign Out</GyButton>
-        </section>
+        <div className="user-info-popup-wapper">
+          <section className="top">
+            <GyAvatar
+              src={!user?.avatar ? Logo : user?.avatar}
+              className="avatar"
+            />
+            <div className="text">
+              <p className="username">{user?.username}</p>
+              <p className="email">{user?.email}</p>
+            </div>
+          </section>
+          <section className="btns">
+            <ul >
+              <li>
+                <CgProfile /> Profile
+              </li>
+              <li>
+                <IoMdSettings />
+                Settings
+              </li>
+            </ul>
+          </section>
+          <section className="signout">
+            <GyButton onClick={signout} className="sign-out-btn">
+              Sign Out
+            </GyButton>
+          </section>
+        </div>
       </GyPopup>
     </div>
   );

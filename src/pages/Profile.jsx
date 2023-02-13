@@ -12,7 +12,7 @@ import GyButton from "../ui/GyButton/GyButton";
 import { BsThreeDotsVertical } from "react-icons/bs";
 // scss
 import "./style/user-profile.scss";
-import UserProfile from "../components/profile/UserProfile"
+import UserProfile from "../components/profile/UserProfile";
 
 const UserBackground = ({ url }) => {
   return (
@@ -48,7 +48,7 @@ const Profile = () => {
   });
 
   useEffect(() => {
-    run(userId);
+    userId && run(userId);
   }, [run, userId]);
 
   return (
@@ -62,7 +62,7 @@ const Profile = () => {
           </div>
           <div className="user-profile-content">
             <section className="basis-1/3">
-              <UserProfile.AboutUser profile={profile}/>
+              <UserProfile.AboutUser profile={profile} />
             </section>
             <section className="basis-2/3">
               <ArticleList userId={userId} />
