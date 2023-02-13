@@ -3,13 +3,13 @@
 @layer components {
   .article-list {
     .list {
-      border: 0.5px solid #ddd;
-      @apply flex flex-col mt-4 mb-4 bg-white shadow-lg rounded-2xl
-      dark:bg-primaryDark;
+      border: 0.5px solid;
+      @apply flex flex-col mt-4 mb-4 bg-white shadow-lg rounded-2xl border-border
+      dark:bg-primaryDark dark:border-borderDark;
 
       .article-item {
-        border-bottom: 1px solid #ddd;
-        @apply flex gap-2 lg:gap-4 p-4 flex-col lg:flex-row;
+        border-bottom: 1px solid;
+        @apply flex gap-2 lg:gap-4 p-4 flex-col lg:flex-row border-border dark:border-borderDark;
         img.left {
           @apply w-full lg:w-[150px] md:h-fit lg:mt-4 lg:ml-4 object-contain;
         }
@@ -65,9 +65,15 @@
     &-top {
       @apply flex items-center gap-8 mt-2 mb-8;
     }
-    &-content {
+    &-body {
+      .article-desc {
+        @apply mb-8 px-2;
+      }
       .article-img {
         @apply mb-8;
+      }
+      .article-content {
+        @apply px-2;
       }
      }
   }

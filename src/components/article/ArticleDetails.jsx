@@ -12,9 +12,10 @@ const ArticleDetails = ({ data }) => {
           <UserHeader user={data?.user} size="sm" />
           <GyTime date={data?.createdAt} className="date text-xs" />
         </section>
-        <section className="article-details-content">
+        <section className="article-details-body">
+          <p className="article-desc title">" {data?.description} "</p>
           <img src={data?.img} alt="article cover" className="article-img" />
-          <p>{data?.content}</p>
+          <p className="article-content">{data?.content}</p>
         </section>
       </GyCard>
     </section>

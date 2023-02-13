@@ -12,7 +12,7 @@ import GyLoader from "../../ui/GyLoader/GyLoader";
 import Categories from "./Categories";
 
 const ArticleItem = (props) => {
-  const { title, img, content, createdAt, categories, id } = props.data;
+  const { title, img, description, createdAt, categories, id } = props.data;
   return (
     <li className="article-item">
       <img src={img} alt={title + "header-img"} className="left" />
@@ -24,7 +24,7 @@ const ArticleItem = (props) => {
           {props.data.user && <UserHeader user={props.data.user} size="sm" />}
           <GyTime date={createdAt} className="date" />
         </div>
-        <p className="content">{content}</p>
+        <p className="content">{description}</p>
         <Categories categories={categories} />
       </div>
     </li>

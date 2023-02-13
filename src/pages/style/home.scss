@@ -2,7 +2,7 @@
 
 @layer components {
   .home-section {
-    @apply container mx-auto flex flex-col-reverse lg:flex-row gap-4;
+    @apply container mx-auto w-[96%] flex flex-col-reverse lg:w-full lg:flex-row gap-2 lg:gap-4;
     .left-section {
       @apply flex-1;
     }
