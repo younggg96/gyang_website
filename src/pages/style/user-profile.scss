@@ -11,6 +11,12 @@
     }
     &-content {
       @apply flex flex-col lg:flex-row gap-0 lg:gap-4 px-4;
+      .left-section {
+        @apply basis-1/3;
+      }
+      .right-section {
+        @apply basis-2/3;
+      }
     }
     &-btns {
       @apply flex items-center gap-4 w-full lg:w-fit;

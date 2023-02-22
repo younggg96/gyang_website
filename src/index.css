@@ -14,6 +14,9 @@
   .section {
     @apply h-screen w-screen;
   }
+  .sticky-side {
+    @apply sticky top-[calc(100px+1rem)];
+  }
 }
 
 @layer components {

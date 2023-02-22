@@ -27,8 +27,10 @@ const Home = () => {
           </Gytab>
         </section>
         <section className="right-section">
-          <EditorBtns />
-          <TopUserList row={5} page={1} />
+          <div className="sticky-side">
+            <EditorBtns />
+            <TopUserList row={5} page={1} />
+          </div>
         </section>
       </div>
     </GyBodySection>

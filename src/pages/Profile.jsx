@@ -8,11 +8,11 @@ import UserHeader from "../components/user/UserHeader";
 import ArticleList from "../components/article/ArticleList";
 import GyBodySection from "../ui/GyBodySection/GyBodySection";
 import GyButton from "../ui/GyButton/GyButton";
+import UserProfile from "../components/profile/UserProfile";
 // icons
 import { BsThreeDotsVertical } from "react-icons/bs";
 // scss
 import "./style/user-profile.scss";
-import UserProfile from "../components/profile/UserProfile";
 
 const UserBackground = ({ url }) => {
   return (
@@ -61,10 +61,12 @@ const Profile = () => {
             <UserContactBtns />
           </div>
           <div className="user-profile-content">
-            <section className="basis-1/3">
-              <UserProfile.AboutUser profile={profile} />
+            <section className="left-section">
+              <div className="sticky-side">
+                <UserProfile.AboutUser profile={profile} />
+              </div>
             </section>
-            <section className="basis-2/3">
+            <section className="right-section">
               <ArticleList userId={userId} />
             </section>
           </div>

@@ -41,18 +41,20 @@ const ArticlePage = () => {
           )}
         </section>
         <section className="right-section">
-          <GyCard title="Author">
-            {loading ? (
-              <GyLoader />
-            ) : (
-              <>
-                <UserHeader user={articleDetail?.user} />
-                <UserProfile.UserProfile
-                  userEmail={articleDetail?.user?.email}
-                />
-              </>
-            )}
-          </GyCard>
+          <div className="sticky-side">
+            <GyCard title="Author">
+              {loading ? (
+                <GyLoader />
+              ) : (
+                <>
+                  <UserHeader user={articleDetail?.user} />
+                  <UserProfile.UserProfile
+                    userEmail={articleDetail?.user?.email}
+                  />
+                </>
+              )}
+            </GyCard>
+          </div>
         </section>
       </div>
     </GyBodySection>
