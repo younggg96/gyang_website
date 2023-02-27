@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Logo from "../../img/header/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 // style
 import "./index.scss";
@@ -16,7 +16,12 @@ import GyButton from "../../ui/GyButton/GyButton";
 const UserPopup = () => {
   const [open, setOpen] = useState(false);
   const { state, logout } = useAuth();
+  const navigate = useNavigate();
   const { isAuth, user } = state;
+  const navigateTo = (url) => {
+    navigate(url);
+    setOpen(false);
+  };
   const signout = () => {
     setOpen(false);
     setTimeout(() => {
@@ -52,8 +57,8 @@ const UserPopup = () => {
             </div>
           </section>
           <section className="btns">
-            <ul >
-              <li>
+            <ul>
+              <li onClick={() => navigateTo("profile/my-profile")}>
                 <CgProfile /> Profile
               </li>
               <li>

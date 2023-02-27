@@ -5,14 +5,14 @@ import "./index.scss";
 const GyButton = ({
   children,
   click,
-  size = "normal",
+  size = ["normal"],
   icon,
   className,
   ...props
 }) => {
   return (
     <button
-      className={classNames("gy-button", size, className, icon && "icon")}
+      className={classNames("gy-button", ...size, className, icon && "icon")}
       onClick={click}
       {...props}
     >

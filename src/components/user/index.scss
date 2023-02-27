@@ -80,7 +80,7 @@
         }
       }
       .btns {
-        @apply border-t border-b border-border dark:border-borderDark;
+        @apply text-sm border-t border-b border-border dark:border-borderDark;
         ul {
           @apply w-full divide-y divide-border dark:divide-borderDark;
           li {

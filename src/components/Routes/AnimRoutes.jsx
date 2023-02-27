@@ -18,7 +18,7 @@ const AnimRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/profile/:id" element={<Profile />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/my-profile" element={<Profile self={true} />} />
         <Route path="/article/:id" element={<ArticlePage />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>

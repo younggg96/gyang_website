@@ -1,13 +1,23 @@
 @tailwind components;
 
 @layer components {
-  .user-profile-header-img {
-    @apply w-full h-[230px] lg:h-[460px] bg-center bg-no-repeat bg-cover;
+  .user-profile-loading {
+    @apply h-[calc(100vh-100px)] grid place-items-center;
   }
+  // .user-profile-
   .user-profile {
     @apply container mx-auto;
     &-header {
       @apply flex flex-col lg:flex-row lg:justify-between gap-2 lg:gap-4 px-4;
+      &-img {
+        @apply w-full h-[230px] lg:h-[460px] bg-center bg-no-repeat bg-cover;
+        &.editable {
+          @apply relative;
+          .img-change-btn {
+            @apply absolute bottom-4 right-8;
+          }
+        }
+      }
     }
     &-content {
       @apply flex flex-col lg:flex-row gap-0 lg:gap-4 px-4;

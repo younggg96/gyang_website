@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+// hooks
 import { useParams } from "react-router-dom";
 import { useRequest } from "ahooks";
+import useAuth from "../hooks/useAuth";
 // import api
 import { getUserInfo } from "../api";
 // import components
@@ -13,13 +15,22 @@ import UserProfile from "../components/profile/UserProfile";
 import { BsThreeDotsVertical } from "react-icons/bs";
 // scss
 import "./style/user-profile.scss";
+import Error from "../components/error/Error";
+import GyLoader from "../ui/GyLoader/GyLoader";
+import classNames from "classnames";
 
-const UserBackground = ({ url }) => {
+const UserBackground = ({ url, editable = false }) => {
   return (
     <div
       style={{ backgroundImage: `url(${url})` }}
-      className="user-profile-header-img"
-    ></div>
+      className={classNames("user-profile-header-img", { editable: editable })}
+    >
+      {editable && (
+        <GyButton className="img-change-btn" size={["sm"]}>
+          Change
+        </GyButton>
+      )}
+    </div>
   );
 };
 
@@ -27,15 +38,16 @@ const UserContactBtns = () => {
   return (
     <div className="user-profile-btns">
       <GyButton className="message">message</GyButton>
-      <GyButton size="round" className="more">
+      <GyButton size={["round"]} className="more">
         <BsThreeDotsVertical />
       </GyButton>
     </div>
   );
 };
 
-const Profile = () => {
+const Profile = ({ self = false }) => {
   let params = useParams();
+  const { state } = useAuth();
   const userId = params.id;
   const [userData, setUserData] = useState({ user: null, profile: null });
   const { user, profile } = userData;
@@ -48,30 +60,47 @@ const Profile = () => {
   });
 
   useEffect(() => {
+    self && state.user && run(state.user?.id);
     userId && run(userId);
-  }, [run, userId]);
+  }, [run, self, userId, state]);
 
   return (
     <GyBodySection>
-      <div className="mx-auto">
-        <UserBackground url={profile?.backgroundImg} />
-        <section className="user-profile">
-          <div className="user-profile-header">
-            <UserHeader size="lg" user={user} />
-            <UserContactBtns />
-          </div>
-          <div className="user-profile-content">
-            <section className="left-section">
-              <div className="sticky-side">
-                <UserProfile.AboutUser profile={profile} />
-              </div>
-            </section>
-            <section className="right-section">
-              <ArticleList userId={userId} />
-            </section>
-          </div>
-        </section>
-      </div>
+      {error && (
+        <Error
+          content={{
+            title: "No Author doesn’t exist...",
+            sub: "Please check your URL or return to home.",
+          }}
+          type="error_no_found"
+        ></Error>
+      )}
+      {loading && (
+        <div className="user-profile-loading">
+          <GyLoader />
+        </div>
+      )}
+      {!loading && user && profile && (
+        <div className="mx-auto">
+          <UserBackground url={profile?.backgroundImg} editable={self} />
+          <section className="user-profile">
+            <div className="user-profile-header">
+              <UserHeader size="lg" user={user} />
+              <UserContactBtns />
+            </div>
+            <div className="user-profile-content">
+              <section className="left-section">
+                <div className="sticky-side">
+                  <UserProfile.AboutUser profile={profile} />
+                </div>
+              </section>
+              <section className="right-section">
+                <ArticleList userId={userId} />
+              </section>
+            </div>
+          </section>
+        </div>
+      )}
     </GyBodySection>
   );
 };

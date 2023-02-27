@@ -13,8 +13,19 @@ const EditorBtns = () => {
   return (
     <GyCard title={"Hi " + user?.username + "!"}>
       <div className="flex gap-4">
-        <GyButton icon={() => <HiOutlinePencil />} className="flex-1" title="Write a article">Write</GyButton>
-        <GyButton icon={() => <BsBookmarksFill />} size="round w-12 h-12" title="Your collection"></GyButton>
+        <GyButton
+          icon={() => <HiOutlinePencil />}
+          className="flex-1"
+          title="Write a article"
+        >
+          Write
+        </GyButton>
+        <GyButton
+          icon={() => <BsBookmarksFill />}
+          size={["round"]}
+          className={"w-12 h-12"}
+          title="Your collection"
+        ></GyButton>
       </div>
     </GyCard>
   );

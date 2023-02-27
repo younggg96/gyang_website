@@ -1,18 +1,14 @@
 import React, { useState } from "react";
 import GyBodySection from "../../ui/GyBodySection/GyBodySection";
-import "../style/error.scss";
-// imgs
-import error404 from "../../assets/errors/error404.svg";
+import Error from "../../components/error/Error";
 
 const ErrorPage = () => {
   return (
     <GyBodySection>
-      <div className="error-section">
-        <div className="error-img">
-          <img src={error404} alt="error-404" />
-          <p className="title">The page you are looking for isn’t here...</p>
-        </div>
-      </div>
+      <Error
+        content={{ title: "The page you are looking for isn’t here..." }}
+        type="404"
+      />
     </GyBodySection>
   );
 };

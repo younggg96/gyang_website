@@ -38,7 +38,7 @@ const TopUserList = () => {
               {userList.map((item) => {
                 return (
                   <li key={item.id}>
-                    <UserHeader user={item} size="sm"/>
+                    <UserHeader user={item} size="sm" />
                   </li>
                 );
               })}
