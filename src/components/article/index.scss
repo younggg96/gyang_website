@@ -2,16 +2,17 @@
 
 @layer components {
   .article-list {
+    @apply mt-4 mb-4;
     .list {
       border: 0.5px solid;
-      @apply flex flex-col mt-4 mb-4 bg-white shadow-lg rounded-2xl border-border
+      @apply flex flex-col bg-white shadow-lg rounded-2xl border-border
       dark:bg-primaryDark dark:border-borderDark;
 
       .article-item {
         border-bottom: 1px solid;
         @apply flex gap-2 lg:gap-4 p-4 flex-col lg:flex-row border-border dark:border-borderDark;
         img.left {
-          @apply w-full lg:w-[150px] md:h-fit lg:mt-4 lg:ml-4 object-contain;
+          @apply w-full rounded-lg lg:w-[150px] lg:h-[120px] md:h-fit object-cover;
         }
         div.right {
           @apply flex flex-col gap-2 lg:gap-4 px-2;

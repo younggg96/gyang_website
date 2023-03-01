@@ -1,0 +1,50 @@
+@tailwind components;
+
+@layer components {
+  .moment-list {
+    @apply mt-4 mb-4;
+    .list {
+      border: 0.5px solid;
+      @apply flex flex-col bg-white shadow-lg rounded-2xl border-border
+      dark:bg-primaryDark dark:border-borderDark;
+
+      .moment-item {
+        border-bottom: 1px solid;
+        @apply flex gap-2 lg:gap-4 p-4 flex-col border-border dark:border-borderDark;
+        .user {
+          @apply flex justify-between items-center;
+        }
+        .content {
+          @apply w-full dark:text-textDark;
+        }
+        .date {
+          @apply text-xs dark:text-textDark;
+        }
+        .imgs {
+          @apply flex items-center gap-2;
+          img {
+            @apply w-[110px] h-[110px] object-cover rounded-lg;
+          }
+        }
+        &:first-child {
+          border-top-left-radius: 1rem;
+          border-top-right-radius: 1rem;
+        }
+        &:last-child {
+          border-bottom: unset;
+          border-bottom-left-radius: 1rem;
+          border-bottom-right-radius: 1rem;
+        }
+        .moment-date {
+          time {
+            display: inline-block;
+            text-transform: lowercase;
+            &:first-letter {
+              text-transform: uppercase;
+            }
+          }
+        }
+      }
+    }
+  }
+}

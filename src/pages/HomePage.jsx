@@ -5,25 +5,30 @@ import TopUserList from "../components/user/TopUserList";
 import Gytab from "../ui/GyTab/Gytab";
 import GyBodySection from "../ui/GyBodySection/GyBodySection";
 // scss
-import "./style/home.scss";
+import "./style/index.scss";
 import EditorBtns from "../components/editor/EditorBtns";
-// import GyLoader from "../ui/GyLoader/GyLoader"
+import EditorInput from "../components/editor/EditorInput";
+import MomentList from "../components/moments/MomentList"
+
+export const tabs = ["Articles", "Moments"];
 
 const Home = () => {
-  const tabs = ["Articles", "Moments"];
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
     <GyBodySection>
-      {/* <GyLoader /> */}
-      <div className="home-section">
+      <div className="page-section">
         <section className="left-section">
           <Gytab
             data={tabs}
             activeIndex={activeIndex}
             setActiveIndex={setActiveIndex}
           >
-            {activeIndex === 0 ? <ArticleList /> : <div>Moments</div>}
+            {activeIndex === 0 ? (
+              <ArticleList />
+            ) : (
+              <MomentList />
+            )}
           </Gytab>
         </section>
         <section className="right-section">

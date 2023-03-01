@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import classNames from "classnames";
 // hooks
 import { useParams } from "react-router-dom";
 import { useRequest } from "ahooks";
@@ -9,15 +10,19 @@ import { getUserInfo } from "../api";
 import UserHeader from "../components/user/UserHeader";
 import ArticleList from "../components/article/ArticleList";
 import GyBodySection from "../ui/GyBodySection/GyBodySection";
-import GyButton from "../ui/GyButton/GyButton";
 import UserProfile from "../components/profile/UserProfile";
+import Error from "../components/error/Error";
+// ui
+import { tabs } from "./HomePage";
+import GyButton from "../ui/GyButton/GyButton";
+import GyLoader from "../ui/GyLoader/GyLoader";
+import Gytab from "../ui/GyTab/Gytab";
 // icons
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { IoMdSettings } from "react-icons/io";
 // scss
-import "./style/user-profile.scss";
-import Error from "../components/error/Error";
-import GyLoader from "../ui/GyLoader/GyLoader";
-import classNames from "classnames";
+import "./style/index.scss";
+import MomentList from "../components/moments/MomentList";
 
 const UserBackground = ({ url, editable = false }) => {
   return (
@@ -34,21 +39,31 @@ const UserBackground = ({ url, editable = false }) => {
   );
 };
 
-const UserContactBtns = () => {
+const UserContactBtns = ({ self }) => {
   return (
     <div className="user-profile-btns">
-      <GyButton className="message">message</GyButton>
-      <GyButton size={["round"]} className="more">
-        <BsThreeDotsVertical />
-      </GyButton>
+      {!self ? (
+        <>
+          <GyButton className="message">message</GyButton>
+          <GyButton size={["round"]} className="icon-btn">
+            <BsThreeDotsVertical />
+          </GyButton>
+        </>
+      ) : (
+        <GyButton size={["round"]} className="icon-btn">
+          <IoMdSettings />
+        </GyButton>
+      )}
     </div>
   );
 };
 
 const Profile = ({ self = false }) => {
   let params = useParams();
-  const { state } = useAuth();
   const userId = params.id;
+  const { state } = useAuth();
+  // states
+  const [activeIndex, setActiveIndex] = useState(0);
   const [userData, setUserData] = useState({ user: null, profile: null });
   const { user, profile } = userData;
 
@@ -69,14 +84,14 @@ const Profile = ({ self = false }) => {
       {error && (
         <Error
           content={{
-            title: "No Author doesn’t exist...",
+            title: "The Author doesn’t exist...",
             sub: "Please check your URL or return to home.",
           }}
           type="error_no_found"
         ></Error>
       )}
       {loading && (
-        <div className="user-profile-loading">
+        <div className="page-loading">
           <GyLoader />
         </div>
       )}
@@ -86,16 +101,26 @@ const Profile = ({ self = false }) => {
           <section className="user-profile">
             <div className="user-profile-header">
               <UserHeader size="lg" user={user} />
-              <UserContactBtns />
+              <UserContactBtns self={self} />
             </div>
             <div className="user-profile-content">
               <section className="left-section">
+                <Gytab
+                  data={tabs}
+                  activeIndex={activeIndex}
+                  setActiveIndex={setActiveIndex}
+                >
+                  {activeIndex === 0 ? (
+                    <ArticleList userId={!self ? userId : state?.user?.id} />
+                  ) : (
+                    <MomentList userId={!self ? userId : state?.user?.id} />
+                  )}
+                </Gytab>
+              </section>
+              <section className="right-section">
                 <div className="sticky-side">
                   <UserProfile.AboutUser profile={profile} />
                 </div>
-              </section>
-              <section className="right-section">
-                <ArticleList userId={userId} />
               </section>
             </div>
           </section>

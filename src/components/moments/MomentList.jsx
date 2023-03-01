@@ -1,47 +1,44 @@
 import React, { useState } from "react";
 import { useRequest } from "ahooks";
-import { Link } from "react-router-dom";
 import GyTime from "../../ui/GyTime/GyTime";
 
 import "./index.scss";
 import UserHeader from "../user/UserHeader";
 import GyPagination from "../../ui/GyPagination/GyPagination";
 import { useEffect } from "react";
-import { getArticleList, getArticleListByUserId } from "../../api";
+import { getMomentList, getMomentListByUserId } from "../../api";
 import GyLoader from "../../ui/GyLoader/GyLoader";
-import Categories from "./Categories";
+import EditorInput from "../editor/EditorInput";
 
-const ArticleItem = (props) => {
-  const { title, img, description, createdAt, categories, id } = props.data;
+const MomentItem = (props) => {
+  const { content, imgs, createdAt, id } = props.data;
   return (
-    <li className="article-item">
-      <img src={img} alt={title + " header-img"} className="left" />
-      <div className="right">
-        <h2 className="title">
-          <Link to={`/article/${id}`}>{title}</Link>
-        </h2>
-        <div className="user">
-          {props.data.user && <UserHeader user={props.data.user} size="sm" />}
-          <GyTime date={createdAt} className="date" />
-        </div>
-        <p className="content">{description}</p>
-        <Categories categories={categories} />
+    <li className="moment-item">
+      <div className="user">
+        {props.data.user && <UserHeader user={props.data.user} size="sm" />}
+        <GyTime date={createdAt} className="date" />
+      </div>
+      <p className="content">{content}</p>
+      <div className="imgs">
+        {imgs.map((img) => {
+          return <img src={img.url} alt={"header-img"} key={img.id} />;
+        })}
       </div>
     </li>
   );
 };
 
-const ArticleList = ({ userId = null }) => {
+const MomentList = ({ userId = null }) => {
   const [curPage, setCurPage] = useState(1);
-  const [articleList, setArticleList] = useState([]);
+  const [MomentList, setMomentList] = useState([]);
   const [pagination, setPagination] = useState();
 
-  const getData = !userId ? getArticleList : getArticleListByUserId;
+  const getData = !userId ? getMomentList : getMomentListByUserId;
 
   const { error, loading, run } = useRequest(getData, {
     manual: true,
     onSuccess: (result, params) => {
-      setArticleList(result?.data);
+      setMomentList(result?.data);
       setPagination(result?.meta);
     },
   });
@@ -54,12 +51,13 @@ const ArticleList = ({ userId = null }) => {
   }
 
   return (
-    <section className="article-list">
+    <section className="moment-list">
+      {!userId && <EditorInput />}
       <div className="list">
         {loading && <GyLoader />}
         <ul>
-          {articleList.map((item) => {
-            return <ArticleItem key={item.id} data={item} />;
+          {MomentList.map((item) => {
+            return <MomentItem key={item.id} data={item} />;
           })}
         </ul>
         <GyPagination
@@ -75,4 +73,4 @@ const ArticleList = ({ userId = null }) => {
   );
 };
 
-export default ArticleList;
+export default MomentList;

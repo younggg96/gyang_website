@@ -1,5 +1,6 @@
 import { get, post } from "./axios";
 
+// articles
 /**
  * @param {number} curPage page
  * @returns current user's article list
@@ -18,6 +19,21 @@ export const getArticleList = (curPage) => get("/article?page=" + curPage);
  */
 export const getArticleListByUserId = (curPage, userId) =>
   get(`/article/userId/${userId}?page=${curPage}`);
+
+// moments
+/**
+ * @param {number} curPage page
+ * @returns current user's moment list
+ */
+export const getMomentList = (curPage) => get("/moment?page=" + curPage);
+
+/**
+ * @param {number} userId user id
+ * @param {number} curPage page number
+ * @returns get moment list by using user id
+ */
+export const getMomentListByUserId = (curPage, userId) =>
+  get(`/moment/userId/${userId}?page=${curPage}`);
 
 /**
  * @param {object} data form info object

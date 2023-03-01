@@ -4,13 +4,14 @@ import { useParams } from "react-router-dom";
 import GyBodySection from "../ui/GyBodySection/GyBodySection";
 import ArticleDetails from "../components/article/ArticleDetails";
 // scss
-import "./style/article-page.scss";
+import "./style/index.scss";
 import GyCard from "../ui/GyCard/GyCard";
 import UserHeader from "../components/user/UserHeader";
 import { useRequest } from "ahooks";
 import { getArticleByArticleId } from "../api";
 import UserProfile from "../components/profile/UserProfile";
 import GyLoader from "../ui/GyLoader/GyLoader";
+import Error from "../components/error/Error";
 
 const ArticlePage = () => {
   let params = useParams();
@@ -26,37 +27,39 @@ const ArticlePage = () => {
     run(articleId);
   }, [articleId, run]);
 
-  if (error) {
-    return <div>failed to load</div>;
-  }
-
   return (
     <GyBodySection>
-      <div className="article-page-section">
-        <section className="left-section">
-          {loading ? (
-            <GyLoader />
-          ) : (
+      {error && (
+        <Error
+          content={{
+            title: "The Article doesn’t exist...",
+            sub: "Please check your URL or return to home.",
+          }}
+          type="error_no_found"
+        ></Error>
+      )}
+      {loading && (
+        <div className="page-loading">
+          <GyLoader />
+        </div>
+      )}
+      {!loading && articleDetail && (
+        <div className="page-section">
+          <section className="left-section">
             <ArticleDetails data={articleDetail} loading={loading} />
-          )}
-        </section>
-        <section className="right-section">
-          <div className="sticky-side">
-            <GyCard title="Author">
-              {loading ? (
-                <GyLoader />
-              ) : (
-                <>
-                  <UserHeader user={articleDetail?.user} />
-                  <UserProfile.UserProfile
-                    userEmail={articleDetail?.user?.email}
-                  />
-                </>
-              )}
-            </GyCard>
-          </div>
-        </section>
-      </div>
+          </section>
+          <section className="right-section">
+            <div className="sticky-side">
+              <GyCard title="Author">
+                <UserHeader user={articleDetail?.user} />
+                <UserProfile.UserProfile
+                  userEmail={articleDetail?.user?.email}
+                />
+              </GyCard>
+            </div>
+          </section>
+        </div>
+      )}
     </GyBodySection>
   );
 };

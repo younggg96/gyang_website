@@ -13,7 +13,7 @@
         }
       }
       .article-num {
-        @apply bg-primary rounded-full w-6 h-6 text-center grid place-items-center text-white;
+        @apply bg-primary rounded-full w-6 h-6 text-center grid place-items-center text-text text-xs font-medium;
       }
     }
     &-lg {

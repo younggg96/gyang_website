@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import GyBodySection from "../../ui/GyBodySection/GyBodySection";
-import Error from "../../components/error/Error";
+import GyBodySection from "../ui/GyBodySection/GyBodySection";
+import Error from "../components/error/Error";
 
 const ErrorPage = () => {
   return (
