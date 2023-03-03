@@ -1,17 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import { useRequest } from "ahooks";
-import GyTime from "../../ui/GyTime/GyTime";
-
-import "./index.scss";
-import UserHeader from "../user/UserHeader";
-import GyPagination from "../../ui/GyPagination/GyPagination";
-import { useEffect } from "react";
+// api
 import { getMomentList, getMomentListByUserId } from "../../api";
-import GyLoader from "../../ui/GyLoader/GyLoader";
+// components
+import UserHeader from "../user/UserHeader";
 import EditorInput from "../editor/EditorInput";
+// ui
+import GyTime from "../../ui/GyTime/GyTime";
+import GyLoader from "../../ui/GyLoader/GyLoader";
+import GyPagination from "../../ui/GyPagination/GyPagination";
+
+// scss
+import "./index.scss";
+import ActionsBox from "../comments/ActionsBox";
+import CommentList from "../comments/CommentList";
+
+export const commentContext = createContext();
 
 const MomentItem = (props) => {
   const { content, imgs, createdAt, id } = props.data;
+  const [commentBoxOpened, setCommentBoxOpened] = useState(false);
+  const [liked, setLiked] = useState(false);
+  const value = {
+    comment: { commentBoxOpened, setCommentBoxOpened, commentCount: 5 },
+    like: { liked, setLiked, likeCount: 5 },
+  };
   return (
     <li className="moment-item">
       <div className="user">
@@ -19,11 +32,19 @@ const MomentItem = (props) => {
         <GyTime date={createdAt} className="date" />
       </div>
       <p className="content">{content}</p>
-      <div className="imgs">
-        {imgs.map((img) => {
-          return <img src={img.url} alt={"header-img"} key={img.id} />;
-        })}
-      </div>
+      {!!imgs.length && (
+        <div className="imgs">
+          {imgs.map((img) => {
+            return <img src={img.url} alt={"header-img"} key={img.id} />;
+          })}
+        </div>
+      )}
+      <commentContext.Provider value={value}>
+        <div className="actions-box">
+          <ActionsBox />
+        </div>
+        {commentBoxOpened && <CommentList />}
+      </commentContext.Provider>
     </li>
   );
 };
