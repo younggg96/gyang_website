@@ -1,0 +1,8 @@
+@tailwind components;
+
+@layer components {
+  .gy-textarea {
+    @apply text-text outline-none border-b px-1 border-b-border h-auto bg-transparent font-secondary w-full placeholder:text-[#757879] dark:focus:border-b-textDark
+    dark:text-textDark dark:border-b-borderDark;
+  }
+}

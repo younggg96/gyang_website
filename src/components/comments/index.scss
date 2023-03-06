@@ -10,4 +10,23 @@
       @apply w-5 h-5;
     }
   }
+
+  .comment-list {
+    @apply border border-border p-4 rounded-2xl shadow-sm dark:shadow-none dark:border-borderDark;
+    .comment-input {
+      @apply flex gap-4 mb-4;
+      .right {
+        @apply flex-1;
+        .btns {
+          @apply flex gap-2;
+          .icon-btns {
+            @apply flex gap-2;
+          }
+          .post-btn {
+            @apply ml-auto;
+          }
+        }
+      }
+    }
+  }
 }
