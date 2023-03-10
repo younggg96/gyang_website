@@ -27,7 +27,7 @@
     @apply text-3xl md:text-xl font-primary font-medium capitalize leading-[120%] tracking-[-0.01em];
   }
   .link {
-    @apply underline cursor-pointer hover:text-primary;
+    @apply hover:underline cursor-pointer hover:text-primary;
   }
   hr {
     @apply my-4 border-0 h-px bg-border dark:bg-borderDark;

@@ -1,7 +1,7 @@
 import React from "react";
 import "./index.scss";
 import GyButton from "../../ui/GyButton/GyButton";
-import GyTextarea from "../../ui/GyTextarea/GyTextarea";
+import GyInput from "../../ui/GyInput/GyInput";
 import EditorIcons from "./EditorIcons";
 
 const EditorInput = () => {
@@ -9,12 +9,12 @@ const EditorInput = () => {
     <form>
       <div className="editor-wapper">
         <div className="editor-content">
-          <GyTextarea
-            id="moment input"
+          <textarea
+            id="Moment"
             rows="4"
             placeholder="Write a moment..."
             required
-          />
+          ></textarea>
           <label htmlFor="Moment" className="sr-only">
             Your Moment
           </label>

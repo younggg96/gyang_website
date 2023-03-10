@@ -2,17 +2,20 @@
 
 @layer components {
   .action-btn {
-    @apply w-full h-full flex items-center gap-2;
+    @apply flex gap-1;
     span.count {
-      @apply leading-5 text-text dark:text-textDark;
+      @apply leading-[22px] text-[16px] text-text dark:text-textDark;
     }
     svg {
-      @apply w-5 h-5;
+      @apply w-6 h-6;
     }
   }
 
-  .comment-list {
+  .comments-list {
     @apply border border-border p-4 rounded-2xl shadow-sm dark:shadow-none dark:border-borderDark;
+    .title {
+      @apply text-text dark:text-primary;
+    }
     .comment-input {
       @apply flex gap-4 mb-4;
       .right {
@@ -25,6 +28,18 @@
           .post-btn {
             @apply ml-auto;
           }
+        }
+      }
+    }
+    .comments-content {
+      @apply flex flex-col gap-2;
+      .comments-item {
+        @apply flex flex-col gap-4 p-4 border-b-[1px] border-border dark:border-borderDark;
+        .top {
+          @apply flex items-center justify-between;
+        }
+        .mid {
+          @apply mb-2 text-text dark:text-textDark;
         }
       }
     }

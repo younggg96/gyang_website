@@ -15,7 +15,9 @@ const ArticleItem = (props) => {
   const { title, img, description, createdAt, categories, id } = props.data;
   return (
     <li className="article-item">
-      <img src={img} alt={title + " header-img"} className="left" />
+      <div className="left">
+        <img src={img} alt={title + " header-img"} />
+      </div>
       <div className="right">
         <h2 className="title">
           <Link to={`/article/${id}`}>{title}</Link>

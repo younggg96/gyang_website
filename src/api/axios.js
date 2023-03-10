@@ -1,46 +1,11 @@
-/**
- * 网络请求配置
- */
 import axios from "axios";
 
 axios.defaults.timeout = 100000;
 axios.defaults.baseURL = "http://localhost:3000/api";
 
-// /**
-//  * http request 拦截器
-//  */
-// axios.interceptors.request.use(
-//   (config) => {
-//     config.data = JSON.stringify(config.data);
-//     config.headers = {
-//       "Content-Type": "application/json",
-//     };
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
-
-// /**
-//  * http response 拦截器
-//  */
-// axios.interceptors.response.use(
-//   (response) => {
-//     if (response.data.errCode === 2) {
-//       console.log("Timeout.");
-//     }
-//     return response;
-//   },
-//   (error) => {
-//     console.log("Request: ", error.message);
-//   }
-// );
-
 /**
- * 封装get方法
- * @param url  请求url
- * @param params  请求参数
+ * @param url
+ * @param params
  * @returns {Promise}
  */
 export function get(url, params = {}) {
@@ -61,7 +26,6 @@ export function get(url, params = {}) {
 }
 
 /**
- * 封装post请求
  * @param url
  * @param data
  * @returns {Promise}
@@ -79,7 +43,6 @@ export function post(url, data) {
 }
 
 /**
- * 封装patch请求
  * @param url
  * @param data
  * @returns {Promise}
@@ -99,7 +62,6 @@ export function patch(url, data = {}) {
 }
 
 /**
- * 封装put请求
  * @param url
  * @param data
  * @returns {Promise}
@@ -108,6 +70,26 @@ export function patch(url, data = {}) {
 export function put(url, data = {}) {
   return new Promise((resolve, reject) => {
     axios.put(url, data).then(
+      (response) => {
+        resolve(response.data);
+      },
+      (err) => {
+        msag(err);
+        reject(err);
+      }
+    );
+  });
+}
+
+/**
+ * @param url
+ * @param data
+ * @returns {Promise}
+ */
+
+export function deleteReq(url, data = {}) {
+  return new Promise((resolve, reject) => {
+    axios.delete(url, data).then(
       (response) => {
         resolve(response.data);
       },

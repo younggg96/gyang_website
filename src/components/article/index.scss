@@ -11,11 +11,14 @@
       .article-item {
         border-bottom: 1px solid;
         @apply flex gap-2 lg:gap-4 p-4 flex-col lg:flex-row border-border dark:border-borderDark;
-        img.left {
-          @apply w-full rounded-lg lg:w-[150px] lg:h-[120px] md:h-fit object-cover;
+        div.left {
+          @apply flex justify-center items-center lg:w-[150px] lg:h-[120px] md:h-fit;
+          img {
+            @apply w-full h-full rounded-lg object-cover;
+          }
         }
         div.right {
-          @apply flex flex-col gap-2 lg:gap-4 px-2;
+          @apply flex flex-1 flex-col gap-2 lg:gap-4 px-2;
           .title {
             @apply dark:text-primary hover:underline;
           }
@@ -72,13 +75,13 @@
     &-body {
       @apply px-4;
       .article-desc {
-        @apply mb-8 ;
+        @apply mb-8;
       }
       .article-img {
         @apply mb-8 rounded-2xl;
       }
       .article-content {
       }
-     }
+    }
   }
 }

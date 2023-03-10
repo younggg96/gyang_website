@@ -2,7 +2,12 @@
 
 @layer components {
   .gy-textarea {
-    @apply text-text outline-none border-b px-1 border-b-border h-auto bg-transparent font-secondary w-full placeholder:text-[#757879] dark:focus:border-b-textDark
-    dark:text-textDark dark:border-b-borderDark;
+    @apply p-2 font-secondary w-full text-text dark:text-textDark;
+    .auto-input {
+      @apply outline-none min-h-[1.75rem] border-b border-b-border dark:border-b-borderDark;
+    }
+    div[contenteditable] {
+      user-modify: read-write-plaintext-only;
+    }
   }
 }

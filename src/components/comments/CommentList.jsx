@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import "./index.scss";
 import GyAvatar from "../../ui/GyAvatar/GyAvatar";
 import useAuth from "../../hooks/useAuth";
 import GyTextarea from "../../ui/GyTextarea/GyTextarea";
 import GyButton from "../../ui/GyButton/GyButton";
 import EditorIcons from "../editor/EditorIcons";
+import { commentContext } from "../moments/MomentList";
+import UserHeader from "../user/UserHeader";
+import GyTime from "../../ui/GyTime/GyTime";
+import ActionsBox from "./ActionsBox";
 
 const CommentInput = () => {
   const { state } = useAuth();
@@ -34,11 +38,48 @@ const CommentInput = () => {
   );
 };
 
-const CommentList = () => {
+const CommentItem = ({ data }) => {
+  const { content, createdAt, user } = data;
+  const [commentBoxOpened, setCommentBoxOpened] = useState(false);
+  const [liked, setLiked] = useState(false);
+  const value = {
+    comment: {
+      commentBoxOpened,
+      setCommentBoxOpened,
+      commentCount: 5,
+    },
+    like: { liked, setLiked, likeCount: 5 },
+  };
   return (
-    <section className="comment-list">
+    <div className="comments-item">
+      <section className="top">
+        <UserHeader user={user} size="sm" />
+        <GyTime date={createdAt} className="date text-xs" />
+      </section>
+      <p className="mid">{content}</p>
+      {/* <section className="bot">
+        <commentContext.Provider value={value}>
+          <ActionsBox />
+        </commentContext.Provider>
+      </section> */}
+    </div>
+  );
+};
+
+const CommentList = ({ momentComments }) => {
+  return (
+    <section className="comments-list">
       <CommentInput />
       <hr />
+      <h2 className="title">
+        Comments{" "}
+        {momentComments.length && <span>({momentComments.length})</span>}
+      </h2>
+      <div className="comments-content">
+        {momentComments.map((item) => {
+          return <CommentItem data={item} key={item.id} />;
+        })}
+      </div>
     </section>
   );
 };

@@ -17,21 +17,9 @@ import CommentList from "../comments/CommentList";
 
 export const commentContext = createContext();
 
-const MomentItem = (props) => {
-  const { content, imgs, createdAt, id } = props.data;
-  const [commentBoxOpened, setCommentBoxOpened] = useState(false);
-  const [liked, setLiked] = useState(false);
-  const value = {
-    comment: { commentBoxOpened, setCommentBoxOpened, commentCount: 5 },
-    like: { liked, setLiked, likeCount: 5 },
-  };
+const ImgList = ({ imgs }) => {
   return (
-    <li className="moment-item">
-      <div className="user">
-        {props.data.user && <UserHeader user={props.data.user} size="sm" />}
-        <GyTime date={createdAt} className="date" />
-      </div>
-      <p className="content">{content}</p>
+    <>
       {!!imgs.length && (
         <div className="imgs">
           {imgs.map((img) => {
@@ -39,12 +27,47 @@ const MomentItem = (props) => {
           })}
         </div>
       )}
-      <commentContext.Provider value={value}>
-        <div className="actions-box">
-          <ActionsBox />
-        </div>
-        {commentBoxOpened && <CommentList />}
-      </commentContext.Provider>
+    </>
+  );
+};
+
+const MomentItem = ({ data }) => {
+  const {
+    id,
+    user,
+    content,
+    imgs,
+    createdAt,
+    momentlikes,
+    curUserLiked,
+    momentComments,
+  } = data;
+  const [commentBoxOpened, setCommentBoxOpened] = useState(false);
+  const [liked, setLiked] = useState(curUserLiked);
+  const actions = {
+    id,
+    comment: {
+      commentBoxOpened,
+      setCommentBoxOpened,
+      momentComments,
+    },
+    like: { liked, setLiked, momentlikes },
+  };
+  return (
+    <li className="moment-item">
+      {/* user header & moment date */}
+      <section className="user">
+        {user && <UserHeader user={user} size="sm" />}
+        <GyTime date={createdAt} className="date" />
+      </section>
+      {/* content */}
+      <p className="content">{content}</p>
+      {/* imgs */}
+      <ImgList imgs={imgs} />
+      {/* user actions */}
+      <ActionsBox actions={actions} />
+      {/* comment list */}
+      {commentBoxOpened && <CommentList momentComments={momentComments} />}
     </li>
   );
 };
@@ -65,7 +88,7 @@ const MomentList = ({ userId = null }) => {
   });
   useEffect(() => {
     run(curPage, userId);
-  }, [curPage, userId]);
+  }, [curPage, run, userId]);
 
   if (error) {
     return <div>failed to load</div>;

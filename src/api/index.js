@@ -1,4 +1,4 @@
-import { get, post } from "./axios";
+import { deleteReq, get, patch, post } from "./axios";
 
 // articles
 /**
@@ -34,6 +34,20 @@ export const getMomentList = (curPage) => get("/moment?page=" + curPage);
  */
 export const getMomentListByUserId = (curPage, userId) =>
   get(`/moment/userId/${userId}?page=${curPage}`);
+
+// moment like
+/**
+ * @param {momentId} momentId moment Id
+ * @returns success
+ */
+export const addLikeMoment = (momentId) =>
+  patch("/moment/momentlike/" + momentId);
+/**
+ * @param {momentId} momentId moment Id
+ * @returns success
+ */
+export const removeLikeMoment = (momentId) =>
+  deleteReq("/moment/momentlike/" + momentId);
 
 /**
  * @param {object} data form info object
