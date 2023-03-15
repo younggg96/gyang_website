@@ -4,7 +4,7 @@ import useOnClickOutside from "../../hooks/useOnClickOutside";
 import { variants } from "../../helper/animation";
 import "./index.scss";
 
-const GyPopup = ({ open, setOpen, children }) => {
+const GyPopup = ({ open, setOpen, children, ...props }) => {
   const clickOutsideRef = useRef();
   useOnClickOutside(clickOutsideRef, () => setOpen(false));
 
@@ -13,6 +13,7 @@ const GyPopup = ({ open, setOpen, children }) => {
       variants={variants}
       initial="hidden"
       animate={open ? "show" : ""}
+      {...props}
     >
       {open && (
         <section ref={clickOutsideRef} className="gy-popup">

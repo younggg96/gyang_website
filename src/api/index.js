@@ -28,6 +28,13 @@ export const getArticleListByUserId = (curPage, userId) =>
 export const getMomentList = (curPage) => get("/moment?page=" + curPage);
 
 /**
+ * @param {number} curPage page
+ * @returns current user's moment list
+ */
+export const getMomentListByUser = (curPage) =>
+  get("/moment/user?page=" + curPage);
+
+/**
  * @param {number} userId user id
  * @param {number} curPage page number
  * @returns get moment list by using user id

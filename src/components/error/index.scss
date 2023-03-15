@@ -9,10 +9,25 @@
         @apply text-primary text-2xl;
       }
       .sub-title {
-        @apply text-sm text-text dark:text-textDark
+        @apply text-sm text-text dark:text-textDark;
       }
       img {
         @apply w-[60%];
+      }
+    }
+  }
+  .empty-section {
+    @apply container mx-auto w-[96%] flex flex-col-reverse items-center justify-center lg:w-full lg:flex-row gap-2 lg:gap-4;
+    .empty-img {
+      @apply flex flex-col items-center justify-center text-center py-8 px-4 gap-2 w-[80%] lg:w-[50%];
+      .title {
+        @apply text-primary text-2xl;
+      }
+      .sub-title {
+        @apply text-sm text-text dark:text-textDark;
+      }
+      img {
+        @apply w-[40%];
       }
     }
   }

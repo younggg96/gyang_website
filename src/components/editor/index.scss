@@ -23,4 +23,10 @@
   svg {
     @apply w-4 h-4;
   }
+  .add-emoji-btn {
+    @apply relative;
+    .emoji-popup {
+      @apply absolute top-[60px] right-0 z-50;
+    }
+  }
 }

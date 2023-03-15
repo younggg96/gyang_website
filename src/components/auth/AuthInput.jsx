@@ -1,7 +1,7 @@
-import { useState } from "react"
+import { useState } from "react";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 
-import './index.scss';
+import "./index.scss";
 
 export const PwdInput = ({ form, placeholder }) => {
   const [showPwd, setShowPwd] = useState(false);
@@ -21,7 +21,6 @@ export const PwdInput = ({ form, placeholder }) => {
       />
       {showPwd ? (
         <button
-          type="button"
           onClick={() => show(false)}
           className="show-eye-btn"
         >
@@ -29,7 +28,6 @@ export const PwdInput = ({ form, placeholder }) => {
         </button>
       ) : (
         <button
-          type="button"
           onClick={() => show(true)}
           className="show-eye-btn"
         >
@@ -53,9 +51,7 @@ export const EmailInput = ({ form }) => {
 };
 
 export const NormalInput = ({ form, type, category, required }) => {
-  const cateStr = `${category[0].toUpperCase()}${category
-    .slice(1)
-    .toLowerCase()}`;
+  const cateStr = `${category[0].toUpperCase()}${category.slice(1).toLowerCase()}`;
   return (
     <input
       className="input"

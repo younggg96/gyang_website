@@ -1,7 +1,11 @@
 import React, { useState, useEffect, createContext } from "react";
 import { useRequest } from "ahooks";
 // api
-import { getMomentList, getMomentListByUserId } from "../../api";
+import {
+  getMomentList,
+  getMomentListByUser,
+  getMomentListByUserId,
+} from "../../api";
 // components
 import UserHeader from "../user/UserHeader";
 import EditorInput from "../editor/EditorInput";
@@ -14,6 +18,7 @@ import GyPagination from "../../ui/GyPagination/GyPagination";
 import "./index.scss";
 import ActionsBox from "../comments/ActionsBox";
 import CommentList from "../comments/CommentList";
+import useAuth from "../../hooks/useAuth";
 
 export const commentContext = createContext();
 
@@ -49,16 +54,16 @@ const MomentItem = ({ data }) => {
     comment: {
       commentBoxOpened,
       setCommentBoxOpened,
-      momentComments,
+      commentData: momentComments,
     },
-    like: { liked, setLiked, momentlikes },
+    like: { liked, setLiked, likeData: momentlikes },
   };
   return (
     <li className="moment-item">
       {/* user header & moment date */}
       <section className="user">
         {user && <UserHeader user={user} size="sm" />}
-        <GyTime date={createdAt} className="date" />
+        <GyTime date={createdAt} className="date text-xs" />
       </section>
       {/* content */}
       <p className="content">{content}</p>
@@ -67,7 +72,7 @@ const MomentItem = ({ data }) => {
       {/* user actions */}
       <ActionsBox actions={actions} />
       {/* comment list */}
-      {commentBoxOpened && <CommentList momentComments={momentComments} />}
+      {commentBoxOpened && <CommentList data={momentComments} type="comment" />}
     </li>
   );
 };
@@ -77,7 +82,9 @@ const MomentList = ({ userId = null }) => {
   const [MomentList, setMomentList] = useState([]);
   const [pagination, setPagination] = useState();
 
-  const getData = !userId ? getMomentList : getMomentListByUserId;
+  const { state } = useAuth();
+  const getMoments = state.isAuth ? getMomentListByUser : getMomentList;
+  const getData = !userId ? getMoments : getMomentListByUserId;
 
   const { error, loading, run } = useRequest(getData, {
     manual: true,

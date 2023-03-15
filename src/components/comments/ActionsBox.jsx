@@ -13,11 +13,14 @@ import "./index.scss";
 import { useRequest } from "ahooks";
 // apis
 import { addLikeMoment, removeLikeMoment } from "../../api";
+import useAuth from "../../hooks/useAuth";
+import classNames from "classnames";
 
-const LinkBtn = ({ clickHandler, liked, likeCount }) => {
+const LinkBtn = ({ clickHandler, liked, likeCount, inactive }) => {
   const ref = useRef(0);
+
   return (
-    <>
+    <div className={classNames({ inactive }, "action-btn")}>
       <motion.button
         key={ref.current}
         animate={
@@ -32,18 +35,21 @@ const LinkBtn = ({ clickHandler, liked, likeCount }) => {
           clickHandler();
           ref.current++;
         }}
-        className="action-btn"
       >
         {liked ? (
           <MdFavorite color={colors.primary} />
         ) : (
           <MdFavoriteBorder color={colors.text} />
         )}
-        <span className="count">
-          {!!likeCount ? likeCount <= 1 ? `${likeCount} like` : `${likeCount} likes` : "Be the first to like it"}
-        </span>
       </motion.button>
-    </>
+      <span className="count">
+        {!!likeCount
+          ? likeCount <= 1
+            ? `${likeCount} like`
+            : `${likeCount} likes`
+          : "Be the first to like it"}
+      </span>
+    </div>
   );
 };
 
@@ -58,13 +64,14 @@ const CommentBtn = ({ commentBoxOpened, clickHandler, commentCount }) => {
   );
 };
 
-const ActionsBox = ({ actions }) => {
+const ActionsBox = ({ actions, className, ...props }) => {
   const { id, comment, like } = actions;
   const { addToast } = useToast();
+  const { state } = useAuth();
 
   // like
-  const { liked, setLiked, momentlikes } = like;
-  const [likeCount, setLikeCount] = useState(momentlikes.length);
+  const { liked, setLiked, likeData } = like;
+  const [likeCount, setLikeCount] = useState(likeData.length);
   const likeAct = !liked ? addLikeMoment : removeLikeMoment;
   const { error, loading, run } = useRequest(likeAct, {
     manual: true,
@@ -79,16 +86,23 @@ const ActionsBox = ({ actions }) => {
     },
   });
 
+  const clickLike = () => {
+    if (state.isAuth) {
+      run(id);
+    }
+  };
+
   // comments
-  const { commentBoxOpened, setCommentBoxOpened, momentComments } = comment;
+  const { commentBoxOpened, setCommentBoxOpened, commentData } = comment;
 
   return (
-    <ul className="flex gap-x-4">
+    <ul className={classNames(["flex gap-x-4", className])} {...props}>
       <li>
         <LinkBtn
-          clickHandler={() => run(id)}
+          clickHandler={clickLike}
           liked={liked}
           likeCount={likeCount}
+          inactive={!state.isAuth}
         />
       </li>
       <li>
@@ -97,7 +111,7 @@ const ActionsBox = ({ actions }) => {
           clickHandler={() => {
             setCommentBoxOpened(!commentBoxOpened);
           }}
-          commentCount={momentComments.length}
+          commentCount={commentData.length}
         />
       </li>
     </ul>

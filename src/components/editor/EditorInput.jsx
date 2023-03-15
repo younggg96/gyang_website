@@ -1,21 +1,25 @@
 import React from "react";
 import "./index.scss";
 import GyButton from "../../ui/GyButton/GyButton";
-import GyInput from "../../ui/GyInput/GyInput";
+// import GyInput from "../../ui/GyInput/GyInput";
 import EditorIcons from "./EditorIcons";
+import AddEmojiBtn from "./AddEmojiBtn";
 
 const EditorInput = () => {
+  const emojiClickHandler = (e) => {
+    console.log(e);
+  };
   return (
     <form>
       <div className="editor-wapper">
         <div className="editor-content">
           <textarea
-            id="Moment"
+            id="moment"
             rows="4"
             placeholder="Write a moment..."
             required
           ></textarea>
-          <label htmlFor="Moment" className="sr-only">
+          <label htmlFor="moment" className="sr-only">
             Your Moment
           </label>
         </div>
@@ -24,14 +28,11 @@ const EditorInput = () => {
             Post moment
           </GyButton>
           <div className="other-btns">
-            <GyButton size={["sm", "round"]}>
-              <EditorIcons.EmojiIcon />
-              <span className="sr-only">Attach file</span>
-            </GyButton>
-            <GyButton size={["sm", "round"]}>
+            <AddEmojiBtn emojiClickHandler={emojiClickHandler} />
+            {/* <GyButton size={["sm", "round"]}>
               <EditorIcons.LocationIcon />
               <span className="sr-only">Share Location</span>
-            </GyButton>
+            </GyButton> */}
             <GyButton size={["sm", "round"]}>
               <EditorIcons.UploadImgIcon />
               <span className="sr-only">Upload image</span>

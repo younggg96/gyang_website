@@ -9,16 +9,24 @@
     svg {
       @apply w-6 h-6;
     }
+    &.inactive {
+      button {
+        cursor: unset;
+      }
+    }
   }
 
   .comments-list {
     @apply border border-border p-4 rounded-2xl shadow-sm dark:shadow-none dark:border-borderDark;
     .title {
-      @apply text-text dark:text-primary;
+      @apply text-text dark:text-primary mb-2;
+    }
+    .error-msg {
+      @apply text-error;
     }
     .comment-input {
-      @apply flex gap-4 mb-4;
-      .right {
+      @apply flex gap-4 px-4 py-2;
+      form {
         @apply flex-1;
         .btns {
           @apply flex gap-2;
@@ -34,11 +42,11 @@
     .comments-content {
       @apply flex flex-col gap-2;
       .comments-item {
-        @apply flex flex-col gap-4 p-4 border-b-[1px] border-border dark:border-borderDark;
-        .top {
+        @apply flex flex-col gap-4 px-4 py-2 border-b-[1px] last:border-b-0 border-border dark:border-borderDark;
+        .user {
           @apply flex items-center justify-between;
         }
-        .mid {
+        .content {
           @apply mb-2 text-text dark:text-textDark;
         }
       }
