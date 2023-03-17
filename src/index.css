@@ -29,6 +29,9 @@
   .link {
     @apply hover:underline cursor-pointer hover:text-primary;
   }
+  .date {
+    @apply text-xs dark:text-textDark;
+  }
   hr {
     @apply my-4 border-0 h-px bg-border dark:bg-borderDark;
   }

@@ -17,9 +17,6 @@
         .content {
           @apply w-full dark:text-textDark;
         }
-        .date {
-          @apply text-xs dark:text-textDark;
-        }
         .imgs {
           @apply flex items-center gap-2;
           img {

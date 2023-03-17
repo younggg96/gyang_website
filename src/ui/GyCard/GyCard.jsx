@@ -5,8 +5,12 @@ import classNames from "classnames";
 const GyCard = ({ title, children, className, ...props }) => {
   return (
     <div className={classNames("gy-card", className)} {...props}>
-      <header className="header-title title">{title}</header>
-      <hr />
+      {title && (
+        <>
+          <header className="header-title title">{title}</header>
+          <hr />
+        </>
+      )}
       {children}
     </div>
   );

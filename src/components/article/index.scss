@@ -32,9 +32,6 @@
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
           }
-          .date {
-            @apply text-xs dark:text-textDark;
-          }
         }
         &:first-child {
           border-top-left-radius: 1rem;
@@ -70,7 +67,7 @@
       @apply text-3xl;
     }
     &-top {
-      @apply flex items-center gap-8 mt-2 mb-8 px-4;
+      @apply flex items-center justify-between gap-8 mt-2 mb-8 px-4;
     }
     &-body {
       @apply px-4;

@@ -54,9 +54,9 @@ const MomentItem = ({ data }) => {
     comment: {
       commentBoxOpened,
       setCommentBoxOpened,
-      commentData: momentComments,
+      commentData: momentComments.length,
     },
-    like: { liked, setLiked, likeData: momentlikes },
+    like: { liked, setLiked, likeData: momentlikes.length },
   };
   return (
     <li className="moment-item">

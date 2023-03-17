@@ -64,14 +64,14 @@ const CommentBtn = ({ commentBoxOpened, clickHandler, commentCount }) => {
   );
 };
 
-const ActionsBox = ({ actions, className, ...props }) => {
+const ActionsBox = ({ actions, className, clickCommentHandler, ...props }) => {
   const { id, comment, like } = actions;
   const { addToast } = useToast();
   const { state } = useAuth();
 
   // like
-  const { liked, setLiked, likeData } = like;
-  const [likeCount, setLikeCount] = useState(likeData.length);
+  const { liked, setLiked, count } = like;
+  const [likeCount, setLikeCount] = useState(count);
   const likeAct = !liked ? addLikeMoment : removeLikeMoment;
   const { error, loading, run } = useRequest(likeAct, {
     manual: true,
@@ -93,7 +93,7 @@ const ActionsBox = ({ actions, className, ...props }) => {
   };
 
   // comments
-  const { commentBoxOpened, setCommentBoxOpened, commentData } = comment;
+  const { commentBoxOpened, commentCount } = comment;
 
   return (
     <ul className={classNames(["flex gap-x-4", className])} {...props}>
@@ -108,10 +108,8 @@ const ActionsBox = ({ actions, className, ...props }) => {
       <li>
         <CommentBtn
           commentBoxOpened={commentBoxOpened}
-          clickHandler={() => {
-            setCommentBoxOpened(!commentBoxOpened);
-          }}
-          commentCount={commentData.length}
+          clickHandler={() => clickCommentHandler()}
+          commentCount={commentCount}
         />
       </li>
     </ul>

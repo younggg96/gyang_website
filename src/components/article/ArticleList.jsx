@@ -11,8 +11,9 @@ import { getArticleList, getArticleListByUserId } from "../../api";
 import GyLoader from "../../ui/GyLoader/GyLoader";
 import Categories from "./Categories";
 
-const ArticleItem = (props) => {
-  const { title, img, description, createdAt, categories, id } = props.data;
+const ArticleItem = ({ data }) => {
+  const { title, img, description, createdAt, categories, id } = data;
+
   return (
     <li className="article-item">
       <div className="left">
@@ -23,7 +24,7 @@ const ArticleItem = (props) => {
           <Link to={`/article/${id}`}>{title}</Link>
         </h2>
         <div className="user">
-          {props.data.user && <UserHeader user={props.data.user} size="sm" />}
+          {data.user && <UserHeader user={data.user} size="sm" />}
           <GyTime date={createdAt} className="date" />
         </div>
         <p className="content">{description}</p>

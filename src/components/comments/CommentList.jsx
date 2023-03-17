@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./index.scss";
 import GyAvatar from "../../ui/GyAvatar/GyAvatar";
 import useAuth from "../../hooks/useAuth";
@@ -8,11 +8,13 @@ import UserHeader from "../user/UserHeader";
 import GyTime from "../../ui/GyTime/GyTime";
 import GyInput from "../../ui/GyInput/GyInput";
 import { useForm } from "react-hook-form";
-import Error from "../error/Error";
 import EmptyData from "../error/EmptyData";
 import GyPopup from "../../ui/GyPopup";
 import EmojiPicker from "emoji-picker-react";
 import ActionsBox from "./ActionsBox";
+import { useRequest } from "ahooks";
+import { getChildrenCommentsByPid } from "../../api/comment";
+import { LevelContext } from "../article/ArticleDetails";
 
 const CommentInput = () => {
   const { state } = useAuth();
@@ -78,56 +80,53 @@ const CommentInput = () => {
 };
 
 const CommentItem = ({ data, ...props }) => {
-  const { content, createdAt, user, id, reply } = data;
+  const { content, createdAt, user, id, _count } = data;
   const [commentBoxOpened, setCommentBoxOpened] = useState(false);
+  const [replies, setReplies] = useState({ meta: {}, data: {} });
   const [liked, setLiked] = useState(false);
+  const { level, setLevel, setCurComment } = useContext(LevelContext);
   const actions = {
     id,
     comment: {
       commentBoxOpened,
-      setCommentBoxOpened,
-      commentData: reply,
+      commentCount: _count.replies,
     },
-    like: { liked, setLiked, likeData: [1, 2, 3] },
+    like: { liked, setLiked, count: 3 },
   };
-  return (
-    <div className="comments-item" {...props}>
-      <section className="user">
-        {user && <UserHeader user={user} size="sm" />}
-        <GyTime date={createdAt} className="date text-xs" />
-      </section>
-      <p className="content">{content}</p>
-      <ActionsBox actions={actions} className="mb-2" />
-      {/* comment list */}
-      {commentBoxOpened && <CommentList data={reply} type="reply" />}
-    </div>
-  );
-};
 
-const ReplyItem = ({ data, ...props }) => {
-  const { content, createdAt, user, id } = data;
-  // const [commentBoxOpened, setCommentBoxOpened] = useState(false);
-  // const [liked, setLiked] = useState(false);
-  // const actions = {
-  //   id,
-  //   comment: {
-  //     commentBoxOpened,
-  //     setCommentBoxOpened,
-  //     commentData: reply,
-  //   },
-  //   like: { liked, setLiked, likeData: [1, 2, 3] },
-  // };
+  const { error, loading, run } = useRequest(getChildrenCommentsByPid, {
+    manual: true,
+    onSuccess: (result, params) => {
+      setCommentBoxOpened(!commentBoxOpened);
+      setReplies(result);
+      setLevel(level + 1);
+      if (level === 1) {
+        setCurComment(result.data);
+      }
+    },
+  });
+
+  const clickCommentHandler = (pid) => {
+    run(1, 3, pid);
+  };
+
   return (
     <div className="comments-item" {...props}>
       <section className="user">
         {user && <UserHeader user={user} size="sm" />}
-        <GyTime date={createdAt} className="date text-xs" />
+        <GyTime date={createdAt} className="date" />
       </section>
+      {level}
       <p className="content">{content}</p>
-      {/* <ActionsBox actions={actions} className="mb-2" /> */}
+      <ActionsBox
+        actions={actions}
+        className="mb-2"
+        clickCommentHandler={() => clickCommentHandler(id)}
+      />
       {/* comment list */}
-      {/* {JSON.stringify(reply)}
-      {commentBoxOpened && <CommentList data={reply} type="reply" />} */}
+      {commentBoxOpened && replies?.data && !loading && (
+        <CommentList data={replies?.data} type="comment2" level={level} />
+      )}
     </div>
   );
 };
@@ -166,11 +165,13 @@ const CommentList = ({ data, type }) => {
           </div>
         </>
       )}
-      {type === "reply" && (
+      {type === "comment2" && (
         <>
+          {isAuth && <CommentInput />}
+          <CommentTitle data={data} />
           <div className="comments-content">
             {data.map((item) => {
-              return <ReplyItem data={item} key={item.id} />;
+              return <CommentItem data={item} key={item.id} />;
             })}
           </div>
         </>
