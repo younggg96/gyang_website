@@ -15,6 +15,7 @@ import { useRequest } from "ahooks";
 import { addLikeMoment, removeLikeMoment } from "../../api";
 import useAuth from "../../hooks/useAuth";
 import classNames from "classnames";
+import GyButton from "../../ui/GyButton/GyButton";
 
 const LinkBtn = ({ clickHandler, liked, likeCount, inactive }) => {
   const ref = useRef(0);
@@ -56,15 +57,52 @@ const LinkBtn = ({ clickHandler, liked, likeCount, inactive }) => {
 const CommentBtn = ({ commentBoxOpened, clickHandler, commentCount }) => {
   return (
     <button className="action-btn" onClick={() => clickHandler()}>
-      <BiCommentDetail
-        color={commentBoxOpened ? colors.primary : colors.text}
-      />
-      <span className="count">{commentCount}</span>
+      {!!commentCount && (
+        <>
+          <BiCommentDetail
+            color={commentBoxOpened ? colors.primary : colors.text}
+          />
+          <span className="count">
+            {commentCount} {commentCount > 1 ? "replies" : "reply"}
+          </span>
+        </>
+      )}
     </button>
   );
 };
 
-const ActionsBox = ({ actions, className, clickCommentHandler, ...props }) => {
+const CommentArticleBtn = ({ clickHandler, commentCount }) => {
+  return (
+    <button className="action-btn" onClick={() => clickHandler()}>
+      {!!commentCount && (
+        <>
+          <BiCommentDetail color={colors.text} />
+          <span className="count">
+            {commentCount} {commentCount > 1 ? "replies" : "reply"}
+          </span>
+        </>
+      )}
+    </button>
+  );
+};
+
+const ReplyBtn = ({ clickHandler }) => {
+  const [show, setShow] = useState(false);
+  return (
+    <GyButton
+      size={["sm", "round"]}
+      onClick={() => {
+        setShow(!show);
+        clickHandler();
+      }}
+      className="!m-0"
+    >
+      {!show ? "Reply" : "Hide reply"}
+    </GyButton>
+  );
+};
+
+const ActionsBox = ({ actions, className, clickBtnHandler, ...props }) => {
   const { id, comment, like } = actions;
   const { addToast } = useToast();
   const { state } = useAuth();
@@ -96,7 +134,10 @@ const ActionsBox = ({ actions, className, clickCommentHandler, ...props }) => {
   const { commentBoxOpened, commentCount } = comment;
 
   return (
-    <ul className={classNames(["flex gap-x-4", className])} {...props}>
+    <ul
+      className={classNames(["flex items-center gap-x-4", className])}
+      {...props}
+    >
       <li>
         <LinkBtn
           clickHandler={clickLike}
@@ -108,11 +149,72 @@ const ActionsBox = ({ actions, className, clickCommentHandler, ...props }) => {
       <li>
         <CommentBtn
           commentBoxOpened={commentBoxOpened}
-          clickHandler={() => clickCommentHandler()}
+          clickHandler={() => clickBtnHandler("commentBtn")}
           commentCount={commentCount}
         />
       </li>
+      <li className="ml-auto">
+        <ReplyBtn clickHandler={() => clickBtnHandler("replyBtn")} />
+      </li>
     </ul>
+  );
+};
+
+export const ActionsFlowBox = ({
+  actions,
+  className,
+  clickBtnHandler,
+  ...props
+}) => {
+  const { id, comment, like } = actions;
+  const { addToast } = useToast();
+  const { state } = useAuth();
+
+  // like
+  const { liked, setLiked, count } = like;
+  const [likeCount, setLikeCount] = useState(count);
+  // const likeAct = !liked ? addLikeMoment : removeLikeMoment;
+  // const { error, loading, run } = useRequest(likeAct, {
+  //   manual: true,
+  //   onSuccess: (result, params) => {
+  //     setLiked(!liked);
+  //     setLikeCount(result.data?.count);
+  //     addToast({
+  //       content: result.data?.success,
+  //       time: TIME.SHORT,
+  //       type: TYPE.SUCCESS,
+  //     });
+  //   },
+  // });
+
+  const clickLike = () => {
+    if (state.isAuth) {
+      // run(id);
+    }
+  };
+
+  // comments
+  const { commentCount } = comment;
+
+  return (
+    <div className="action-flow-box">
+      <ul className={classNames(["btns", className])} {...props}>
+        <li>
+          <LinkBtn
+            clickHandler={clickLike}
+            liked={liked}
+            likeCount={likeCount}
+            inactive={!state.isAuth}
+          />
+        </li>
+        <li>
+          <CommentArticleBtn
+            clickHandler={() => clickBtnHandler("commentBtn")}
+            commentCount={commentCount}
+          />
+        </li>
+      </ul>
+    </div>
   );
 };
 

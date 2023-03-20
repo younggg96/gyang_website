@@ -4,10 +4,10 @@
   .page-section {
     @apply container mx-auto w-[96%] flex flex-col-reverse lg:w-full lg:flex-row gap-2 lg:gap-4;
     .left-section {
-      @apply flex-1;
+      @apply w-full lg:w-3/4;
     }
     .right-section {
-      @apply w-full lg:w-[300px];
+      @apply w-full lg:w-1/4;
     }
   }
   .page-loading {

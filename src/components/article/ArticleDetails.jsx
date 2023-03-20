@@ -1,16 +1,59 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useState } from "react";
 import "./index.scss";
+import "../comments/index.scss";
 import GyCard from "../../ui/GyCard/GyCard";
 import UserHeader from "../user/UserHeader";
 import GyTime from "../../ui/GyTime/GyTime";
-import CommentList from "../comments/CommentList";
+import CommentList, { CommentInput } from "../comments/CommentList";
+import { useRequest } from "ahooks";
+import { getChildrenCommentsByPid } from "../../api/comment";
+import useAuth from "../../hooks/useAuth";
+import { ActionsFlowBox } from "../comments/ActionsBox";
 
 export const LevelContext = createContext();
 
 const ArticleDetails = ({ data }) => {
-  const { title, user, createdAt, description, img, content, comments } = data;
+  const {
+    title,
+    user,
+    createdAt,
+    description,
+    img,
+    content,
+    comments,
+    commentCount,
+    id,
+  } = data;
   const [curComment, setCurComment] = useState();
   const [level, setLevel] = useState(0);
+  const { state } = useAuth();
+  const { isAuth } = state;
+
+  const [liked, setLiked] = useState(false);
+  const actions = {
+    id,
+    comment: {
+      commentCount,
+    },
+    like: { liked, setLiked, count: 3 },
+  };
+
+  const clickCommentBtn = () => {};
+
+  const clickReplyBtn = () => {};
+
+  const clickBtnHandler = (type) => {
+    switch (type) {
+      case "commentBtn":
+        clickCommentBtn();
+        break;
+      case "replyBtn":
+        clickReplyBtn();
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <section className="article-details">
@@ -23,18 +66,19 @@ const ArticleDetails = ({ data }) => {
           <p className="article-desc title">" {description} "</p>
           <img src={img} alt="article cover" className="article-img" />
           <p className="article-content">{content}</p>
+          <ActionsFlowBox
+            actions={actions}
+            clickBtnHandler={(type) => clickBtnHandler(type)}
+          />
         </section>
       </GyCard>
       <section className="article-comments">
-        <GyCard>
-          {level}
-          <LevelContext.Provider value={{ level, setLevel, setCurComment }}>
-            {level <= 1 ? (
-              <CommentList data={comments} type="comment2" />
-            ) : (
-              <CommentList data={curComment} type="comment2" />
-            )}
-            <div onClick={() => setLevel(0)}>back</div>
+        <GyCard className="min-h-[600px]">
+          <LevelContext.Provider
+            value={{ level, setLevel, setCurComment }}
+          >
+            {isAuth && <CommentInput type="comments" />}
+            <CommentList data={comments} count={commentCount} type="comments" />
           </LevelContext.Provider>
         </GyCard>
       </section>

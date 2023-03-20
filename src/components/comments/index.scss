@@ -16,14 +16,41 @@
     }
   }
 
+  .action-flow-box {
+    @apply sticky flex justify-center items-center bottom-6;
+    .btns {
+      @apply flex items-center gap-x-4 p-4 border border-border rounded-full bg-white shadow-lg
+      dark:bg-primaryDark dark:border-borderDark dark:shadow-none;
+    }
+  }
+
   .comments-list {
-    @apply border border-border p-4 rounded-2xl shadow-sm dark:shadow-none dark:border-borderDark;
-    .title {
-      @apply text-text dark:text-primary mb-2;
+    @apply border border-border p-4 rounded-2xl shadow-sm mb-4
+    dark:shadow-none dark:border-borderDark;
+    .comments-content {
+      @apply flex flex-col gap-2;
+      .comments-item {
+        @apply flex flex-col gap-4 p-4 border-b-[1px] last:border-b-0 border-border dark:border-borderDark;
+        .user {
+          @apply flex items-center justify-between;
+        }
+        .content {
+          @apply mb-2 text-text dark:text-textDark;
+        }
+      }
     }
-    .error-msg {
-      @apply text-error;
-    }
+  }
+
+  .title {
+    @apply text-text dark:text-primary mb-2;
+  }
+
+  .error-msg {
+    @apply text-error;
+  }
+
+  .comment-editor {
+    @apply p-2;
     .comment-input {
       @apply flex gap-4 px-4 py-2;
       form {
@@ -36,18 +63,6 @@
           .post-btn {
             @apply ml-auto;
           }
-        }
-      }
-    }
-    .comments-content {
-      @apply flex flex-col gap-2;
-      .comments-item {
-        @apply flex flex-col gap-4 px-4 py-2 border-b-[1px] last:border-b-0 border-border dark:border-borderDark;
-        .user {
-          @apply flex items-center justify-between;
-        }
-        .content {
-          @apply mb-2 text-text dark:text-textDark;
         }
       }
     }

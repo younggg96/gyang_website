@@ -15,8 +15,27 @@ import ActionsBox from "./ActionsBox";
 import { useRequest } from "ahooks";
 import { getChildrenCommentsByPid } from "../../api/comment";
 import { LevelContext } from "../article/ArticleDetails";
+import { getTheme } from "../../helper/theme";
+import GyCard from "../../ui/GyCard/GyCard";
+import GyLoader from "../../ui/GyLoader/GyLoader";
 
-const CommentInput = () => {
+const InputPropsComment = {
+  title: "Comment",
+  num: "Comments",
+  empty: "No Comments Yet...",
+  placeholder: "Leave your comment...",
+  required: "Please enter your comment...",
+};
+
+const InputPropsReply = {
+  title: "Reply",
+  num: "Replies",
+  empty: "No Replies Yet...",
+  placeholder: "Leave your reply...",
+  required: "Please enter your reply...",
+};
+
+export const CommentInput = ({ type }) => {
   const { state } = useAuth();
   const { user } = state;
   const [open, setOpen] = useState(false);
@@ -30,18 +49,28 @@ const CommentInput = () => {
   };
 
   return (
-    <>
-      <h2 className="title">Your Comments:</h2>
+    <section className="comment-editor">
+      <h2 className="title">
+        Your{" "}
+        {type === "comments" ? InputPropsComment.title : InputPropsReply.title}:
+      </h2>
       <div className="comment-input">
         <GyAvatar src={user?.avatar} className="avatar" />
         <form onSubmit={handleSubmit(onSubmit)}>
           <GyInput
-            placeholder="Leave your comments..."
+            placeholder={
+              type === "comments"
+                ? InputPropsComment.placeholder
+                : InputPropsReply.placeholder
+            }
             className="mb-2"
             type="text"
             name="comment"
             form={register("comment", {
-              required: "Please enter your comments...",
+              required:
+                type === "comments"
+                  ? InputPropsComment.required
+                  : InputPropsReply.required,
             })}
           />
           {errors.comment && (
@@ -54,8 +83,8 @@ const CommentInput = () => {
                   <EditorIcons.EmojiIcon />
                   <span className="sr-only">Add Emoji</span>
                 </GyButton>
-                <GyPopup open={open} setOpen={setOpen} className>
-                  <EmojiPicker lazyLoadEmojis={true} theme={"auto"} />
+                <GyPopup open={open} setOpen={setOpen}>
+                  <EmojiPicker lazyLoadEmojis={true} theme={getTheme()} />
                 </GyPopup>
               </div>
               <GyButton size={["sm", "round"]}>
@@ -74,17 +103,27 @@ const CommentInput = () => {
           </div>
         </form>
       </div>
-      <hr />
-    </>
+    </section>
   );
 };
 
-const CommentItem = ({ data, ...props }) => {
-  const { content, createdAt, user, id, _count } = data;
+export const CommentItem = ({ data, ...props }) => {
+  const {
+    content,
+    createdAt,
+    user,
+    id,
+    parentId,
+    replyTo,
+    replyToComment,
+    _count,
+  } = data;
   const [commentBoxOpened, setCommentBoxOpened] = useState(false);
-  const [replies, setReplies] = useState({ meta: {}, data: {} });
+  const [replies, setReplies] = useState();
   const [liked, setLiked] = useState(false);
-  const { level, setLevel, setCurComment } = useContext(LevelContext);
+  const [openInput, setOpenInput] = useState(false);
+  const { level, setLevel, setCurComment, getChildrenData } =
+    useContext(LevelContext);
   const actions = {
     id,
     comment: {
@@ -97,85 +136,109 @@ const CommentItem = ({ data, ...props }) => {
   const { error, loading, run } = useRequest(getChildrenCommentsByPid, {
     manual: true,
     onSuccess: (result, params) => {
-      setCommentBoxOpened(!commentBoxOpened);
       setReplies(result);
-      setLevel(level + 1);
-      if (level === 1) {
-        setCurComment(result.data);
-      }
     },
   });
 
-  const clickCommentHandler = (pid) => {
-    run(1, 3, pid);
+  const clickCommentBtn = () => {
+    setCommentBoxOpened(!commentBoxOpened);
+    run(1, 3, id);
+  };
+
+  const clickReplyBtn = () => {
+    setOpenInput(!openInput);
+  };
+
+  const clickBtnHandler = (type) => {
+    switch (type) {
+      case "commentBtn":
+        clickCommentBtn();
+        break;
+      case "replyBtn":
+        clickReplyBtn();
+        break;
+      default:
+        break;
+    }
   };
 
   return (
     <div className="comments-item" {...props}>
       <section className="user">
-        {user && <UserHeader user={user} size="sm" />}
+        <div className="flex items-center">
+          {user && <UserHeader user={user} size="sm" />}
+          {replyToComment && (
+            <>
+              <span className="mx-4 px-[8px] dark:text-text text-textDark rounded-md dark:bg-background bg-backgroundDark">
+                Replied
+              </span>
+              <UserHeader user={replyToComment.user} size="sm" />
+            </>
+          )}
+        </div>
         <GyTime date={createdAt} className="date" />
       </section>
-      {level}
       <p className="content">{content}</p>
       <ActionsBox
         actions={actions}
-        className="mb-2"
-        clickCommentHandler={() => clickCommentHandler(id)}
+        clickBtnHandler={(type) => clickBtnHandler(type)}
       />
+      {/* comment input */}
+      {openInput && (
+        <GyCard>
+          <CommentInput type={"reply"} />
+        </GyCard>
+      )}
       {/* comment list */}
-      {commentBoxOpened && replies?.data && !loading && (
-        <CommentList data={replies?.data} type="comment2" level={level} />
+      {commentBoxOpened && (
+        <>
+          {loading && <GyLoader />}
+          {!loading && (
+            <CommentList
+              data={replies.data}
+              count={replies?.meta.total}
+              type="reply"
+            />
+          )}
+        </>
       )}
     </div>
   );
 };
 
-const CommentTitle = ({ data }) => {
-  return (
-    <>
-      <h2 className="title">
-        Comments {!!data.length && <span>({data.length})</span>}
-      </h2>
-      {!data.length && (
-        <EmptyData
-          content={{
-            sub: "No Comments Yet...",
-          }}
-        ></EmptyData>
-      )}
-    </>
-  );
-};
+const CommentList = ({ data, count, type }) => {
+  const CommentTitle = () => {
+    return (
+      <>
+        <h2 className="title">
+          {type === "comments" ? InputPropsComment.num : InputPropsReply.num}{" "}
+          {!!count && <span>({count})</span>}
+        </h2>
+        {!count && (
+          <EmptyData
+            content={{
+              sub:
+                type === "comments"
+                  ? InputPropsComment.empty
+                  : InputPropsReply.empty,
+            }}
+          ></EmptyData>
+        )}
+      </>
+    );
+  };
 
-const CommentList = ({ data, type }) => {
-  const { state } = useAuth();
-  const { isAuth } = state;
-
   return (
-    <section className="comments-list mb-4">
-      {type === "comment" && (
-        <>
-          {isAuth && <CommentInput />}
-          <CommentTitle data={data} />
-          <div className="comments-content">
-            {data.map((item) => {
-              return <CommentItem data={item} key={item.id} />;
-            })}
-          </div>
-        </>
-      )}
-      {type === "comment2" && (
-        <>
-          {isAuth && <CommentInput />}
-          <CommentTitle data={data} />
-          <div className="comments-content">
-            {data.map((item) => {
-              return <CommentItem data={item} key={item.id} />;
-            })}
-          </div>
-        </>
-      )}
+    <section className="comments-list">
+      <CommentTitle />
+      <div className="comments-content">
+        {data.map((item) => {
+          return <CommentItem data={item} key={item.id} />;
+        })}
+        <GyButton size={["sm", "round"]} className="mr-auto">
+          Show more {type === "comments" ? "comments" : "replies"}
+        </GyButton>
+      </div>
     </section>
   );
 };

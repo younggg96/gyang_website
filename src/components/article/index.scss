@@ -78,6 +78,18 @@
         @apply mb-8 rounded-2xl;
       }
       .article-content {
+        @apply mb-4;
+      }
+    }
+  }
+  .article-comments {
+    .comments-item {
+      @apply flex flex-col gap-4 px-4 py-2 border-b-[1px] border-border dark:border-borderDark;
+      .user {
+        @apply flex items-center justify-between;
+      }
+      .content {
+        @apply mb-2 text-text dark:text-textDark;
       }
     }
   }
