@@ -55,18 +55,15 @@ const LinkBtn = ({ clickHandler, liked, likeCount, inactive }) => {
 };
 
 const CommentBtn = ({ commentBoxOpened, clickHandler, commentCount }) => {
+  if (!commentCount) return null;
   return (
     <button className="action-btn" onClick={() => clickHandler()}>
-      {!!commentCount && (
-        <>
-          <BiCommentDetail
-            color={commentBoxOpened ? colors.primary : colors.text}
-          />
-          <span className="count">
-            {commentCount} {commentCount > 1 ? "replies" : "reply"}
-          </span>
-        </>
-      )}
+      <BiCommentDetail
+        color={commentBoxOpened ? colors.primary : colors.text}
+      />
+      <span className="count">
+        {commentCount} {commentCount > 1 ? "replies" : "reply"}
+      </span>
     </button>
   );
 };
@@ -74,14 +71,10 @@ const CommentBtn = ({ commentBoxOpened, clickHandler, commentCount }) => {
 const CommentArticleBtn = ({ clickHandler, commentCount }) => {
   return (
     <button className="action-btn" onClick={() => clickHandler()}>
-      {!!commentCount && (
-        <>
-          <BiCommentDetail color={colors.text} />
-          <span className="count">
-            {commentCount} {commentCount > 1 ? "replies" : "reply"}
-          </span>
-        </>
-      )}
+      <BiCommentDetail color={colors.text} />
+      <span className="count">
+        {commentCount} {commentCount > 1 ? "replies" : "reply"}
+      </span>
     </button>
   );
 };

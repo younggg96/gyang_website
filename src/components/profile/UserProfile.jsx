@@ -39,23 +39,17 @@ const UserProfile = ({ userEmail }) => {
 const AboutUser = ({ profile }) => {
   return (
     <div className="about-user">
-      <GyCard title={"About"}>
-        {profile ? (
-          <>
-            <p className="user-bio">"{profile?.bio}"</p>
-            <section className="user-social">
-              <GySocial
-                data={{
-                  github: profile?.github,
-                  linkedin: profile?.linkedin,
-                  facebook: profile?.facebook,
-                }}
-              />
-            </section>
-          </>
-        ) : (
-          <GyLoader />
-        )}
+      <GyCard title={"About me"}>
+        <p className="user-bio">"{profile.bio}"</p>
+        <section className="user-social">
+          <GySocial
+            data={{
+              github: profile.github,
+              linkedin: profile.linkedin,
+              facebook: profile.facebook,
+            }}
+          />
+        </section>
       </GyCard>
     </div>
   );

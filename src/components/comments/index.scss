@@ -19,7 +19,7 @@
   .action-flow-box {
     @apply sticky flex justify-center items-center bottom-6;
     .btns {
-      @apply flex items-center gap-x-4 p-4 border border-border rounded-full bg-white shadow-lg
+      @apply flex items-center gap-x-4 p-4 px-8 border border-border rounded-full bg-white shadow-lg
       dark:bg-primaryDark dark:border-borderDark dark:shadow-none;
     }
   }
