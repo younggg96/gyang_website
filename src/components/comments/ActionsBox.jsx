@@ -95,7 +95,13 @@ const ReplyBtn = ({ clickHandler }) => {
   );
 };
 
-const ActionsBox = ({ actions, className, clickBtnHandler, ...props }) => {
+const ActionsBox = ({
+  actions,
+  className,
+  clickBtnHandler,
+  type,
+  ...props
+}) => {
   const { id, comment, like } = actions;
   const { addToast } = useToast();
   const { state } = useAuth();
@@ -139,13 +145,15 @@ const ActionsBox = ({ actions, className, clickBtnHandler, ...props }) => {
           inactive={!state.isAuth}
         />
       </li>
-      <li>
-        <CommentBtn
-          commentBoxOpened={commentBoxOpened}
-          clickHandler={() => clickBtnHandler("commentBtn")}
-          commentCount={commentCount}
-        />
-      </li>
+      {type !== "reply" && (
+        <li>
+          <CommentBtn
+            commentBoxOpened={commentBoxOpened}
+            clickHandler={() => clickBtnHandler("commentBtn")}
+            commentCount={commentCount}
+          />
+        </li>
+      )}
       <li className="ml-auto">
         <ReplyBtn clickHandler={() => clickBtnHandler("replyBtn")} />
       </li>

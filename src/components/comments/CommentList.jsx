@@ -1,23 +1,27 @@
-import React, { useContext, useState } from "react";
-import "./index.scss";
-import GyAvatar from "../../ui/GyAvatar/GyAvatar";
+import React, { useState } from "react";
+import { useRequest } from "ahooks";
+import { useForm } from "react-hook-form";
+import EmojiPicker from "emoji-picker-react";
+// apis
+import { getChildrenCommentsByPid } from "../../api/comment";
+// hooks
 import useAuth from "../../hooks/useAuth";
-import GyButton from "../../ui/GyButton/GyButton";
+import { getTheme } from "../../helper/theme";
+// components
+import ActionsBox from "./ActionsBox";
+import EmptyData from "../error/EmptyData";
 import EditorIcons from "../editor/EditorIcons";
 import UserHeader from "../user/UserHeader";
+// ui
+import GyPopup from "../../ui/GyPopup";
+import GyAvatar from "../../ui/GyAvatar/GyAvatar";
+import GyButton from "../../ui/GyButton/GyButton";
 import GyTime from "../../ui/GyTime/GyTime";
 import GyInput from "../../ui/GyInput/GyInput";
-import { useForm } from "react-hook-form";
-import EmptyData from "../error/EmptyData";
-import GyPopup from "../../ui/GyPopup";
-import EmojiPicker from "emoji-picker-react";
-import ActionsBox from "./ActionsBox";
-import { useRequest } from "ahooks";
-import { getChildrenCommentsByPid } from "../../api/comment";
-import { LevelContext } from "../article/ArticleDetails";
-import { getTheme } from "../../helper/theme";
 import GyCard from "../../ui/GyCard/GyCard";
 import GyLoader from "../../ui/GyLoader/GyLoader";
+// scss
+import "./index.scss";
 
 const InputPropsComment = {
   title: "Comment",
@@ -107,14 +111,12 @@ export const CommentInput = ({ type }) => {
   );
 };
 
-export const CommentItem = ({ data, ...props }) => {
+export const CommentItem = ({ data, type, ...props }) => {
   const {
     content,
     createdAt,
     user,
     id,
-    parentId,
-    replyTo,
     replyToComment,
     _count,
   } = data;
@@ -122,8 +124,6 @@ export const CommentItem = ({ data, ...props }) => {
   const [replies, setReplies] = useState();
   const [liked, setLiked] = useState(false);
   const [openInput, setOpenInput] = useState(false);
-  const { level, setLevel, setCurComment, getChildrenData } =
-    useContext(LevelContext);
   const actions = {
     id,
     comment: {
@@ -180,13 +180,14 @@ export const CommentItem = ({ data, ...props }) => {
       </section>
       <p className="content">{content}</p>
       <ActionsBox
+        type={type}
         actions={actions}
         clickBtnHandler={(type) => clickBtnHandler(type)}
       />
       {/* comment input */}
       {openInput && (
         <GyCard>
-          <CommentInput type={"reply"} />
+          <CommentInput type={type} />
         </GyCard>
       )}
       {/* comment list */}
@@ -233,7 +234,7 @@ const CommentList = ({ data, count, type }) => {
       <CommentTitle />
       <div className="comments-content">
         {data.map((item) => {
-          return <CommentItem data={item} key={item.id} />;
+          return <CommentItem data={item} key={item.id} type={type} />;
         })}
         <GyButton size={["sm", "round"]} className="mr-auto">
           Show more {type === "comments" ? "comments" : "replies"}

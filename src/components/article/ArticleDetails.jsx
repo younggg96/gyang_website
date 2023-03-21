@@ -24,8 +24,6 @@ const ArticleDetails = ({ data }) => {
     commentCount,
     id,
   } = data;
-  const [curComment, setCurComment] = useState();
-  const [level, setLevel] = useState(0);
   const { state } = useAuth();
   const { isAuth } = state;
 
@@ -73,13 +71,9 @@ const ArticleDetails = ({ data }) => {
         </section>
       </GyCard>
       <section className="article-comments">
-        <GyCard className="min-h-[600px]">
-          <LevelContext.Provider
-            value={{ level, setLevel, setCurComment }}
-          >
-            {isAuth && <CommentInput type="comments" />}
-            <CommentList data={comments} count={commentCount} type="comments" />
-          </LevelContext.Provider>
+        <GyCard>
+          {isAuth && <CommentInput type="comments" />}
+          <CommentList data={comments} count={commentCount} type="comments" />
         </GyCard>
       </section>
     </section>
