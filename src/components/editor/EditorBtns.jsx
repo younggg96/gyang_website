@@ -6,10 +6,18 @@ import GyButton from "../../ui/GyButton/GyButton";
 // icons
 import { HiOutlinePencil } from "react-icons/hi";
 import { BsBookmarksFill } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 const EditorBtns = () => {
   const { state } = useAuth();
   const { user } = state;
+
+  const navigate = useNavigate();
+
+  const goNewArticle = () => {
+    navigate("/article/new");
+  };
+
   return (
     <GyCard title={"Hi " + user?.username + "!"}>
       <div className="flex gap-4">
@@ -17,6 +25,7 @@ const EditorBtns = () => {
           icon={() => <HiOutlinePencil />}
           className="flex-1"
           title="Write a article"
+          click={() => goNewArticle()}
         >
           Write
         </GyButton>

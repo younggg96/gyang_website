@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 // import components
 import GyBodySection from "../ui/GyBodySection/GyBodySection";
@@ -12,6 +12,8 @@ import { getArticleByArticleId } from "../api";
 import UserProfile from "../components/profile/UserProfile";
 import GyLoader from "../ui/GyLoader/GyLoader";
 import Error from "../components/error/Error";
+
+export const ArticleContext = createContext();
 
 const ArticlePage = () => {
   let params = useParams();
@@ -32,7 +34,7 @@ const ArticlePage = () => {
       {error && (
         <Error
           content={{
-            title: "The Article doesn’t exist...",
+            title: "The Article doesn't exist...",
             sub: "Please check your URL or return to home.",
           }}
           type="error_no_found"
@@ -44,21 +46,23 @@ const ArticlePage = () => {
         </div>
       )}
       {!loading && articleDetail && (
-        <div className="page-section">
-          <section className="left-section">
-            <ArticleDetails data={articleDetail} loading={loading} />
-          </section>
-          <section className="right-section">
-            <div className="sticky-side">
-              <GyCard title="Author">
-                <UserHeader user={articleDetail?.user} />
-                <UserProfile.UserProfile
-                  userEmail={articleDetail?.user?.email}
-                />
-              </GyCard>
-            </div>
-          </section>
-        </div>
+        <ArticleContext.Provider value={{ articleId, setArticleDetail }}>
+          <div className="page-section">
+            <section className="left-section">
+              <ArticleDetails data={articleDetail} loading={loading} />
+            </section>
+            <section className="right-section">
+              <div className="sticky-side">
+                <GyCard title="Author">
+                  <UserHeader user={articleDetail?.user} />
+                  <UserProfile.UserProfile
+                    userEmail={articleDetail?.user?.email}
+                  />
+                </GyCard>
+              </div>
+            </section>
+          </div>
+        </ArticleContext.Provider>
       )}
     </GyBodySection>
   );

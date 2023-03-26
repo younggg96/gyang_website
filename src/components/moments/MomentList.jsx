@@ -106,19 +106,23 @@ const MomentList = ({ userId = null }) => {
       {!userId && <EditorInput />}
       <div className="list">
         {loading && <GyLoader />}
-        <ul>
-          {MomentList.map((item) => {
-            return <MomentItem key={item.id} data={item} />;
-          })}
-        </ul>
-        <GyPagination
-          row={pagination?.row}
-          curPage={pagination?.current_page}
-          pageRow={pagination?.page_row}
-          onCurPageChange={(page) => {
-            setCurPage(page);
-          }}
-        />
+        {!loading && (
+          <>
+            <ul>
+              {MomentList.map((item) => {
+                return <MomentItem key={item.id} data={item} />;
+              })}
+            </ul>
+            <GyPagination
+              row={pagination?.row}
+              curPage={pagination?.current_page}
+              pageRow={pagination?.page_row}
+              onCurPageChange={(page) => {
+                setCurPage(page);
+              }}
+            />
+          </>
+        )}
       </div>
     </section>
   );

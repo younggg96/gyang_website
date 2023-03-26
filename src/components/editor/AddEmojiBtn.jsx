@@ -5,8 +5,9 @@ import EmojiPicker from "emoji-picker-react";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
 import "./index.scss";
 import { getTheme } from "../../helper/theme";
+import classNames from "classnames";
 
-const AddEmojiBtn = ({ emojiClickHandler }) => {
+const AddEmojiBtn = ({ emojiClickHandler, emojiPopupPosition = "left" }) => {
   const [open, setOpen] = useState(false);
   const clickOutsideRef = useRef();
   useOnClickOutside(clickOutsideRef, () => setOpen(false));
@@ -22,7 +23,10 @@ const AddEmojiBtn = ({ emojiClickHandler }) => {
         <span className="sr-only">Add Emoji</span>
       </GyButton>
       {open && (
-        <div className="emoji-popup" ref={clickOutsideRef}>
+        <div
+          className={classNames(["emoji-popup", emojiPopupPosition])}
+          ref={clickOutsideRef}
+        >
           <EmojiPicker
             theme={getTheme()}
             onEmojiClick={(e) => emojiClickHandler(e)}

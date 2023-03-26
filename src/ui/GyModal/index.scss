@@ -1,0 +1,13 @@
+@tailwind components;
+
+@layer components {
+  .gy-modal-wrapper {
+    @apply flex justify-center items-center fixed top-0 left-0 w-full h-full bg-black bg-opacity-30 z-50;
+    .modal {
+      @apply w-80 h-80 rounded-xl;
+    }
+    .modal-overlay {
+      @apply absolute top-0 left-0 w-full h-full -z-10;
+    }
+  }
+}

@@ -2,10 +2,10 @@ import React from "react";
 import "./index.scss";
 import classNames from "classnames";
 
-const Gytab = ({ data, activeIndex, setActiveIndex, children }) => {
+const Gytab = ({ data, activeIndex, setActiveIndex, children, ...props }) => {
   return (
     <>
-      <ul className="gy-tab">
+      <ul className="gy-tab" {...props}>
         {data.map((item, index) => {
           return (
             <li

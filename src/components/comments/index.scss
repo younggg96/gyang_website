@@ -1,6 +1,10 @@
 @tailwind components;
 
 @layer components {
+  .action-box-btns {
+    @apply flex items-center gap-x-4 mb-2;
+  }
+
   .action-btn {
     @apply flex gap-1;
     span.count {
@@ -27,38 +31,32 @@
   .comments-list {
     @apply border border-border p-4 rounded-2xl shadow-sm mb-4
     dark:shadow-none dark:border-borderDark;
+    h2.title {
+      @apply mb-4;
+    }
     .comments-content {
       @apply flex flex-col gap-2;
       .comments-item {
-        @apply flex flex-col gap-4 p-4 border-b-[1px] last:border-b-0 border-border dark:border-borderDark;
+        @apply flex flex-col px-4 py-2 border-b-[1px] last:border-b-0 border-border dark:border-borderDark;
         .user {
-          @apply flex items-center justify-between;
+          @apply flex items-center justify-between mb-4;
         }
         .content {
-          @apply mb-2 text-text dark:text-textDark;
+          @apply text-text dark:text-textDark mb-4;
         }
       }
     }
   }
-
-  .title {
-    @apply text-text dark:text-primary mb-2;
-  }
-
-  .error-msg {
-    @apply text-error;
-  }
-
   .comment-editor {
     @apply p-2;
     .comment-input {
-      @apply flex gap-4 px-4 py-2;
+      @apply flex gap-4;
       form {
         @apply flex-1;
         .btns {
-          @apply flex gap-2;
+          @apply flex my-2;
           .icon-btns {
-            @apply flex gap-2;
+            @apply flex;
           }
           .post-btn {
             @apply ml-auto;
@@ -66,5 +64,17 @@
         }
       }
     }
+  }
+
+  .show-more-btn {
+    @apply mr-auto my-2;
+  }
+
+  .title {
+    @apply text-text dark:text-primary;
+  }
+
+  .error-msg {
+    @apply text-error;
   }
 }

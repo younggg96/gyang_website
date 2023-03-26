@@ -6,12 +6,7 @@
     @apply w-full mb-4 border border-border rounded-2xl bg-white shadow-lg
     dark:bg-primaryDark dark:border-borderDark dark:shadow-none;
     .editor-content {
-      @apply p-4 bg-white rounded-t-2xl
-      dark:bg-primaryDark;
-      textarea {
-        @apply w-full text-base text-text bg-white border-0 outline-0
-        dark:bg-primaryDark focus:ring-0 dark:placeholder-gray-400 dark:text-textDark;
-      }
+      @apply p-2;
     }
     .editor-btns {
       @apply flex items-center justify-between px-4 py-2 border-t border-border dark:border-borderDark;
@@ -26,7 +21,13 @@
   .add-emoji-btn {
     @apply relative;
     .emoji-popup {
-      @apply absolute top-[60px] right-0 z-50;
+      @apply absolute top-[60px] z-50;
+      &.left {
+        @apply right-0;
+      }
+      &.right {
+        @apply left-0;
+      }
     }
   }
 }

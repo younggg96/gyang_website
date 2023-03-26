@@ -1,16 +1,16 @@
 import React, { createContext, useState } from "react";
+// hooks
+import useAuth from "../../hooks/useAuth";
+// components
+import UserHeader from "../user/UserHeader";
+import { ActionsFlowBox } from "../comments/ActionsBox";
+import CommentList, { CommentInput } from "../comments/CommentList";
+// ui
+import GyTime from "../../ui/GyTime/GyTime";
+import GyCard from "../../ui/GyCard/GyCard";
+// scss
 import "./index.scss";
 import "../comments/index.scss";
-import GyCard from "../../ui/GyCard/GyCard";
-import UserHeader from "../user/UserHeader";
-import GyTime from "../../ui/GyTime/GyTime";
-import CommentList, { CommentInput } from "../comments/CommentList";
-import { useRequest } from "ahooks";
-import { getChildrenCommentsByPid } from "../../api/comment";
-import useAuth from "../../hooks/useAuth";
-import { ActionsFlowBox } from "../comments/ActionsBox";
-
-export const LevelContext = createContext();
 
 const ArticleDetails = ({ data }) => {
   const {
@@ -53,6 +53,11 @@ const ArticleDetails = ({ data }) => {
     }
   };
 
+  const replyObj = {
+    parentId: null,
+    replyTo: null,
+  };
+
   return (
     <section className="article-details">
       <GyCard title={title}>
@@ -72,7 +77,7 @@ const ArticleDetails = ({ data }) => {
       </GyCard>
       <section className="article-comments">
         <GyCard>
-          {isAuth && <CommentInput type="comments" />}
+          {isAuth && <CommentInput type="comments" replyObj={replyObj} />}
           <CommentList data={comments} count={commentCount} type="comments" />
         </GyCard>
       </section>

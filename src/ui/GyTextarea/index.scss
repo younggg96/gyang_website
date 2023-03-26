@@ -1,0 +1,13 @@
+@tailwind components;
+
+@layer components {
+  .gy-textarea {
+    textarea {
+      @apply w-full text-base text-text bg-white outline-0 p-2
+        dark:bg-primaryDark focus:ring-0 dark:placeholder-gray-400 dark:text-textDark;
+      &.hasBorder {
+        @apply border border-border dark:border-borderDark rounded-lg;
+      }
+    }
+  }
+}

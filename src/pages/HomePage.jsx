@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import ArticleList from "../components/article/ArticleList";
 import TopUserList from "../components/user/TopUserList";
 // import components
@@ -7,8 +7,7 @@ import GyBodySection from "../ui/GyBodySection/GyBodySection";
 // scss
 import "./style/index.scss";
 import EditorBtns from "../components/editor/EditorBtns";
-import EditorInput from "../components/editor/EditorInput";
-import MomentList from "../components/moments/MomentList"
+import MomentList from "../components/moments/MomentList";
 
 export const tabs = ["Articles", "Moments"];
 
@@ -24,11 +23,7 @@ const Home = () => {
             activeIndex={activeIndex}
             setActiveIndex={setActiveIndex}
           >
-            {activeIndex === 0 ? (
-              <ArticleList />
-            ) : (
-              <MomentList />
-            )}
+            {activeIndex === 0 ? <ArticleList /> : <MomentList />}
           </Gytab>
         </section>
         <section className="right-section">

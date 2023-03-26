@@ -2,7 +2,7 @@
 
 @layer components {
   .gy-button {
-    @apply bg-white rounded-md py-2 my-2 border border-border dark:border-borderDark shadow-lg text-text
+    @apply bg-white rounded-md py-2 border border-border dark:border-borderDark shadow-lg text-text
     sm:py-4
     hover:border-accent hover:bg-primary
     dark:bg-backgroundDark dark:text-gray-50 dark:hover:bg-primary dark:hover:text-primaryDark dark:hover:border-transparent;

@@ -133,10 +133,7 @@ const ActionsBox = ({
   const { commentBoxOpened, commentCount } = comment;
 
   return (
-    <ul
-      className={classNames(["flex items-center gap-x-4", className])}
-      {...props}
-    >
+    <ul className={classNames(["action-box-btns", className])} {...props}>
       <li>
         <LinkBtn
           clickHandler={clickLike}

@@ -9,6 +9,7 @@ import ErrorPage from "../../pages/ErrorPage";
 // import routes route & useLocation hook
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
+import NewArticlePage from "../../pages/NewArticlePage";
 
 const AnimRoutes = () => {
   const location = useLocation();
@@ -21,6 +22,7 @@ const AnimRoutes = () => {
         <Route path="/profile/:id" element={<Profile />} />
         <Route path="/profile/my-profile" element={<Profile self={true} />} />
         <Route path="/article/:id" element={<ArticlePage />} />
+        <Route path="/article/new" element={<NewArticlePage />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </AnimatePresence>

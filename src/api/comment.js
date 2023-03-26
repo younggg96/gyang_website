@@ -1,5 +1,6 @@
 import { get, post } from "./axios";
 
+
 /**
  * @param {number} userId user id
  * @param {number} curPage page number
