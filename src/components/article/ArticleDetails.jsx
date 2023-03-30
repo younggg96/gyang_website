@@ -1,6 +1,4 @@
 import React, { createContext, useState } from "react";
-// hooks
-import useAuth from "../../hooks/useAuth";
 // components
 import UserHeader from "../user/UserHeader";
 import { ActionsFlowBox } from "../comments/ActionsBox";
@@ -11,6 +9,9 @@ import GyCard from "../../ui/GyCard/GyCard";
 // scss
 import "./index.scss";
 import "../comments/index.scss";
+import { useContext } from "react";
+import { ArticleContext } from "../../pages/ArticlePage";
+import GyButton from "../../ui/GyButton/GyButton";
 
 const ArticleDetails = ({ data }) => {
   const {
@@ -22,18 +23,19 @@ const ArticleDetails = ({ data }) => {
     content,
     comments,
     commentCount,
+    curUserLiked,
+    articleLikeCount,
     id,
   } = data;
-  const { state } = useAuth();
-  const { isAuth } = state;
 
-  const [liked, setLiked] = useState(false);
+  const { isAuth } = useContext(ArticleContext);
+
   const actions = {
     id,
     comment: {
       commentCount,
     },
-    like: { liked, setLiked, count: 3 },
+    like: { curUserLiked, count: articleLikeCount },
   };
 
   const clickCommentBtn = () => {};
@@ -79,6 +81,9 @@ const ArticleDetails = ({ data }) => {
         <GyCard>
           {isAuth && <CommentInput type="comments" replyObj={replyObj} />}
           <CommentList data={comments} count={commentCount} type="comments" />
+          <GyButton size={["sm", "round"]} className="show-more-btn">
+            Show more comments
+          </GyButton>
         </GyCard>
       </section>
     </section>

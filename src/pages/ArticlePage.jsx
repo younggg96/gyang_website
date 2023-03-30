@@ -12,11 +12,14 @@ import { getArticleByArticleId } from "../api";
 import UserProfile from "../components/profile/UserProfile";
 import GyLoader from "../ui/GyLoader/GyLoader";
 import Error from "../components/error/Error";
+import useAuth from "../hooks/useAuth";
 
 export const ArticleContext = createContext();
 
 const ArticlePage = () => {
   let params = useParams();
+  const { state } = useAuth();
+  const { isAuth } = state;
   const articleId = params.id;
   const [articleDetail, setArticleDetail] = useState();
   const { error, loading, run } = useRequest(getArticleByArticleId, {
@@ -26,8 +29,8 @@ const ArticlePage = () => {
     },
   });
   useEffect(() => {
-    run(articleId);
-  }, [articleId, run]);
+    isAuth && run(articleId);
+  }, [articleId, run, isAuth]);
 
   return (
     <GyBodySection>
@@ -46,7 +49,9 @@ const ArticlePage = () => {
         </div>
       )}
       {!loading && articleDetail && (
-        <ArticleContext.Provider value={{ articleId, setArticleDetail }}>
+        <ArticleContext.Provider
+          value={{ articleId, setArticleDetail, isAuth }}
+        >
           <div className="page-section">
             <section className="left-section">
               <ArticleDetails data={articleDetail} loading={loading} />

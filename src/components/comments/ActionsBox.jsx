@@ -16,6 +16,9 @@ import { addLikeMoment, removeLikeMoment } from "../../api";
 import useAuth from "../../hooks/useAuth";
 import classNames from "classnames";
 import GyButton from "../../ui/GyButton/GyButton";
+import { addLikeArticle, removeLikeArticle } from "../../api/article";
+import { forwardRef } from "react";
+import { useImperativeHandle } from "react";
 
 const LinkBtn = ({ clickHandler, liked, likeCount, inactive }) => {
   const ref = useRef(0);
@@ -48,7 +51,7 @@ const LinkBtn = ({ clickHandler, liked, likeCount, inactive }) => {
           ? likeCount <= 1
             ? `${likeCount} like`
             : `${likeCount} likes`
-          : "Be the first to like it"}
+          : "Like it firstly"}
       </span>
     </div>
   );
@@ -79,8 +82,7 @@ const CommentArticleBtn = ({ clickHandler, commentCount }) => {
   );
 };
 
-const ReplyBtn = ({ clickHandler }) => {
-  const [show, setShow] = useState(false);
+const ReplyBtn = ({ clickHandler, show, setShow }) => {
   return (
     <GyButton
       size={["sm", "round"]}
@@ -95,11 +97,84 @@ const ReplyBtn = ({ clickHandler }) => {
   );
 };
 
-const ActionsBox = ({
+const ActionsBox = forwardRef(
+  ({ actions, className, clickBtnHandler, type, ...props }, ref) => {
+    const { id, comment, like } = actions;
+    const { addToast } = useToast();
+    const { state } = useAuth();
+
+    // like
+    const { liked, setLiked, count } = like;
+    const [likeCount, setLikeCount] = useState(count);
+    const likeAct = !liked ? addLikeMoment : removeLikeMoment;
+    const { error, loading, run } = useRequest(likeAct, {
+      manual: true,
+      onSuccess: (result, params) => {
+        setLiked(!liked);
+        setLikeCount(result.data?.count);
+        addToast({
+          content: result.data?.success,
+          time: TIME.SHORT,
+          type: TYPE.SUCCESS,
+        });
+      },
+    });
+
+    const clickLike = () => {
+      if (state.isAuth) {
+        run(id);
+      }
+    };
+
+    // comments
+    const { commentBoxOpened, commentCount } = comment;
+
+    // reply btn hide or not
+    const [show, setShow] = useState(false);
+
+    useImperativeHandle(ref, () => ({
+      setShow,
+    }));
+
+    return (
+      <ul
+        className={classNames(["action-box-btns", className])}
+        {...props}
+        ref={ref}
+      >
+        <li>
+          <LinkBtn
+            clickHandler={clickLike}
+            liked={liked}
+            likeCount={likeCount}
+            inactive={!state.isAuth}
+          />
+        </li>
+        {type !== "reply2" && (
+          <li>
+            <CommentBtn
+              commentBoxOpened={commentBoxOpened}
+              clickHandler={() => clickBtnHandler("commentBtn")}
+              commentCount={commentCount}
+            />
+          </li>
+        )}
+        <li className="ml-auto">
+          <ReplyBtn
+            show={show}
+            setShow={setShow}
+            clickHandler={() => clickBtnHandler("replyBtn")}
+          />
+        </li>
+      </ul>
+    );
+  }
+);
+
+export const ActionsFlowBox = ({
   actions,
   className,
   clickBtnHandler,
-  type,
   ...props
 }) => {
   const { id, comment, like } = actions;
@@ -107,9 +182,10 @@ const ActionsBox = ({
   const { state } = useAuth();
 
   // like
-  const { liked, setLiked, count } = like;
+  const { curUserLiked, count } = like;
+  const [liked, setLiked] = useState(curUserLiked);
   const [likeCount, setLikeCount] = useState(count);
-  const likeAct = !liked ? addLikeMoment : removeLikeMoment;
+  const likeAct = !liked ? addLikeArticle : removeLikeArticle;
   const { error, loading, run } = useRequest(likeAct, {
     manual: true,
     onSuccess: (result, params) => {
@@ -126,68 +202,6 @@ const ActionsBox = ({
   const clickLike = () => {
     if (state.isAuth) {
       run(id);
-    }
-  };
-
-  // comments
-  const { commentBoxOpened, commentCount } = comment;
-
-  return (
-    <ul className={classNames(["action-box-btns", className])} {...props}>
-      <li>
-        <LinkBtn
-          clickHandler={clickLike}
-          liked={liked}
-          likeCount={likeCount}
-          inactive={!state.isAuth}
-        />
-      </li>
-      {type !== "reply" && (
-        <li>
-          <CommentBtn
-            commentBoxOpened={commentBoxOpened}
-            clickHandler={() => clickBtnHandler("commentBtn")}
-            commentCount={commentCount}
-          />
-        </li>
-      )}
-      <li className="ml-auto">
-        <ReplyBtn clickHandler={() => clickBtnHandler("replyBtn")} />
-      </li>
-    </ul>
-  );
-};
-
-export const ActionsFlowBox = ({
-  actions,
-  className,
-  clickBtnHandler,
-  ...props
-}) => {
-  const { id, comment, like } = actions;
-  const { addToast } = useToast();
-  const { state } = useAuth();
-
-  // like
-  const { liked, setLiked, count } = like;
-  const [likeCount, setLikeCount] = useState(count);
-  // const likeAct = !liked ? addLikeMoment : removeLikeMoment;
-  // const { error, loading, run } = useRequest(likeAct, {
-  //   manual: true,
-  //   onSuccess: (result, params) => {
-  //     setLiked(!liked);
-  //     setLikeCount(result.data?.count);
-  //     addToast({
-  //       content: result.data?.success,
-  //       time: TIME.SHORT,
-  //       type: TYPE.SUCCESS,
-  //     });
-  //   },
-  // });
-
-  const clickLike = () => {
-    if (state.isAuth) {
-      // run(id);
     }
   };
 

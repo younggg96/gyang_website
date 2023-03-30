@@ -15,8 +15,8 @@ import GyButton from "../../ui/GyButton/GyButton";
 
 const UserPopup = () => {
   const [open, setOpen] = useState(false);
-  const { state, logout } = useAuth();
   const navigate = useNavigate();
+  const { state, logout } = useAuth();
   const { isAuth, user } = state;
   const navigateTo = (url) => {
     navigate(url);

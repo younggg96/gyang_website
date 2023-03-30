@@ -1,7 +1,7 @@
 import { deleteReq, get, patch, post } from "./axios";
 
 // articles
-export const getArticleByArticleId = (id) => get("/article/" + id);
+export const getArticleByArticleId = (id) => get("/article/user/" + id);
 /**
  * @param {number} curPage page
  * @returns current user's article list

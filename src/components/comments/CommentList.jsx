@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useRef } from "react";
 import { useRequest } from "ahooks";
 import { useForm } from "react-hook-form";
 // apis
@@ -9,18 +9,19 @@ import useAuth from "../../hooks/useAuth";
 import ActionsBox from "./ActionsBox";
 import EmptyData from "../error/EmptyData";
 import UserHeader from "../user/UserHeader";
+import AddEmojiBtn from "../editor/AddEmojiBtn";
+import { TIME, TYPE, useToast } from "../../ui/GyToast/ToastProvider";
 // ui
 import GyAvatar from "../../ui/GyAvatar/GyAvatar";
 import GyButton from "../../ui/GyButton/GyButton";
 import GyTime from "../../ui/GyTime/GyTime";
 import GyLoader from "../../ui/GyLoader/GyLoader";
+import GyCard from "../../ui/GyCard/GyCard";
+import GyTextarea from "../../ui/GyTextarea/GyTextarea";
 // scss
 import "./index.scss";
-import AddEmojiBtn from "../editor/AddEmojiBtn";
-import GyTextarea from "../../ui/GyTextarea/GyTextarea";
+// api
 import { createComment, createReply } from "../../api/comment";
-import { useContext } from "react";
-import { TIME, TYPE, useToast } from "../../ui/GyToast/ToastProvider";
 import { ArticleContext } from "../../pages/ArticlePage";
 
 const InputPropsComment = {
@@ -41,17 +42,17 @@ const InputPropsReply = {
   success: "Relay successed!",
 };
 
-export const CommentInput = ({ type, replyObj, ...props }) => {
+export const CommentInput = ({ type, replyObj, hideReplyBtn, ...props }) => {
   const { state } = useAuth();
   const { user } = state;
-  const { articleId, setArticleDetail } = useContext(ArticleContext);
+  const { articleId } = useContext(ArticleContext);
   const { addToast } = useToast();
 
   const createData = type === "comments" ? createComment : createReply;
   const { error, loading, run } = useRequest(createData, {
     manual: true,
     onSuccess: (result) => {
-      setArticleDetail(result.data);
+      hideReplyBtn();
       addToast({
         content:
           type === "comments"
@@ -75,7 +76,7 @@ export const CommentInput = ({ type, replyObj, ...props }) => {
       content: data.comment,
       articleId: articleId,
       parentId: replyObj.parentId,
-      replyTo: replyObj.replyTo,
+      replyTo: replyObj.replyTo || "",
     };
     run(obj);
     reset();
@@ -136,12 +137,24 @@ export const CommentInput = ({ type, replyObj, ...props }) => {
 };
 
 export const CommentItem = ({ data, type, ...props }) => {
-  const { content, createdAt, user, id, replyToComment, _count } = data;
+  const {
+    content,
+    createdAt,
+    user,
+    id,
+    parentId,
+    replyTo,
+    replyToComment,
+    _count,
+  } = data;
   const { articleId } = useContext(ArticleContext);
   const [commentBoxOpened, setCommentBoxOpened] = useState(false);
   const [replies, setReplies] = useState();
   const [liked, setLiked] = useState(false);
   const [openInput, setOpenInput] = useState(false);
+  const [page, setPage] = useState(1);
+  const actionRef = useRef(null);
+
   const actions = {
     id,
     comment: {
@@ -159,16 +172,26 @@ export const CommentItem = ({ data, type, ...props }) => {
   });
 
   const clickCommentBtn = () => {
+    if (commentBoxOpened) {
+      // close comment list back to page 1
+      setPage(1);
+    } else {
+      run(page, 3, id);
+    }
     setCommentBoxOpened(!commentBoxOpened);
-    run(1, 3, id);
   };
 
   const clickReplyBtn = () => {
     setOpenInput(!openInput);
   };
 
-  const clickBtnHandler = (type) => {
-    switch (type) {
+  const hideReplyBtn = () => {
+    setOpenInput(false);
+    actionRef.current.setShow(false);
+  };
+
+  const clickBtnHandler = (btnType) => {
+    switch (btnType) {
       case "commentBtn":
         clickCommentBtn();
         break;
@@ -180,14 +203,30 @@ export const CommentItem = ({ data, type, ...props }) => {
     }
   };
 
+  const showMore = () => {
+    setPage(page + 1);
+    run(page + 1, 5, id);
+  };
+
+  let actionType;
+  if (type === "comments") {
+    actionType = "reply";
+  } else if (type === "reply") {
+    actionType = "reply2";
+  }
+
   const replyObj = {
     articleId,
-    parentId: data.replyTo === 0 ? data.parentId : data.id,
-    replyTo: data.replyTo === 0 ? data.id : data.replyTo,
+    parentId: parentId ? parentId : id,
+    replyTo: parentId ? id : null,
   };
 
   return (
     <div className="comments-item" {...props}>
+      {/* id: {id} <br />
+      articleId: {articleId} <br />
+      parentId: {parentId} <br />
+      replyTo: {replyTo} <br /> */}
       <section className="user">
         <div className="flex items-center">
           {user && <UserHeader user={user} size="sm" />}
@@ -204,22 +243,44 @@ export const CommentItem = ({ data, type, ...props }) => {
       </section>
       <p className="content">{content}</p>
       <ActionsBox
-        type={type}
+        type={actionType}
         actions={actions}
         clickBtnHandler={(type) => clickBtnHandler(type)}
+        ref={actionRef}
       />
       {/* comment input */}
-      {openInput && <CommentInput type="reply" replyObj={replyObj} />}
+      {openInput && (
+        <CommentInput
+          type="reply"
+          replyObj={replyObj}
+          hideReplyBtn={hideReplyBtn}
+        />
+      )}
       {/* comment list */}
       {commentBoxOpened && (
         <>
-          {loading && <GyLoader />}
+          {loading && (
+            <GyCard>
+              <GyLoader />
+            </GyCard>
+          )}
           {!loading && (
-            <CommentList
-              data={replies.data}
-              count={replies?.meta.total}
-              type="reply"
-            />
+            <>
+              <CommentList
+                data={replies?.data}
+                count={replies?.meta.total}
+                type="reply"
+              />
+              {replies.hasMore && (
+                <GyButton
+                  size={["sm", "round"]}
+                  className="show-more-btn"
+                  click={() => showMore()}
+                >
+                  Show more replies
+                </GyButton>
+              )}
+            </>
           )}
         </>
       )}
@@ -256,9 +317,6 @@ const CommentList = ({ data, count, type }) => {
         {data.map((item) => {
           return <CommentItem data={item} key={item.id} type={type} />;
         })}
-        <GyButton size={["sm", "round"]} className="show-more-btn">
-          Show more {type === "comments" ? "comments" : "replies"}
-        </GyButton>
       </div>
     </section>
   );

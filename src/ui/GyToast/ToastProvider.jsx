@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useMemo } from "react";
 import { useCallback } from "react";
 import { useState } from "react";
 import ToastContainer from "./ToastContainer";
@@ -18,8 +18,18 @@ const TYPE = {
 };
 
 let id = 1;
+
+const MyChildren = ({ Childcomponent }) => {
+  return <>{Childcomponent}</>;
+};
+
 const ToastProvider = ({ children }) => {
   const [toasts, setToasts] = useState([]);
+
+  const childComponent = useMemo(
+    () => <ToastContainer toasts={toasts} />,
+    [toasts]
+  );
 
   const addToast = useCallback(
     ({ content, time, type }) => {
@@ -50,7 +60,8 @@ const ToastProvider = ({ children }) => {
         removeToast,
       }}
     >
-      <ToastContainer toasts={toasts} />
+      {childComponent}
+      {/* <ToastContainer toasts={toasts} /> */}
       {children}
     </ToastContext.Provider>
   );
