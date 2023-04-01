@@ -126,9 +126,6 @@ const ActionsBox = forwardRef(
       }
     };
 
-    // comments
-    const { commentBoxOpened, commentCount } = comment;
-
     // reply btn hide or not
     const [show, setShow] = useState(false);
 
@@ -150,12 +147,12 @@ const ActionsBox = forwardRef(
             inactive={!state.isAuth}
           />
         </li>
-        {type !== "reply2" && (
+        {type !== "subReply" && (
           <li>
             <CommentBtn
-              commentBoxOpened={commentBoxOpened}
+              commentBoxOpened={comment?.commentBoxOpened}
               clickHandler={() => clickBtnHandler("commentBtn")}
-              commentCount={commentCount}
+              commentCount={comment?.commentCount}
             />
           </li>
         )}

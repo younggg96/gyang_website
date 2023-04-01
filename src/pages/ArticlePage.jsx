@@ -1,20 +1,21 @@
 import React, { createContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-// import components
+// ui
+import GyCard from "../ui/GyCard/GyCard";
+import GyLoader from "../ui/GyLoader/GyLoader";
 import GyBodySection from "../ui/GyBodySection/GyBodySection";
+// import components
+import Error from "../components/error/Error";
+import UserHeader from "../components/user/UserHeader";
+import UserProfile from "../components/profile/UserProfile";
 import ArticleDetails from "../components/article/ArticleDetails";
 // scss
 import "./style/index.scss";
-import GyCard from "../ui/GyCard/GyCard";
-import UserHeader from "../components/user/UserHeader";
-import { useRequest } from "ahooks";
-import { getArticleByArticleId } from "../api";
-import UserProfile from "../components/profile/UserProfile";
-import GyLoader from "../ui/GyLoader/GyLoader";
-import Error from "../components/error/Error";
+// hooks
 import useAuth from "../hooks/useAuth";
-
-export const ArticleContext = createContext();
+import { useRequest } from "ahooks";
+// apis
+import { getArticleByArticleId } from "../api";
 
 const ArticlePage = () => {
   let params = useParams();
@@ -28,6 +29,7 @@ const ArticlePage = () => {
       setArticleDetail(result?.data);
     },
   });
+
   useEffect(() => {
     isAuth && run(articleId);
   }, [articleId, run, isAuth]);
@@ -49,25 +51,26 @@ const ArticlePage = () => {
         </div>
       )}
       {!loading && articleDetail && (
-        <ArticleContext.Provider
-          value={{ articleId, setArticleDetail, isAuth }}
-        >
-          <div className="page-section">
-            <section className="left-section">
-              <ArticleDetails data={articleDetail} loading={loading} />
-            </section>
-            <section className="right-section">
-              <div className="sticky-side">
-                <GyCard title="Author">
-                  <UserHeader user={articleDetail?.user} />
-                  <UserProfile.UserProfile
-                    userEmail={articleDetail?.user?.email}
-                  />
-                </GyCard>
-              </div>
-            </section>
-          </div>
-        </ArticleContext.Provider>
+        <div className="page-section">
+          <section className="left-section">
+            <ArticleDetails
+              articleDetail={articleDetail}
+              setArticleDetail={setArticleDetail}
+              isAuth={isAuth}
+              articleId={articleId}
+            />
+          </section>
+          <section className="right-section">
+            <div className="sticky-side">
+              <GyCard title="Author">
+                <UserHeader user={articleDetail?.user} />
+                <UserProfile.UserProfile
+                  userEmail={articleDetail?.user?.email}
+                />
+              </GyCard>
+            </div>
+          </section>
+        </div>
       )}
     </GyBodySection>
   );

@@ -10,6 +10,15 @@ export const getChildrenCommentsByPid = (curPage, row, pid) =>
   get(`/comment/parentCommentId/${pid}?page=${curPage}&row=${row}`);
 
 /**
+ * @param {number} userId user id
+ * @param {number} curPage page number
+ * @param {number} aid article id
+ * @returns get comments list by using article id
+ */
+export const getCommentsByArticleId = (curPage, row, aid) =>
+  get(`/comment/getCommentsByArticleId/${aid}?page=${curPage}&row=${row}`);
+
+/**
  *
  * @param {object} data
  *  articleId: number;

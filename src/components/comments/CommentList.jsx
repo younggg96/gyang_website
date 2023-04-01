@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef } from "react";
+import React, { useState, useContext, useRef, createContext } from "react";
 import { useRequest } from "ahooks";
 import { useForm } from "react-hook-form";
 // apis
@@ -22,7 +22,7 @@ import GyTextarea from "../../ui/GyTextarea/GyTextarea";
 import "./index.scss";
 // api
 import { createComment, createReply } from "../../api/comment";
-import { ArticleContext } from "../../pages/ArticlePage";
+import { ArticleContext } from "../../components/article/ArticleDetails";
 
 const InputPropsComment = {
   title: "Comment",
@@ -42,17 +42,31 @@ const InputPropsReply = {
   success: "Relay successed!",
 };
 
-export const CommentInput = ({ type, replyObj, hideReplyBtn, ...props }) => {
+const CommentItemContext = createContext({
+  refreshData: () => {},
+});
+
+export const CommentInput = ({
+  type,
+  replyObj,
+  hideReplyBtn,
+  setData,
+  ...props
+}) => {
   const { state } = useAuth();
   const { user } = state;
-  const { articleId } = useContext(ArticleContext);
+  const { articleId, setArticleDetail, refreshTopComments } =
+    useContext(ArticleContext);
   const { addToast } = useToast();
-
+  const { refreshData } = useContext(CommentItemContext);
   const createData = type === "comments" ? createComment : createReply;
   const { error, loading, run } = useRequest(createData, {
     manual: true,
     onSuccess: (result) => {
-      hideReplyBtn();
+      hideReplyBtn && hideReplyBtn();
+      setArticleDetail(result?.data);
+      refreshTopComments();
+      type !== "comments" && refreshData(replyObj.parentId);
       addToast({
         content:
           type === "comments"
@@ -136,7 +150,7 @@ export const CommentInput = ({ type, replyObj, hideReplyBtn, ...props }) => {
   );
 };
 
-export const CommentItem = ({ data, type, ...props }) => {
+export const CommentItem = ({ data, setData, type, ...props }) => {
   const {
     content,
     createdAt,
@@ -148,11 +162,13 @@ export const CommentItem = ({ data, type, ...props }) => {
     _count,
   } = data;
   const { articleId } = useContext(ArticleContext);
+
   const [commentBoxOpened, setCommentBoxOpened] = useState(false);
   const [replies, setReplies] = useState();
   const [liked, setLiked] = useState(false);
   const [openInput, setOpenInput] = useState(false);
   const [page, setPage] = useState(1);
+  const [row, setRow] = useState(3);
   const actionRef = useRef(null);
 
   const actions = {
@@ -175,8 +191,9 @@ export const CommentItem = ({ data, type, ...props }) => {
     if (commentBoxOpened) {
       // close comment list back to page 1
       setPage(1);
+      setRow(3);
     } else {
-      run(page, 3, id);
+      run(page, row, id);
     }
     setCommentBoxOpened(!commentBoxOpened);
   };
@@ -205,14 +222,19 @@ export const CommentItem = ({ data, type, ...props }) => {
 
   const showMore = () => {
     setPage(page + 1);
+    setRow(5);
     run(page + 1, 5, id);
+  };
+
+  const refreshData = (pid) => {
+    run(page, row, pid);
   };
 
   let actionType;
   if (type === "comments") {
     actionType = "reply";
   } else if (type === "reply") {
-    actionType = "reply2";
+    actionType = "subReply";
   }
 
   const replyObj = {
@@ -223,10 +245,6 @@ export const CommentItem = ({ data, type, ...props }) => {
 
   return (
     <div className="comments-item" {...props}>
-      {/* id: {id} <br />
-      articleId: {articleId} <br />
-      parentId: {parentId} <br />
-      replyTo: {replyTo} <br /> */}
       <section className="user">
         <div className="flex items-center">
           {user && <UserHeader user={user} size="sm" />}
@@ -249,46 +267,114 @@ export const CommentItem = ({ data, type, ...props }) => {
         ref={actionRef}
       />
       {/* comment input */}
-      {openInput && (
-        <CommentInput
-          type="reply"
-          replyObj={replyObj}
-          hideReplyBtn={hideReplyBtn}
-        />
-      )}
-      {/* comment list */}
-      {commentBoxOpened && (
-        <>
-          {loading && (
-            <GyCard>
-              <GyLoader />
-            </GyCard>
-          )}
-          {!loading && (
-            <>
+      <CommentItemContext.Provider value={{ refreshData }}>
+        {openInput && (
+          <CommentInput
+            type="reply"
+            replyObj={replyObj}
+            hideReplyBtn={hideReplyBtn}
+          />
+        )}
+        {/* comment list */}
+        {commentBoxOpened && (
+          <>
+            {loading && <GyLoader />}
+            {replies && (
               <CommentList
                 data={replies?.data}
                 count={replies?.meta.total}
-                type="reply"
+                type="subReply"
               />
-              {replies.hasMore && (
-                <GyButton
-                  size={["sm", "round"]}
-                  className="show-more-btn"
-                  click={() => showMore()}
-                >
-                  Show more replies
-                </GyButton>
-              )}
+            )}
+            {replies?.hasMore && !loading && (
+              <GyButton
+                size={["sm", "round"]}
+                className="show-more-btn"
+                click={() => showMore()}
+              >
+                Show more replies
+              </GyButton>
+            )}
+          </>
+        )}
+      </CommentItemContext.Provider>
+    </div>
+  );
+};
+
+export const CommentSubItem = ({ data, setData, type, ...props }) => {
+  const {
+    content,
+    createdAt,
+    user,
+    id,
+    parentId,
+    replyTo,
+    replyToComment,
+    _count,
+  } = data;
+  const { articleId } = useContext(ArticleContext);
+  const [liked, setLiked] = useState(false);
+  const [openInput, setOpenInput] = useState(false);
+  const actionRef = useRef(null);
+
+  const actions = {
+    id,
+    comment: null,
+    like: { liked, setLiked, count: 3 },
+  };
+
+  const clickReplyBtn = () => {
+    setOpenInput(!openInput);
+  };
+
+  const hideReplyBtn = () => {
+    setOpenInput(false);
+    actionRef.current.setShow(false);
+  };
+
+  const replyObj = {
+    articleId,
+    parentId: parentId ? parentId : id,
+    replyTo: parentId ? id : null,
+  };
+
+  return (
+    <div className="comments-item" {...props}>
+      <section className="user">
+        <div className="flex items-center">
+          {user && <UserHeader user={user} size="sm" />}
+          {replyToComment && (
+            <>
+              <span className="mx-4 px-[8px] dark:text-text text-textDark rounded-md dark:bg-background bg-backgroundDark">
+                Replied
+              </span>
+              <UserHeader user={replyToComment.user} size="sm" />
             </>
           )}
-        </>
+        </div>
+        <GyTime date={createdAt} className="date" />
+      </section>
+      <p className="content">{content}</p>
+      <ActionsBox
+        type={type}
+        actions={actions}
+        clickBtnHandler={() => clickReplyBtn()}
+        ref={actionRef}
+      />
+      {/* comment input */}
+      {openInput && (
+        <CommentInput
+          type={type}
+          replyObj={replyObj}
+          hideReplyBtn={hideReplyBtn}
+        />
       )}
     </div>
   );
 };
 
-const CommentList = ({ data, count, type }) => {
+const CommentList = ({ data, setData, count, type }) => {
   const CommentTitle = () => {
     return (
       <>
@@ -315,7 +401,21 @@ const CommentList = ({ data, count, type }) => {
       <CommentTitle />
       <div className="comments-content">
         {data.map((item) => {
-          return <CommentItem data={item} key={item.id} type={type} />;
+          return type === "comments" ? (
+            <CommentItem
+              data={item}
+              setData={setData}
+              key={item.id}
+              type={type}
+            />
+          ) : (
+            <CommentSubItem
+              data={item}
+              setData={setData}
+              key={item.id}
+              type={type}
+            />
+          );
         })}
       </div>
     </section>
