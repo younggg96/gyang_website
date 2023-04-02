@@ -1,5 +1,17 @@
-import { get, post } from "./axios";
+import { deleteReq, get, patch, post } from "./axios";
 
+/**
+ * @param {commentId} commentId comment Id
+ * @returns success
+ */
+export const addLikeComment = (commentId) =>
+  patch("/comment/like/" + commentId);
+/**
+ * @param {commentId} commentId comment Id
+ * @returns success
+ */
+export const removeLikeComment = (commentId) =>
+  deleteReq("/comment/like/" + commentId);
 
 /**
  * @param {number} userId user id

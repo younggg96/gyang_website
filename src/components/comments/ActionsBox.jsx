@@ -1,24 +1,24 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, forwardRef, useImperativeHandle } from "react";
+import { colors } from "../../config";
+import classNames from "classnames";
+// hooks
+import { useRequest } from "ahooks";
+import useAuth from "../../hooks/useAuth";
 // import ui
 import { TIME, TYPE, useToast } from "../../ui/GyToast/ToastProvider";
+import GyButton from "../../ui/GyButton/GyButton";
 // import icons
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import { BiCommentDetail } from "react-icons/bi";
-import { colors } from "../../config";
 // import motion
 import { motion } from "framer-motion";
 import { transition } from "../../helper/animation";
 // import scss
 import "./index.scss";
-import { useRequest } from "ahooks";
 // apis
-import { addLikeMoment, removeLikeMoment } from "../../api";
-import useAuth from "../../hooks/useAuth";
-import classNames from "classnames";
-import GyButton from "../../ui/GyButton/GyButton";
+// import { addLikeMoment, removeLikeMoment } from "../../api";
 import { addLikeArticle, removeLikeArticle } from "../../api/article";
-import { forwardRef } from "react";
-import { useImperativeHandle } from "react";
+import { addLikeComment, removeLikeComment } from "../../api/comment";
 
 const LinkBtn = ({ clickHandler, liked, likeCount, inactive }) => {
   const ref = useRef(0);
@@ -51,7 +51,7 @@ const LinkBtn = ({ clickHandler, liked, likeCount, inactive }) => {
           ? likeCount <= 1
             ? `${likeCount} like`
             : `${likeCount} likes`
-          : "Like it firstly"}
+          : "Like"}
       </span>
     </div>
   );
@@ -76,7 +76,7 @@ const CommentArticleBtn = ({ clickHandler, commentCount }) => {
     <button className="action-btn" onClick={() => clickHandler()}>
       <BiCommentDetail color={colors.text} />
       <span className="count">
-        {commentCount} {commentCount > 1 ? "replies" : "reply"}
+        {commentCount} {commentCount > 1 ? "comments" : "comment"}
       </span>
     </button>
   );
@@ -106,7 +106,7 @@ const ActionsBox = forwardRef(
     // like
     const { liked, setLiked, count } = like;
     const [likeCount, setLikeCount] = useState(count);
-    const likeAct = !liked ? addLikeMoment : removeLikeMoment;
+    const likeAct = !liked ? addLikeComment : removeLikeComment;
     const { error, loading, run } = useRequest(likeAct, {
       manual: true,
       onSuccess: (result, params) => {

@@ -16,7 +16,6 @@ import GyAvatar from "../../ui/GyAvatar/GyAvatar";
 import GyButton from "../../ui/GyButton/GyButton";
 import GyTime from "../../ui/GyTime/GyTime";
 import GyLoader from "../../ui/GyLoader/GyLoader";
-import GyCard from "../../ui/GyCard/GyCard";
 import GyTextarea from "../../ui/GyTextarea/GyTextarea";
 // scss
 import "./index.scss";
@@ -157,6 +156,7 @@ export const CommentItem = ({ data, setData, type, ...props }) => {
     user,
     id,
     parentId,
+    curUserLiked,
     replyTo,
     replyToComment,
     _count,
@@ -165,7 +165,7 @@ export const CommentItem = ({ data, setData, type, ...props }) => {
 
   const [commentBoxOpened, setCommentBoxOpened] = useState(false);
   const [replies, setReplies] = useState();
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(curUserLiked);
   const [openInput, setOpenInput] = useState(false);
   const [page, setPage] = useState(1);
   const [row, setRow] = useState(3);
@@ -177,7 +177,7 @@ export const CommentItem = ({ data, setData, type, ...props }) => {
       commentBoxOpened,
       commentCount: _count.replies,
     },
-    like: { liked, setLiked, count: 3 },
+    like: { liked, setLiked, count: _count.commentLikes },
   };
 
   const { error, loading, run } = useRequest(getChildrenCommentsByPid, {
@@ -309,19 +309,20 @@ export const CommentSubItem = ({ data, setData, type, ...props }) => {
     user,
     id,
     parentId,
+    curUserLiked,
     replyTo,
     replyToComment,
     _count,
   } = data;
   const { articleId } = useContext(ArticleContext);
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(curUserLiked);
   const [openInput, setOpenInput] = useState(false);
   const actionRef = useRef(null);
 
   const actions = {
     id,
     comment: null,
-    like: { liked, setLiked, count: 3 },
+    like: { liked, setLiked, count: _count.commentLikes },
   };
 
   const clickReplyBtn = () => {

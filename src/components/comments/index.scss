@@ -8,7 +8,7 @@
   .action-btn {
     @apply flex gap-1;
     span.count {
-      @apply leading-[22px] text-[16px] text-text dark:text-textDark;
+      @apply leading-[22px] text-[14px] text-text dark:text-textDark;
     }
     svg {
       @apply w-6 h-6;
