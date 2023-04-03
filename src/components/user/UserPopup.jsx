@@ -68,7 +68,7 @@ const UserPopup = () => {
             </ul>
           </section>
           <section className="signout">
-            <GyButton onClick={signout} className="sign-out-btn">
+            <GyButton onClick={signout} className="sign-out-btn" size={["sm"]}>
               Sign Out
             </GyButton>
           </section>

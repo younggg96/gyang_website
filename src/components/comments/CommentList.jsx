@@ -246,17 +246,7 @@ export const CommentItem = ({ data, setData, type, ...props }) => {
   return (
     <div className="comments-item" {...props}>
       <section className="user">
-        <div className="flex items-center">
-          {user && <UserHeader user={user} size="sm" />}
-          {replyToComment && (
-            <>
-              <span className="mx-4 px-[8px] dark:text-text text-textDark rounded-md dark:bg-background bg-backgroundDark">
-                Replied
-              </span>
-              <UserHeader user={replyToComment.user} size="sm" />
-            </>
-          )}
-        </div>
+        <UserHeader user={user} size="sm" className="mr-auto" />
         <GyTime date={createdAt} className="date" />
       </section>
       <p className="content">{content}</p>
@@ -278,7 +268,6 @@ export const CommentItem = ({ data, setData, type, ...props }) => {
         {/* comment list */}
         {commentBoxOpened && (
           <>
-            {loading && <GyLoader />}
             {replies && (
               <CommentList
                 data={replies?.data}
@@ -286,6 +275,7 @@ export const CommentItem = ({ data, setData, type, ...props }) => {
                 type="subReply"
               />
             )}
+            {loading && <GyLoader />}
             {replies?.hasMore && !loading && (
               <GyButton
                 size={["sm", "round"]}
@@ -343,19 +333,25 @@ export const CommentSubItem = ({ data, setData, type, ...props }) => {
   return (
     <div className="comments-item" {...props}>
       <section className="user">
-        <div className="flex items-center">
+        <div className="user-wapper">
           {user && <UserHeader user={user} size="sm" />}
           {replyToComment && (
             <>
-              <span className="mx-4 px-[8px] dark:text-text text-textDark rounded-md dark:bg-background bg-backgroundDark">
-                Replied
-              </span>
-              <UserHeader user={replyToComment.user} size="sm" />
+              <span className="reply-label">Replied</span>
             </>
           )}
         </div>
         <GyTime date={createdAt} className="date" />
       </section>
+      {replyToComment && (
+        <div className="reply-content">
+          <div className="reply-content-user">
+            <div className="line"></div>
+            <UserHeader user={replyToComment.user} size="sm" />:
+          </div>
+          <p className="reply-content-details">{replyToComment.content}</p>
+        </div>
+      )}
       <p className="content">{content}</p>
       <ActionsBox
         type={type}

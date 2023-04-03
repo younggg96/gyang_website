@@ -14,6 +14,7 @@ import "./index.scss";
 import "../comments/index.scss";
 // apis
 import { getCommentsByArticleId } from "../../api/comment";
+import GyLoader from "../../ui/GyLoader/GyLoader"
 
 // Article Context
 export const ArticleContext = createContext();
@@ -61,8 +62,6 @@ const ArticleDetails = ({
 
   const clickCommentBtn = () => {};
 
-  const clickReplyBtn = () => {};
-
   const refreshTopComments = () => {
     run(page, row, articleId);
   };
@@ -76,9 +75,6 @@ const ArticleDetails = ({
     switch (type) {
       case "commentBtn":
         clickCommentBtn();
-        break;
-      case "replyBtn":
-        clickReplyBtn();
         break;
       default:
         break;
@@ -119,6 +115,7 @@ const ArticleDetails = ({
                 setData={setCommentList}
               />
             )}
+            {loading && <GyLoader />}
             <CommentList
               data={commentList}
               count={commentCount}

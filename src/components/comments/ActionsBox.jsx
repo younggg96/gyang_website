@@ -1,4 +1,9 @@
-import React, { useState, useRef, forwardRef, useImperativeHandle } from "react";
+import React, {
+  useState,
+  useRef,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import { colors } from "../../config";
 import classNames from "classnames";
 // hooks
@@ -8,7 +13,12 @@ import useAuth from "../../hooks/useAuth";
 import { TIME, TYPE, useToast } from "../../ui/GyToast/ToastProvider";
 import GyButton from "../../ui/GyButton/GyButton";
 // import icons
-import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
+import {
+  MdFavorite,
+  MdFavoriteBorder,
+  MdOutlineBookmarkAdd,
+  MdOutlineBookmarkAdded,
+} from "react-icons/md";
 import { BiCommentDetail } from "react-icons/bi";
 // import motion
 import { motion } from "framer-motion";
@@ -78,6 +88,18 @@ const CommentArticleBtn = ({ clickHandler, commentCount }) => {
       <span className="count">
         {commentCount} {commentCount > 1 ? "comments" : "comment"}
       </span>
+    </button>
+  );
+};
+const SaveArticleBtn = ({ clickHandler, saveStatus }) => {
+  return (
+    <button className="action-btn" onClick={() => clickHandler()}>
+      {saveStatus ? (
+        <MdOutlineBookmarkAdded color={colors.text} />
+      ) : (
+        <MdOutlineBookmarkAdd color={colors.text} />
+      )}
+      <span className="count">{saveStatus ? "Saved" : "Save"}</span>
     </button>
   );
 };
@@ -220,6 +242,12 @@ export const ActionsFlowBox = ({
           <CommentArticleBtn
             clickHandler={() => clickBtnHandler("commentBtn")}
             commentCount={commentCount}
+          />
+        </li>
+        <li>
+          <SaveArticleBtn
+            clickHandler={() => clickBtnHandler("saveBtn")}
+            saveStatus={false}
           />
         </li>
       </ul>

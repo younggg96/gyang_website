@@ -21,7 +21,7 @@
   }
 
   .action-flow-box {
-    @apply sticky flex justify-center items-center bottom-6;
+    @apply sticky flex justify-center items-center mb-2 bottom-6;
     .btns {
       @apply flex items-center gap-x-4 p-4 px-8 border border-border rounded-full bg-white shadow-lg
       dark:bg-primaryDark dark:border-borderDark dark:shadow-none;
@@ -39,10 +39,28 @@
       .comments-item {
         @apply flex flex-col px-4 py-2 border-b-[1px] last:border-b-0 border-border dark:border-borderDark;
         .user {
-          @apply flex items-center justify-between mb-4;
+          @apply flex items-center mb-4;
+          &-wapper {
+            @apply flex items-center mr-auto;
+            .reply-label {
+              @apply mx-4 text-xs px-[6px] py-1 dark:text-text text-text rounded-lg dark:bg-background bg-primary;
+            }
+          }
+        }
+        .reply-content {
+          @apply flex items-start gap-2 mb-4 p-4 rounded-lg bg-gray-100 text-text dark:bg-accentDark dark:text-textDark;
+          &-user {
+            @apply flex items-center gap-1;
+            .line {
+              @apply w-[3px] h-[32px] mr-3 rounded-full bg-borderDark dark:bg-border;
+            }
+          }
+          &-details {
+            @apply truncate flex-1 leading-[32px];
+          }
         }
         .content {
-          @apply text-text dark:text-textDark mb-4;
+          @apply px-4 text-text dark:text-textDark mb-4 break-words;
         }
       }
     }

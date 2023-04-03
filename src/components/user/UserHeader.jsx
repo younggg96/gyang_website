@@ -4,15 +4,17 @@ import defaultAvatar from "../../assets/imgs/default-avatar.jpg";
 
 import GyAvatar from "../../ui/GyAvatar/GyAvatar";
 
-const UserHeader = ({ user, size = "normal" }) => {
+const UserHeader = ({ user, size = "normal", hasAvatar = true, ...props }) => {
   const avatar = user?.avatar || defaultAvatar;
 
   return (
-    <div className="user-info-header">
+    <div className="user-info-header" {...props}>
       {size === "sm" && (
         <section className="user-info-header-sm">
           <div className="user-content">
-            <GyAvatar src={avatar} alt={user?.username + "-avatar"} />
+            {hasAvatar && (
+              <GyAvatar src={avatar} alt={user?.username + "-avatar"} />
+            )}
             <Link to={`/profile/${user?.id}`} className="link">
               {user?.username}
             </Link>
@@ -27,18 +29,18 @@ const UserHeader = ({ user, size = "normal" }) => {
       {size === "lg" && (
         <section className="user-info-header-lg">
           <div className="user-avatar">
-            <img src={avatar} alt={user?.username + "-avatar"} />
+            {hasAvatar && (
+              <GyAvatar src={avatar} alt={user?.username + "-avatar"} />
+            )}
           </div>
           <p className="title">{user?.username}</p>
         </section>
       )}
       {size === "normal" && (
         <section className="user-info-header-normal">
-          <GyAvatar
-            className="avatar"
-            src={avatar}
-            alt={user?.username + "-avatar"}
-          />
+          {hasAvatar && (
+            <GyAvatar src={avatar} alt={user?.username + "-avatar"} />
+          )}
           <Link to={`/profile/${user?.id}`} className="link title">
             {user?.username}
           </Link>
