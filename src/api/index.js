@@ -1,6 +1,11 @@
 import { deleteReq, get, patch, post } from "./axios";
 
 // articles
+/**
+ *
+ * @param {number} id article Id
+ * @returns article
+ */
 export const getArticleByArticleId = (id) => get("/article/user/" + id);
 /**
  * @param {number} curPage page

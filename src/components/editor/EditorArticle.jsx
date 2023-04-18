@@ -7,12 +7,18 @@ import GyCard from "../../ui/GyCard/GyCard";
 import GyInput from "../../ui/GyInput/GyInput";
 import GyTextarea from "../../ui/GyTextarea/GyTextarea";
 import GyUploader from "../../ui/GyUploader/GyUploader";
+import { BsCloudUploadFill } from "react-icons/bs";
+import { FilesDragAndDrop } from "../../ui/GyUploader/NewUploader";
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
-function handleEditorChange({ html, text }) {
+const handleEditorChange = ({ html, text }) => {
   console.log("handleEditorChange", html, text);
-}
+};
+
+const hanleFileChange = (file) => {
+  console.log("file", file);
+};
 
 const EditorArticle = () => {
   return (
@@ -22,7 +28,7 @@ const EditorArticle = () => {
         <GyTextarea placeholder="Short description *" />
       </GyCard>
       <GyCard title="Article Cover" hasDivider={false}>
-        <GyUploader className="!w-full py-12 px-6" />
+        <GyUploader onFileChange={hanleFileChange} />
       </GyCard>
       <GyCard title="Content" hasDivider={false}>
         <MdEditor

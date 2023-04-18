@@ -2,17 +2,44 @@
 
 @layer components {
   .gy-uploader {
-    @apply flex flex-col gap-2 items-center justify-center w-[80%] h-[80%] border-2 border-border border-dashed rounded-xl cursor-pointer bg-white
-    hover:opacity-90 hover:bg-gray-50
+    @apply flex gap-2 items-center justify-center border-2 border-border border-dashed rounded-xl bg-white relative p-10
+    hover:opacity-90 hover:bg-gray-200
     dark:bg-backgroundDark dark:border-borderDark dark:hover:border-opacity-95 dark:hover:bg-accentDark;
-    img {
-      @apply w-[60%] mb-4;
+    &.dragging {
+      @apply border-primary cursor-move bg-gray-200 dark:bg-accentDark;
     }
-    .uploader-header {
-      @apply text-base text-text dark:text-textDark;
+    &__input {
+      @apply cursor-pointer opacity-0 absolute left-0 right-0 w-full h-full;
     }
-    .uploader-header-sm {
-      @apply text-xs text-text dark:text-textDark;
+    &__content {
+      @apply flex flex-col items-center;
+      &__img {
+        @apply mb-4;
+      }
+      &__header {
+        @apply text-base text-text dark:text-textDark;
+      }
+      &__header-sm {
+        @apply text-xs text-text dark:text-textDark;
+      }
+    }
+  }
+
+  .uploader-preview {
+    &__title {
+      @apply m-2 font-medium;
+    }
+    &__content {
+      @apply flex flex-wrap gap-2;
+      &__item {
+        @apply flex items-center justify-between gap-4 p-4 border-border dark:border-borderDark border rounded-lg mb-2;
+        &__img {
+          @apply w-10 h-10 rounded-sm object-cover;
+        }
+        &__info {
+          @apply flex-1;
+        }
+      }
     }
   }
 
