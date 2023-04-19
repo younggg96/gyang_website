@@ -7,6 +7,9 @@
     dark:bg-primaryDark dark:border-borderDark dark:shadow-none;
     .editor-content {
       @apply p-2;
+      .editor-imgs-previewer {
+        @apply px-2;
+      }
     }
     .editor-btns {
       @apply flex items-center justify-between px-4 py-2 border-t border-border dark:border-borderDark;

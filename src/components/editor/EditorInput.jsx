@@ -1,18 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import "./index.scss";
 import EditorIcons from "./EditorIcons";
 import AddEmojiBtn from "./AddEmojiBtn";
 import { useForm } from "react-hook-form";
 import GyButton from "../../ui/GyButton/GyButton";
-import GyInput from "../../ui/GyInput/GyInput";
 import { useCycle } from "framer-motion";
 import GyModal from "../../ui/GyModal/GyModal";
-import GyUploader from "../../ui/GyUploader/GyUploader";
+import GyUploader, {
+  GyUploaderPrevier,
+  MAX_UPLOAD_IMG_NUM,
+} from "../../ui/GyUploader/GyUploader";
 import GyTextarea from "../../ui/GyTextarea/GyTextarea";
-import UserHeader from "../user/UserHeader";
+import { TIME, TYPE, useToast } from "../../ui/GyToast/ToastProvider";
 
 const EditorInput = () => {
   const [isImgUploaderOpen, toggleImgUploaderOpen] = useCycle(false, true);
+
+  const { addToast } = useToast();
+  const [uploadImgs, setUploadImgs] = useState([]);
   const {
     register,
     handleSubmit,
@@ -24,6 +29,33 @@ const EditorInput = () => {
   const emojiClickHandler = (e) => {
     console.log(e);
   };
+
+  // img uploader
+  const handleFileChange = (files) => {
+    toggleImgUploaderOpen();
+    if (uploadImgs.length === MAX_UPLOAD_IMG_NUM) {
+      addToast({
+        content:
+          "Maximum number of images (9) has been reached. You cannot add more images.",
+        time: TIME.LONG,
+        type: TYPE.WARNING,
+      });
+      return;
+    } else {
+      addToast({
+        content: "Image added successfully.",
+        time: TIME.SHORT,
+        type: TYPE.SUCCESS,
+      });
+      setUploadImgs([...uploadImgs, ...files]);
+    }
+  };
+  const handleFileRemove = (file) => {
+    const updatedList = [...uploadImgs];
+    updatedList.splice(uploadImgs.indexOf(file), 1);
+    setUploadImgs(updatedList);
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="editor-wapper">
@@ -38,6 +70,17 @@ const EditorInput = () => {
             })}
             hasBorder={false}
           />
+          {uploadImgs.length > 0 && (
+            <>
+              <hr />
+              <div className="editor-imgs-previewer">
+                <GyUploaderPrevier
+                  fileList={uploadImgs}
+                  fileRemove={() => handleFileRemove()}
+                />
+              </div>
+            </>
+          )}
         </div>
         <div className="editor-btns">
           <GyButton size={["sm"]} type="submit">
@@ -62,7 +105,7 @@ const EditorInput = () => {
                 toggleOpen={toggleImgUploaderOpen}
                 modalClass={"uploader-modal"}
               >
-                <GyUploader />
+                <GyUploader onFileChange={handleFileChange} type="multiple" />
               </GyModal>
             </div>
           </div>

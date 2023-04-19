@@ -5,9 +5,9 @@ import { BsImage, BsCloudUploadFill } from "react-icons/bs";
 import { AiFillDelete } from "react-icons/ai";
 import { useRequest } from "ahooks";
 import { uploadImgs } from "../../api/upload";
-import { colors } from "../../config";
 import GyButton from "../GyButton/GyButton";
 import PropTypes from "prop-types";
+import { TIME, TYPE, useToast } from "../GyToast/ToastProvider";
 
 const byteToMegaByte = (bytes) => {
   return bytes / 1048576 < 1
@@ -15,15 +15,52 @@ const byteToMegaByte = (bytes) => {
     : `${(bytes / 1048576).toFixed(2)} MB`;
 };
 
+export const MAX_UPLOAD_IMG_NUM = 9;
+
+export const GyUploaderPrevier = ({ fileList, fileRemove }) => (
+  <div className="uploader-preview">
+    {/* <p className="uploader-preview__title">Ready to upload</p> */}
+    <div className="uploader-preview__content">
+      {fileList.map((item, index) => (
+        <div className="uploader-preview__content__item" key={index}>
+          <img
+            className="uploader-preview__content__item__img"
+            alt={`${item.name} preview img`}
+            src={item.url}
+          />
+          {/* <div className="uploader-preview__content__item__info">
+              <p>{item.name}</p>
+              <p className="text-xs text-gray-400">
+                {byteToMegaByte(item.size)}
+              </p>
+            </div> */}
+          <GyButton
+            className="uploader-preview__content__item__del"
+            type="button"
+            size={["iconOnly"]}
+            onClick={() => fileRemove(item)}
+          >
+            <AiFillDelete />
+            <span className="sr-only">Delete img</span>
+          </GyButton>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
 const GyUploader = ({
   children,
   className,
   onFileChange = () => {},
   type = "single",
+  preview = false,
   ...props
 }) => {
   const [dragging, setDragging] = useState(false);
   const [fileList, setFileList] = useState([]);
+
+  const { addToast } = useToast();
 
   const handleDrop = (e) => {
     e.preventDefault();
@@ -48,17 +85,27 @@ const GyUploader = ({
       const file = files[i];
       const reader = new FileReader();
       reader.onload = () => {
-        fileArray.push({
-          file,
-          url: reader.result,
-          name: file.name,
-          size: file.size,
-        });
-        if (fileArray.length === files.length) {
-          setFileList([...fileList, ...fileArray]);
-          onFileChange(
-            type === "single" ? fileArray[0] : [...fileList, ...fileArray]
-          );
+        const fileType = reader.result.split(";")[0].split(":")[1];
+        if (fileType === "image/jpeg" || fileType === "image/png") {
+          fileArray.push({
+            file,
+            url: reader.result,
+            name: file.name,
+            size: file.size,
+          });
+          if (fileArray.length === files.length) {
+            setFileList([...fileList, ...fileArray]);
+            onFileChange(
+              type === "single" ? fileArray[0] : [...fileList, ...fileArray]
+            );
+          }
+        } else {
+          addToast({
+            content: "Invalid file format. Please upload a PNG or JPG image.",
+            time: TIME.SHORT,
+            type: TYPE.ERROR,
+          });
+          return;
         }
       };
       reader.readAsDataURL(file);
@@ -88,9 +135,9 @@ const GyUploader = ({
         {...props}
       >
         {type === "single" && !!fileList.length ? (
-          <div className="flex flex-col items-center gap-2">
+          <div className="w-full flex flex-col items-center gap-2">
             <img
-              className="rounded-md w-96 h-80 object-cover"
+              className="rounded-md w-full h-80 object-cover"
               alt={`${fileList[0].name} preview img`}
               src={fileList[0].url}
             />
@@ -116,7 +163,7 @@ const GyUploader = ({
         ) : (
           <>
             <input
-              multiple={type === "mutiple"}
+              multiple={type === "multiple"}
               type="file"
               className="gy-uploader__input"
               onChange={(e) => addFiles([...e.target.files])}
@@ -127,17 +174,20 @@ const GyUploader = ({
             <div className="gy-uploader__content">
               <div className="gy-uploader__content__img">
                 {dragging ? (
-                  <BsImage
-                    className="w-[80px] h-[80px]"
-                    style={{ color: colors.primary }}
-                  />
+                  <BsImage className="icon active" />
                 ) : (
-                  <BsCloudUploadFill className="w-[80px] h-[80px]" />
+                  <BsCloudUploadFill className="icon" />
                 )}
               </div>
               <p className="gy-uploader__content__header">
-                <span className="font-semibold">Click to upload</span> or drag
-                and drop
+                {dragging ? (
+                  <span className="font-semibold">Drop the image file...</span>
+                ) : (
+                  <>
+                    <span className="font-semibold">Click to upload</span> or
+                    drag and drop
+                  </>
+                )}
               </p>
               <p className="gy-uploader__content__header-sm">
                 SVG, PNG, JPG or GIF (MAX. 800x400px)
@@ -146,43 +196,16 @@ const GyUploader = ({
           </>
         )}
       </div>
-      {!!fileList.length && type === "mutiple" && (
-        <div className="uploader-preview">
-          <p className="uploader-preview__title">Ready to upload</p>
-          <div className="uploader-preview__content">
-            {fileList.map((item, index) => (
-              <div className="uploader-preview__content__item" key={index}>
-                <img
-                  className="uploader-preview__content__item__img"
-                  alt={`${item.name} preview img`}
-                  src={item.url}
-                />
-                <div className="uploader-preview__content__item__info">
-                  <p>{item.name}</p>
-                  <p className="text-xs text-gray-400">
-                    {byteToMegaByte(item.size)}
-                  </p>
-                </div>
-                <GyButton
-                  className="uploader-preview__content__item__del"
-                  type="button"
-                  size={["sm", "round"]}
-                  onClick={() => fileRemove(item)}
-                >
-                  <AiFillDelete />
-                  <span className="sr-only">Delete img</span>
-                </GyButton>
-              </div>
-            ))}
-          </div>
-        </div>
+      {!!fileList.length && type === "multiple" && preview && (
+        <GyUploaderPrevier fileList={fileList} fileRemove={fileRemove} />
       )}
     </>
   );
 };
 
 GyUploader.prototype = {
-  type: PropTypes.oneOf(["single", "mutiple"]).isRequired,
+  type: PropTypes.oneOf(["single", "multiple"]).isRequired,
+  preview: PropTypes.bool.isRequired,
   onFileChange: PropTypes.func.isRequired,
 };
 
