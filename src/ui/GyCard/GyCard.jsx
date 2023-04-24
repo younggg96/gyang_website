@@ -16,7 +16,7 @@ const GyCard = ({
           <header
             className={classNames([
               "header-title title",
-              { noDivider: !hasDivider },
+              { "no-divider": !hasDivider },
             ])}
           >
             {title}

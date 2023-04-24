@@ -2,21 +2,30 @@
 
 @layer components {
   .gy-button {
-    @apply bg-white rounded-md py-2 border border-border dark:border-borderDark shadow-lg text-text
-    sm:py-4
-    hover:border-accent hover:bg-primary
-    dark:bg-backgroundDark dark:text-gray-50 dark:hover:bg-primary dark:hover:text-primaryDark dark:hover:border-transparent;
+    @apply bg-white rounded-md py-2 shadow-lg text-text dark:text-textDark
+    sm:py-4 active:opacity-90;
     &.lg {
       @apply py-[18px] px-[50px] h-[66px] text-xl;
     }
     &.sm {
       @apply py-[8px] px-[12px] h-[42px] text-sm;
     }
-    &.iconOnly {
-      @apply p-0 bg-transparent border-0 hover:bg-transparent;
-    }
     &.normal {
       @apply py-2 px-6 h-12;
+    }
+    &.outlined {
+      @apply border border-border dark:border-borderDark
+      hover:border-accent hover:bg-primary
+      dark:bg-backgroundDark dark:text-gray-50 dark:hover:bg-primary dark:hover:text-primaryDark dark:hover:border-transparent;
+    }
+    &.text {
+      @apply shadow-none dark:bg-primaryDark;
+    }
+    &.contained {
+      @apply text-text bg-primary border border-border dark:border-borderDark;
+    }
+    &.iconOnly {
+      @apply p-0 bg-transparent border-0 hover:bg-transparent;
     }
     &.round {
       @apply rounded-full flex justify-center items-center;

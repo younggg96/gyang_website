@@ -10,7 +10,7 @@ module.exports = {
       sm: "640px",
       md: "768px",
       lg: "1024px",
-      xl: "1192px",
+      xl: "1280px",
     },
     extend: {
       colors: {
@@ -27,6 +27,7 @@ module.exports = {
         textDark: "#fdfdfe",
         accentDark: "#262626",
         borderDark: "#30363d",
+        placeHolder: "#757879",
         // status
         error: "#ff1010",
         errorBg: "#f6d8d8",
@@ -48,5 +49,7 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms'),
+  ],
 };

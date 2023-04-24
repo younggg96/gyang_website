@@ -7,6 +7,17 @@
   height: 100vh;
 }
 
+/* Hide scrollbar for IE, Edge and Firefox */
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+::-webkit-scrollbar {
+  display: none;
+}
+
 @layer base {
   body {
     @apply bg-background dark:bg-backgroundDark font-secondary;
@@ -21,7 +32,7 @@
 
 @layer components {
   .input {
-    @apply outline-none border-b border-b-text h-[44px] sm:h-[60px] bg-transparent font-secondary w-full px-2 placeholder:text-[#757879];
+    @apply outline-none border-b border-b-text h-[44px] sm:h-[60px] bg-transparent font-secondary w-full px-2 placeholder:text-placeHolder;
   }
   .title {
     @apply text-3xl md:text-xl font-primary font-medium capitalize leading-[120%] tracking-[-0.01em];

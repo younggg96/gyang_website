@@ -7,7 +7,7 @@
     dark:shadow-none dark:bg-primaryDark dark:text-textDark dark:border-borderDark;
     .header-title.title {
       @apply dark:text-primary;
-      &.noDivider {
+      &.no-divider {
         @apply mb-4;
       }
     }

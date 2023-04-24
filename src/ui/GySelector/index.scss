@@ -1,0 +1,48 @@
+@tailwind components;
+
+@layer components {
+  .gy-selector {
+    @apply flex flex-col gap-4;
+    &__title {
+      @apply pl-4 text-primary;
+    }
+    .selected-item {
+      @apply flex justify-between items-center w-full cursor-pointer;
+      &.gy-card {
+        @apply flex-row m-0;
+      }
+      &__text {
+        @apply w-[228px] overflow-hidden text-ellipsis whitespace-nowrap;
+      }
+      &__placeholder {
+        @apply w-[228px] opacity-60;
+      }
+      &__icon {
+        @apply w-6 h-6 grid place-items-center;
+      }
+    }
+    &-popup {
+      .gy-popup {
+        top: calc(100% - 2.5rem);
+        right: 1rem;
+      }
+      .options-wapper {
+        @apply border rounded-2xl border-border bg-white w-[180px] h-[120px] p-4 overflow-scroll overflow-x-hidden
+        dark:border-borderDark dark:bg-primaryDark;
+        .option-multiple {
+          @apply flex items-center gap-2 h-6 mb-2;
+          input {
+            @apply h-4 w-4 text-primary rounded-sm cursor-pointer;
+            &.form-checkbox {
+              outline: none !important;
+              box-shadow: none !important;
+            }
+          }
+          label {
+            @apply cursor-pointer leading-4;
+          }
+        }
+      }
+    }
+  }
+}

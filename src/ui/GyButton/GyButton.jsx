@@ -7,6 +7,7 @@ const GyButton = ({
   click,
   type = "button",
   size = ["normal"],
+  variant = "outlined",
   icon,
   loading = false,
   className,
@@ -19,8 +20,9 @@ const GyButton = ({
           className={classNames(
             "gy-button",
             ...size,
+            icon && "icon",
+            variant,
             className,
-            icon && "icon"
           )}
           type={type}
           onClick={click}

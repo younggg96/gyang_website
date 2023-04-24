@@ -2,6 +2,6 @@
 
 @layer components {
   .gy-popup {
-    @apply top-[calc(100%-.5rem)] left-4 absolute w-full min-h-min rounded-2xl shadow-md;
+    @apply top-[calc(100%-.5rem)] right-0 absolute min-h-min rounded-2xl shadow-md;
   }
 }

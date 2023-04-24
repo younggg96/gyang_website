@@ -16,7 +16,7 @@
       &__img {
         @apply mb-4;
         .icon {
-          @apply w-[80px] h-[80px] text-white;
+          @apply w-[80px] h-[80px] text-text dark:text-textDark;
         }
         .active {
           @apply text-primary;
