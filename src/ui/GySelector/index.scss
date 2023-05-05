@@ -4,7 +4,7 @@
   .gy-selector {
     @apply flex flex-col gap-4;
     &__title {
-      @apply pl-4 text-primary;
+      @apply pl-2 text-text dark:text-textDark;
     }
     .selected-item {
       @apply flex justify-between items-center w-full cursor-pointer;

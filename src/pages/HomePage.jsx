@@ -6,7 +6,7 @@ import Gytab from "../ui/GyTab/Gytab";
 import GyBodySection from "../ui/GyBodySection/GyBodySection";
 // scss
 import "./style/index.scss";
-import EditorBtns from "../components/editor/EditorBtns";
+import EditorBtnsComponents from "../components/editor/EditorBtns";
 import MomentList from "../components/moments/MomentList";
 
 export const tabs = ["Articles", "Moments"];
@@ -28,7 +28,7 @@ const Home = () => {
         </section>
         <section className="right-section">
           <div className="sticky-side">
-            <EditorBtns />
+            <EditorBtnsComponents.EditorBtns />
             <TopUserList row={5} page={1} />
           </div>
         </section>

@@ -2,7 +2,13 @@ import React from "react";
 import "./index.scss";
 import classNames from "classnames";
 
-const GyInput = ({ className, onInputHandler, form, ...props }) => {
+const GyInput = ({
+  className,
+  onInputHandler,
+  required = false,
+  form,
+  ...props
+}) => {
   return (
     <input
       className={classNames("gy-input", className)}
@@ -10,6 +16,7 @@ const GyInput = ({ className, onInputHandler, form, ...props }) => {
         event.preventDefault();
         onInputHandler && onInputHandler(event.target.value);
       }}
+      required={required}
       {...form}
       {...props}
     />

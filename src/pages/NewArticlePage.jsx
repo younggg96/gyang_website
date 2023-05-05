@@ -1,44 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import GyBodySection from "../ui/GyBodySection/GyBodySection";
 import EditorArticle from "../components/editor/EditorArticle";
-import GyCard from "../ui/GyCard/GyCard";
-import GyButton from "../ui/GyButton/GyButton";
-import { MdSaveAlt } from "react-icons/md";
-import { HiOutlineDocumentText } from "react-icons/hi";
-import GySelector from "../ui/GySelector/GySelector";
+
+import EditorBtnsComponents from "../components/editor/EditorBtns";
+import { useForm } from "react-hook-form";
 
 const NewArticlePage = () => {
+  const form = useForm();
+  const [uploadImg, setUploadImg] = useState([]);
+
+  const onSubmit = (data) => {
+    console.log("aaaa");
+    if (!uploadImg.length) {
+      form.setError("cover", {
+        type: "required",
+        message: "Article cover is required.",
+      });
+    }
+    // run(data);
+  };
+
   return (
     <GyBodySection>
-      <div className="page-section">
-        <section className="left-section">
-          <EditorArticle />
-        </section>
-        <section className="right-section">
-          <GyCard className="sticky-side">
-            <div>
-              <GySelector title="Select category"></GySelector>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <p>{JSON.stringify(uploadImg)}</p>
+        <div className="page-section">
+          <section className="left-section">
+            <EditorArticle form={form} setUploadImg={setUploadImg} />
+          </section>
+          <section className="right-section">
+            <div className="sticky-side">
+              <EditorBtnsComponents.EditorSubmitBtns form={form} />
             </div>
-            {/* <div className="flex flex-col gap-4">
-              <GyButton
-                icon={() => <MdSaveAlt />}
-                title="Publish your article"
-                variant="contained"
-                click={() => {}}
-              >
-                Publish
-              </GyButton>
-              <GyButton
-                icon={() => <HiOutlineDocumentText />}
-                title="Save your article as a draft"
-                variant="text"
-              >
-                Save as draft
-              </GyButton>
-            </div> */}
-          </GyCard>
-        </section>
-      </div>
+          </section>
+        </div>
+      </form>
     </GyBodySection>
   );
 };

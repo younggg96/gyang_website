@@ -28,16 +28,10 @@ export const GyUploaderPrevier = ({ fileList, fileRemove }) => (
             alt={`${item.name} preview img`}
             src={item.url}
           />
-          {/* <div className="uploader-preview__content__item__info">
-              <p>{item.name}</p>
-              <p className="text-xs text-gray-400">
-                {byteToMegaByte(item.size)}
-              </p>
-            </div> */}
           <GyButton
             className="uploader-preview__content__item__del"
             type="button"
-            size={["iconOnly"]}
+            variant="iconOnly"
             onClick={() => fileRemove(item)}
           >
             <AiFillDelete />
@@ -135,7 +129,7 @@ const GyUploader = ({
         {...props}
       >
         {type === "single" && !!fileList.length ? (
-          <div className="w-full flex flex-col items-center gap-2">
+          <div className="relative w-full">
             <img
               className="rounded-md w-full h-80 object-cover"
               alt={`${fileList[0].name} preview img`}
@@ -147,18 +141,13 @@ const GyUploader = ({
                 {byteToMegaByte(fileList[0].size)}
               </p>
             </div>
-            <div className="flex gap-2">
-              <GyButton type="button" icon={() => <AiFillDelete />}>
-                <span>Upload image</span>
-              </GyButton>
-              <GyButton
-                type="button"
-                icon={() => <AiFillDelete />}
-                onClick={() => fileRemove(fileList[0])}
-              >
-                <span>Delete image</span>
-              </GyButton>
-            </div>
+            <GyButton
+              type="button"
+              variant="iconOnly"
+              icon={() => <AiFillDelete />}
+              onClick={() => fileRemove(fileList[0])}
+              className="absolute top-4 right-4"
+            ></GyButton>
           </div>
         ) : (
           <>
@@ -166,6 +155,7 @@ const GyUploader = ({
               multiple={type === "multiple"}
               type="file"
               className="gy-uploader__input"
+              accept="image/*"
               onChange={(e) => addFiles([...e.target.files])}
               onDragEnter={handleDragEnter}
               onDragLeave={handleDragLeave}

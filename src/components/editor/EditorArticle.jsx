@@ -10,23 +10,50 @@ import "react-markdown-editor-lite/lib/index.css";
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
-const handleEditorChange = ({ html, text }) => {
-  console.log("handleEditorChange", html, text);
-};
+const EditorArticle = ({ form, setUploadImg }) => {
+  const {
+    register,
+    setError,
+    clearErrors,
+    formState: { errors },
+  } = form;
 
-const hanleFileChange = (file) => {
-  console.log("file", file);
-};
+  const handleEditorChange = ({ html, text }) => {
+    console.log("handleEditorChange", html, text);
+  };
 
-const EditorArticle = () => {
+  const hanleFileChange = (file) => {
+    console.log("file", file);
+    setUploadImg(file);
+    clearErrors("cover");
+  };
+
   return (
     <GyCard>
       <GyCard title="Article Info" hasDivider={false}>
-        <GyInput placeholder="Article title *" className="mb-6" />
-        <GyTextarea placeholder="Short description *" />
+        <GyInput
+          placeholder="Article title *"
+          className="mb-6"
+          required={true}
+          form={register("title", {
+            required: "Article title is required.",
+          })}
+        />
+        {errors.title && <p className="error-msg">{errors.title.message}</p>}
+        <GyTextarea
+          placeholder="Short description *"
+          required={true}
+          form={register("description", {
+            required: "Article description is required.",
+          })}
+        />
+        {errors.description && (
+          <p className="error-msg">{errors.description.message}</p>
+        )}
       </GyCard>
       <GyCard title="Article Cover" hasDivider={false}>
         <GyUploader onFileChange={hanleFileChange} type="single" />
+        {errors.cover && <p className="error-msg">{errors.cover.message}</p>}
       </GyCard>
       <GyCard title="Content" hasDivider={false}>
         <MdEditor

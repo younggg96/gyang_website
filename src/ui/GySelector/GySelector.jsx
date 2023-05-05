@@ -23,7 +23,8 @@ const GySelector = ({
   onSelect,
   multiple = true,
   opened = false,
-  title = "Select...",
+  title = "",
+  placeHolder = "Select...",
   ...props
 }) => {
   const [openOptions, setOpenOptions] = useState(opened);
@@ -52,10 +53,10 @@ const GySelector = ({
 
   return (
     <div className={classNames(["gy-selector"])} {...props}>
-      <p className="gy-selector__title title">{title}</p>
+      <p className="gy-selector__title">{title}</p>
       <GyCard className="selected-item" onClick={() => handleOpenOptions()}>
         {!!!selectedItem.length ? (
-          <span className="selected-item__placeholder">Select...</span>
+          <span className="selected-item__placeholder">{placeHolder}</span>
         ) : (
           <>
             {!multiple ? (

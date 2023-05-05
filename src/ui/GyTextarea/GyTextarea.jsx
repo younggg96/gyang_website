@@ -6,7 +6,7 @@ const GyTextarea = ({
   id,
   rows = 4,
   placeholder,
-  required = true,
+  required = false,
   className,
   hideLabel = "Input",
   hasBorder = true,
