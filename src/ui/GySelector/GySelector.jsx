@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./index.scss";
 import classNames from "classnames";
 import GyPopup from "../GyPopup";
@@ -25,17 +25,23 @@ const GySelector = ({
   opened = false,
   title = "",
   placeHolder = "Select...",
+  hasError = false,
+  errorMsg = "",
   ...props
 }) => {
   const [openOptions, setOpenOptions] = useState(opened);
   const [selectedItem, setSelectedItem] = useState([]);
+
+  useEffect(() => {
+    onSelect(selectedItem);
+  }, [selectedItem]);
 
   const handleOpenOptions = () => {
     !openOptions && setOpenOptions(true);
   };
 
   const handleChooseItem = (item) => {
-    setSelectedItem([item]);
+    setSelectedItem(item);
   };
 
   const hasDuplicateValue = (arr, item) =>
@@ -44,7 +50,8 @@ const GySelector = ({
   const handleChooseMultipleItem = (item) => {
     setSelectedItem((prev) => {
       if (hasDuplicateValue(prev, item)) {
-        return prev.filter((o) => o.value !== item.value);
+        const data = prev.filter((o) => o.value !== item.value);
+        return data;
       } else {
         return [...prev, item];
       }
@@ -79,6 +86,7 @@ const GySelector = ({
           <FiChevronDown />
         </div>
       </GyCard>
+      {hasError && <p className="error-msg">{errorMsg}</p>}
       <GyPopup
         className="gy-selector-popup"
         open={openOptions}

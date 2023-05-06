@@ -19,7 +19,6 @@ export const MAX_UPLOAD_IMG_NUM = 9;
 
 export const GyUploaderPrevier = ({ fileList, fileRemove }) => (
   <div className="uploader-preview">
-    {/* <p className="uploader-preview__title">Ready to upload</p> */}
     <div className="uploader-preview__content">
       {fileList.map((item, index) => (
         <div className="uploader-preview__content__item" key={index}>
@@ -49,6 +48,8 @@ const GyUploader = ({
   onFileChange = () => {},
   type = "single",
   preview = false,
+  hasError = false,
+  errorMsg = "",
   ...props
 }) => {
   const [dragging, setDragging] = useState(false);
@@ -90,7 +91,7 @@ const GyUploader = ({
           if (fileArray.length === files.length) {
             setFileList([...fileList, ...fileArray]);
             onFileChange(
-              type === "single" ? fileArray[0] : [...fileList, ...fileArray]
+              type === "single" ? [fileArray[0]] : [...fileList, ...fileArray]
             );
           }
         } else {
@@ -186,6 +187,7 @@ const GyUploader = ({
           </>
         )}
       </div>
+      {hasError && <p className="error-msg">{errorMsg}</p>}
       {!!fileList.length && type === "multiple" && preview && (
         <GyUploaderPrevier fileList={fileList} fileRemove={fileRemove} />
       )}

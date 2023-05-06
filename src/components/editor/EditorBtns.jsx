@@ -9,15 +9,38 @@ import { BsBookmarksFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import GySelector from "../../ui/GySelector/GySelector";
 import { MdSaveAlt } from "react-icons/md";
+import { Controller } from "react-hook-form";
 
-const EditorSubmitBtns = ({ register, errors }) => {
+const EditorSubmitBtns = ({ form }) => {
+  const {
+    register,
+    control,
+    formState: { errors },
+  } = form;
+
   return (
     <GyCard>
       <div className="mb-2">
-        <GySelector
-          placeHolder="Select category..."
-          title="Category"
-        ></GySelector>
+        <Controller
+          name="category"
+          control={control}
+          form={register("category", {
+            required: "Article category is required.",
+          })}
+          render={({ field }) => {
+            return (
+              <GySelector
+                placeHolder="Select category..."
+                title="Category *"
+                onSelect={(data) => {
+                  field.onChange(data);
+                }}
+                hasError={errors?.category}
+                errorMsg={errors?.category?.message}
+              ></GySelector>
+            );
+          }}
+        />
       </div>
       <div className="flex flex-col gap-4">
         <GyButton
@@ -25,7 +48,6 @@ const EditorSubmitBtns = ({ register, errors }) => {
           title="Publish your article"
           variant="contained"
           type="submit"
-          click={() => {}}
         >
           Publish
         </GyButton>

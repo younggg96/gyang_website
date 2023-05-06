@@ -2,9 +2,9 @@
 
 @layer components {
   .gy-selector {
-    @apply flex flex-col gap-4;
+    @apply mb-2;
     &__title {
-      @apply pl-2 text-text dark:text-textDark;
+      @apply pl-2 mb-2 text-text dark:text-textDark;
     }
     .selected-item {
       @apply flex justify-between items-center w-full cursor-pointer;

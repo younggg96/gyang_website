@@ -5,21 +5,23 @@ import classNames from "classnames";
 const GyInput = ({
   className,
   onInputHandler,
-  required = false,
   form,
+  hasError = false,
+  errorMsg = "",
   ...props
 }) => {
   return (
-    <input
-      className={classNames("gy-input", className)}
-      onInput={(event) => {
-        event.preventDefault();
-        onInputHandler && onInputHandler(event.target.value);
-      }}
-      required={required}
-      {...form}
-      {...props}
-    />
+    <div className={classNames("gy-input", className)}>
+      <input
+        onInput={(event) => {
+          event.preventDefault();
+          onInputHandler && onInputHandler(event.target.value);
+        }}
+        {...form}
+        {...props}
+      />
+      {hasError && <p className="error-msg">{errorMsg}</p>}
+    </div>
   );
 };
 

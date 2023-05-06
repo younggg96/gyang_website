@@ -7,26 +7,16 @@ import GyUploader from "../../ui/GyUploader/GyUploader";
 import MarkdownIt from "markdown-it";
 import MdEditor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
+import { Controller } from "react-hook-form";
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
-const EditorArticle = ({ form, setUploadImg }) => {
+const EditorArticle = ({ form }) => {
   const {
     register,
-    setError,
-    clearErrors,
+    control,
     formState: { errors },
   } = form;
-
-  const handleEditorChange = ({ html, text }) => {
-    console.log("handleEditorChange", html, text);
-  };
-
-  const hanleFileChange = (file) => {
-    console.log("file", file);
-    setUploadImg(file);
-    clearErrors("cover");
-  };
 
   return (
     <GyCard>
@@ -34,33 +24,61 @@ const EditorArticle = ({ form, setUploadImg }) => {
         <GyInput
           placeholder="Article title *"
           className="mb-6"
-          required={true}
           form={register("title", {
             required: "Article title is required.",
           })}
+          hasError={errors?.title}
+          errorMsg={errors?.title?.message}
         />
-        {errors.title && <p className="error-msg">{errors.title.message}</p>}
         <GyTextarea
           placeholder="Short description *"
-          required={true}
           form={register("description", {
             required: "Article description is required.",
           })}
+          hasError={errors?.description}
+          errorMsg={errors?.description?.message}
         />
-        {errors.description && (
-          <p className="error-msg">{errors.description.message}</p>
+      </GyCard>
+      <GyCard title="Article Cover *" hasDivider={false}>
+        <Controller
+          name="cover"
+          control={control}
+          form={register("cover", {
+            required: "Article cover is required.",
+          })}
+          render={({ field }) => {
+            return (
+              <GyUploader
+                onFileChange={(file) => {
+                  field.onChange(file);
+                }}
+                type="single"
+                hasError={errors?.cover}
+                errorMsg={errors?.cover?.message}
+              />
+            );
+          }}
+        />
+      </GyCard>
+      <GyCard title="Content *" hasDivider={false}>
+        <Controller
+          name="MdEditor"
+          control={control}
+          form={register("MdEditor", {
+            required: "Article content is required.",
+          })}
+          render={({ field }) => {
+            return (
+              <MdEditor
+                renderHTML={(text) => mdParser.render(text)}
+                onChange={({ html, text }) => field.onChange(html)}
+              />
+            );
+          }}
+        />
+        {errors.MdEditor && (
+          <p className="error-msg">{errors.MdEditor.message}</p>
         )}
-      </GyCard>
-      <GyCard title="Article Cover" hasDivider={false}>
-        <GyUploader onFileChange={hanleFileChange} type="single" />
-        {errors.cover && <p className="error-msg">{errors.cover.message}</p>}
-      </GyCard>
-      <GyCard title="Content" hasDivider={false}>
-        <MdEditor
-          style={{ width: "100%" }}
-          renderHTML={(text) => mdParser.render(text)}
-          onChange={handleEditorChange}
-        />
       </GyCard>
     </GyCard>
   );

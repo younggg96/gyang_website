@@ -7,26 +7,18 @@ import { useForm } from "react-hook-form";
 
 const NewArticlePage = () => {
   const form = useForm();
-  const [uploadImg, setUploadImg] = useState([]);
 
   const onSubmit = (data) => {
-    console.log("aaaa");
-    if (!uploadImg.length) {
-      form.setError("cover", {
-        type: "required",
-        message: "Article cover is required.",
-      });
-    }
+    console.log(data);
     // run(data);
   };
 
   return (
     <GyBodySection>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <p>{JSON.stringify(uploadImg)}</p>
         <div className="page-section">
           <section className="left-section">
-            <EditorArticle form={form} setUploadImg={setUploadImg} />
+            <EditorArticle form={form} />
           </section>
           <section className="right-section">
             <div className="sticky-side">

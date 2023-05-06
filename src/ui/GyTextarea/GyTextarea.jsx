@@ -6,11 +6,12 @@ const GyTextarea = ({
   id,
   rows = 4,
   placeholder,
-  required = false,
   className,
   hideLabel = "Input",
   hasBorder = true,
   form,
+  hasError = false,
+  errorMsg = "",
   ...props
 }) => {
   return (
@@ -19,14 +20,11 @@ const GyTextarea = ({
         id={id}
         rows={rows}
         placeholder={placeholder}
-        required={required}
         className={classNames({ hasBorder: hasBorder })}
         {...form}
         {...props}
       ></textarea>
-      <label htmlFor={id} className="sr-only">
-        {hideLabel}
-      </label>
+      {hasError && <p className="error-msg">{errorMsg}</p>}
     </div>
   );
 };

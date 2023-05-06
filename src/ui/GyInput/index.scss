@@ -2,7 +2,9 @@
 
 @layer components {
   .gy-input {
-    @apply text-text outline-none border-b px-1 border-b-border h-[2rem] bg-transparent font-secondary w-full placeholder:text-placeHolder dark:focus:border-b-textDark
-    dark:text-textDark dark:border-b-borderDark;
+    input {
+      @apply text-text outline-none border-b px-1 border-b-border h-[2rem] bg-transparent font-secondary w-full placeholder:text-placeHolder dark:focus:border-b-textDark
+      dark:text-textDark dark:border-b-borderDark;
+    }
   }
 }
