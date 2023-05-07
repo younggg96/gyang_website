@@ -14,9 +14,9 @@ const NewArticlePage = () => {
   const uploadImgRequest = useRequest(uploadImg, {
     manual: true,
   });
-  const createArticleRequest = useRequest(createArticle, {
-    manual: true,
-  });
+  // const createArticleRequest = useRequest(createArticle, {
+  //   manual: true,
+  // });
 
   const onSubmit = async (data) => {
     try {
@@ -24,11 +24,11 @@ const NewArticlePage = () => {
       console.log(data.categoryIds);
       const obj = {
         ...data,
-        categoryIds: data.categoryIds,
+        categoryIds: [1, 3],
         img: file.data.url,
       };
       console.log(obj);
-      await createArticleRequest.runAsync(obj);
+      await createArticle(obj);
     } catch (error) {
       console.log(error);
     }
