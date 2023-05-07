@@ -6,15 +6,15 @@ import { FiChevronDown } from "react-icons/fi";
 import GyCard from "../GyCard/GyCard";
 
 const init = [
-  { name: "option1", value: "1" },
-  { name: "option2", value: "2" },
-  { name: "option3", value: "3" },
-  { name: "option4", value: "4" },
-  { name: "option5", value: "5" },
-  { name: "option5", value: "6" },
-  { name: "option5", value: "7" },
-  { name: "option5", value: "8" },
-  { name: "option5", value: "9" },
+  { title: "option1", id: "1" },
+  { title: "option2", id: "2" },
+  { title: "option3", id: "3" },
+  { title: "option4", id: "4" },
+  { title: "option5", id: "5" },
+  { title: "option5", id: "6" },
+  { title: "option5", id: "7" },
+  { title: "option5", id: "8" },
+  { title: "option5", id: "9" },
 ];
 
 const GySelector = ({
@@ -45,12 +45,12 @@ const GySelector = ({
   };
 
   const hasDuplicateValue = (arr, item) =>
-    arr.some((prevItem) => prevItem.value === item.value);
+    arr.some((prevItem) => prevItem.id === item.id);
 
   const handleChooseMultipleItem = (item) => {
     setSelectedItem((prev) => {
       if (hasDuplicateValue(prev, item)) {
-        const data = prev.filter((o) => o.value !== item.value);
+        const data = prev.filter((o) => o.id !== item.id);
         return data;
       } else {
         return [...prev, item];
@@ -68,13 +68,13 @@ const GySelector = ({
           <>
             {!multiple ? (
               <span className="selected-item__text">
-                {selectedItem[0].name}
+                {selectedItem[0].title}
               </span>
             ) : (
               <span className="selected-item__text">
                 {selectedItem.map((item, index) => (
                   <span key={index}>
-                    {item.name}
+                    {item.title}
                     {index !== selectedItem.length - 1 && <>, </>}
                   </span>
                 ))}
@@ -98,10 +98,10 @@ const GySelector = ({
               return (
                 <div
                   className="option"
-                  key={`${item.value}-${index}`}
-                  onClick={() => handleChooseItem(item.value)}
+                  key={`${item.id}-${index}`}
+                  onClick={() => handleChooseItem(item.id)}
                 >
-                  {item.name}
+                  {item.title}
                 </div>
               );
             })}
@@ -110,15 +110,15 @@ const GySelector = ({
           <div className="options-wapper">
             {options.map((item, index) => {
               return (
-                <div className="option-multiple" key={`${item.value}-${index}`}>
+                <div className="option-multiple" key={`${item.id}-${index}`}>
                   <input
                     type="checkbox"
                     className="form-checkbox"
-                    id={`${item.value}-${index}`}
+                    id={`${item.id}-${index}`}
                     checked={hasDuplicateValue(selectedItem, item)}
                     onChange={() => handleChooseMultipleItem(item)}
                   />
-                  <label htmlFor={`${item.value}-${index}`}>{item.name}</label>
+                  <label htmlFor={`${item.id}-${index}`}>{item.title}</label>
                 </div>
               );
             })}

@@ -27,7 +27,7 @@
         right: 1rem;
       }
       .options-wapper {
-        @apply border rounded-2xl border-border bg-white w-[180px] h-[120px] p-4 overflow-scroll overflow-x-hidden
+        @apply border rounded-2xl border-border bg-white min-w-[180px] min-h-[120px] max-h-80 p-4 overflow-scroll overflow-x-hidden
         dark:border-borderDark dark:bg-primaryDark;
         .option-multiple {
           @apply flex items-center gap-2 h-6 mb-2;

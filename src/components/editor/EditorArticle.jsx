@@ -41,9 +41,9 @@ const EditorArticle = ({ form }) => {
       </GyCard>
       <GyCard title="Article Cover *" hasDivider={false}>
         <Controller
-          name="cover"
+          name="img"
           control={control}
-          form={register("cover", {
+          form={register("img", {
             required: "Article cover is required.",
           })}
           render={({ field }) => {
@@ -53,8 +53,8 @@ const EditorArticle = ({ form }) => {
                   field.onChange(file);
                 }}
                 type="single"
-                hasError={errors?.cover}
-                errorMsg={errors?.cover?.message}
+                hasError={errors?.img}
+                errorMsg={errors?.img?.message}
               />
             );
           }}
@@ -62,9 +62,9 @@ const EditorArticle = ({ form }) => {
       </GyCard>
       <GyCard title="Content *" hasDivider={false}>
         <Controller
-          name="MdEditor"
+          name="content"
           control={control}
-          form={register("MdEditor", {
+          form={register("content", {
             required: "Article content is required.",
           })}
           render={({ field }) => {

@@ -4,12 +4,34 @@ import EditorArticle from "../components/editor/EditorArticle";
 
 import EditorBtnsComponents from "../components/editor/EditorBtns";
 import { useForm } from "react-hook-form";
+import { useRequest } from "ahooks";
+import { uploadImg } from "../api/upload";
+import { createArticle } from "../api/article";
 
 const NewArticlePage = () => {
   const form = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const uploadImgRequest = useRequest(uploadImg, {
+    manual: true,
+  });
+  const createArticleRequest = useRequest(createArticle, {
+    manual: true,
+  });
+
+  const onSubmit = async (data) => {
+    try {
+      const file = await uploadImgRequest.runAsync(data.img[0].file);
+      console.log(data.categoryIds);
+      const obj = {
+        ...data,
+        categoryIds: data.categoryIds,
+        img: file.data.url,
+      };
+      console.log(obj);
+      await createArticleRequest.runAsync(obj);
+    } catch (error) {
+      console.log(error);
+    }
     // run(data);
   };
 

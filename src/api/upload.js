@@ -9,7 +9,7 @@ export const uploadImg = (file) => {
   const formData = new FormData();
   formData.append("file", file);
 
-  post("/upload/image/", formData);
+  return post("/upload/image/", formData);
 };
 
 /**
@@ -22,5 +22,5 @@ export const uploadImgs = (files) => {
     formData.append("file", file);
   }
 
-  post("/upload/images/", formData);
+  return post("/upload/images/", formData);
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import GyCard from "../../ui/GyCard/GyCard";
 
 import useAuth from "../../hooks/useAuth";
@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 import GySelector from "../../ui/GySelector/GySelector";
 import { MdSaveAlt } from "react-icons/md";
 import { Controller } from "react-hook-form";
+import { useRequest } from "ahooks";
+import { getCates } from "../../api/article";
 
 const EditorSubmitBtns = ({ form }) => {
   const {
@@ -17,14 +19,22 @@ const EditorSubmitBtns = ({ form }) => {
     control,
     formState: { errors },
   } = form;
+  const [options, setOptions] = useState([]);
+
+  const { error, loading } = useRequest(getCates, {
+    manual: false,
+    onSuccess: (result) => {
+      setOptions(result.data);
+    },
+  });
 
   return (
     <GyCard>
       <div className="mb-2">
         <Controller
-          name="category"
+          name="categoryIds"
           control={control}
-          form={register("category", {
+          form={register("categoryIds", {
             required: "Article category is required.",
           })}
           render={({ field }) => {
@@ -33,10 +43,11 @@ const EditorSubmitBtns = ({ form }) => {
                 placeHolder="Select category..."
                 title="Category *"
                 onSelect={(data) => {
-                  field.onChange(data);
+                  field.onChange(data.map((item) => item.id));
                 }}
-                hasError={errors?.category}
-                errorMsg={errors?.category?.message}
+                options={options}
+                hasError={errors?.categoryIds}
+                errorMsg={errors?.categoryIds?.message}
               ></GySelector>
             );
           }}
