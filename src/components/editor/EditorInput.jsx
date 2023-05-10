@@ -64,7 +64,6 @@ const EditorInput = () => {
             placeholder="Write a moment..."
             type="text"
             name="moment"
-            required={true}
             form={register("moment", {
               required: "Please enter your moment...",
             })}

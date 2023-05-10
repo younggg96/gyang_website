@@ -55,7 +55,7 @@
     }
   }
   .article-categories {
-    @apply flex items-center gap-4;
+    @apply flex items-center gap-4 flex-wrap;
     .item {
       @apply bg-background text-text border rounded-full py-1 px-2 text-xs cursor-pointer
       hover:text-primary hover:border-primary

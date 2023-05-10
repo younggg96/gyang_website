@@ -14,7 +14,7 @@ import "./index.scss";
 import "../comments/index.scss";
 // apis
 import { getCommentsByArticleId } from "../../api/comment";
-import GyLoader from "../../ui/GyLoader/GyLoader"
+import GyLoader from "../../ui/GyLoader/GyLoader";
 
 // Article Context
 export const ArticleContext = createContext();
@@ -96,7 +96,10 @@ const ArticleDetails = ({
         <section className="article-details-body">
           <p className="article-desc title">" {description} "</p>
           <img src={img} alt="article cover" className="article-img" />
-          <p className="article-content">{content}</p>
+          <p
+            className="article-content"
+            dangerouslySetInnerHTML={{ __html: content }}
+          ></p>
           <ActionsFlowBox
             actions={actions}
             clickBtnHandler={(type) => clickFlowBtnHandler(type)}

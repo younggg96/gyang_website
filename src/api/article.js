@@ -11,12 +11,9 @@ import { deleteReq, get, patch, post } from "./axios";
         1, 2
     ]
  * }
- * @returns 
+ * @returns new article
  */
-export const createArticle = (data) => {
-  console.log(data);
-  post("/article", data);
-};
+export const createArticle = (data) => post("/article", data);
 /**
  * @param {articleId} articleId article Id
  * @returns success
