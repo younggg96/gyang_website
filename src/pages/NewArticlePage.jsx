@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import GyBodySection from "../ui/GyBodySection/GyBodySection";
 import EditorArticle from "../components/editor/EditorArticle";
 

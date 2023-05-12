@@ -50,7 +50,7 @@ const ArticleList = ({ userId = null }) => {
   });
   useEffect(() => {
     run(curPage, userId);
-  }, [curPage, userId]);
+  }, [curPage, run, userId]);
 
   if (error) {
     return <div>failed to load</div>;
@@ -59,20 +59,27 @@ const ArticleList = ({ userId = null }) => {
   return (
     <section className="article-list">
       <div className="list">
-        {loading && <GyLoader />}
-        <ul>
-          {articleList.map((item) => {
-            return <ArticleItem key={item.id} data={item} />;
-          })}
-        </ul>
-        <GyPagination
-          row={pagination?.row}
-          curPage={pagination?.current_page}
-          pageRow={pagination?.page_row}
-          onCurPageChange={(page) => {
-            setCurPage(page);
-          }}
-        />
+        {loading ? (
+          <GyLoader />
+        ) : (
+          <>
+            <ul>
+              {articleList.map((item) => {
+                return <ArticleItem key={item.id} data={item} />;
+              })}
+            </ul>
+            {!!pagination && (
+              <GyPagination
+                row={pagination.row}
+                curPage={pagination.current_page}
+                pageRow={pagination.page_row}
+                onCurPageChange={(page) => {
+                  setCurPage(page);
+                }}
+              />
+            )}
+          </>
+        )}
       </div>
     </section>
   );

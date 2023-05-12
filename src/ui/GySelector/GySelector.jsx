@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./index.scss";
 import classNames from "classnames";
 import GyPopup from "../GyPopup";
-import { FiChevronDown } from "react-icons/fi";
+import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 import GyCard from "../GyCard/GyCard";
 
 const init = [
@@ -83,7 +83,7 @@ const GySelector = ({
           </>
         )}
         <div className="selected-item__icon">
-          <FiChevronDown />
+          {openOptions ? <FiChevronUp /> : <FiChevronDown />}
         </div>
       </GyCard>
       {hasError && <p className="error-msg">{errorMsg}</p>}
@@ -98,8 +98,11 @@ const GySelector = ({
               return (
                 <div
                   className="option"
-                  key={`${item.id}-${index}`}
-                  onClick={() => handleChooseItem(item.id)}
+                  key={`${item.title}-${index}`}
+                  onClick={() => {
+                    handleChooseItem([item]);
+                    setOpenOptions(false);
+                  }}
                 >
                   {item.title}
                 </div>
@@ -110,7 +113,10 @@ const GySelector = ({
           <div className="options-wapper">
             {options.map((item, index) => {
               return (
-                <div className="option-multiple" key={`${item.id}-${index}`}>
+                <div
+                  className="option option-multiple"
+                  key={`${item.id}-${index}`}
+                >
                   <input
                     type="checkbox"
                     className="form-checkbox"

@@ -7,7 +7,7 @@
       @apply pl-2 mb-2 text-text dark:text-textDark;
     }
     .selected-item {
-      @apply flex justify-between items-center w-full cursor-pointer;
+      @apply shadow-none active:shadow-lg flex justify-between items-center w-full cursor-pointer;
       &.gy-card {
         @apply flex-row m-0;
       }
@@ -22,15 +22,19 @@
       }
     }
     &-popup {
+      @apply relative z-50;
       .gy-popup {
         top: calc(100% - 2.5rem);
         right: 1rem;
       }
       .options-wapper {
-        @apply border rounded-2xl border-border bg-white min-w-[180px] min-h-[120px] max-h-80 p-4 overflow-scroll overflow-x-hidden
+        @apply border rounded-2xl border-border bg-white min-w-fit min-h-fit max-h-80 overflow-scroll overflow-x-hidden
         dark:border-borderDark dark:bg-primaryDark;
-        .option-multiple {
-          @apply flex items-center gap-2 h-6 mb-2;
+        .option {
+          @apply px-4 py-3 hover:bg-slate-100 hover:text-primary dark:hover:bg-backgroundDark cursor-pointer;
+        }
+        .option.option-multiple {
+          @apply flex items-center gap-2 cursor-default;
           input {
             @apply h-4 w-4 text-primary rounded-sm cursor-pointer;
             &.form-checkbox {

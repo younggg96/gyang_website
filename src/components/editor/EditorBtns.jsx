@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import GyCard from "../../ui/GyCard/GyCard";
 
 import useAuth from "../../hooks/useAuth";
@@ -20,6 +20,11 @@ const EditorSubmitBtns = ({ form }) => {
     formState: { errors },
   } = form;
   const [options, setOptions] = useState([]);
+
+  const articleVisibilityOptions = [
+    { title: "Public", id: true },
+    { title: "Private", id: false },
+  ];
 
   const { error, loading } = useRequest(getCates, {
     manual: false,
@@ -53,6 +58,31 @@ const EditorSubmitBtns = ({ form }) => {
           }}
         />
       </div>
+      <div className="mb-2">
+        <Controller
+          name="published"
+          control={control}
+          form={register("published", {
+            required: "Article visibility is required.",
+          })}
+          render={({ field }) => {
+            return (
+              <GySelector
+                placeHolder="Select article visibility..."
+                title="Visibility *"
+                onSelect={(data) => {
+                  console.log(data);
+                  field.onChange(data[0]?.id);
+                }}
+                multiple={false}
+                options={articleVisibilityOptions}
+                hasError={errors?.published}
+                errorMsg={errors?.published?.message}
+              ></GySelector>
+            );
+          }}
+        />
+      </div>
       <div className="flex flex-col gap-4">
         <GyButton
           icon={() => <MdSaveAlt />}
@@ -62,13 +92,14 @@ const EditorSubmitBtns = ({ form }) => {
         >
           Publish
         </GyButton>
-        <GyButton
+        {/* <GyButton
           icon={() => <HiOutlineDocumentText />}
           title="Save your article as a draft"
           variant="text"
+          type="submit"
         >
           Save as draft
-        </GyButton>
+        </GyButton> */}
       </div>
     </GyCard>
   );

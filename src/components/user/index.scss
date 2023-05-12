@@ -59,7 +59,7 @@
       }
     }
     &-wapper {
-      @apply border rounded-2xl border-border bg-white mr-4
+      @apply border rounded-2xl border-border bg-white
       dark:border-borderDark dark:bg-primaryDark;
       .top {
         @apply flex flex-col p-4 items-center gap-4;

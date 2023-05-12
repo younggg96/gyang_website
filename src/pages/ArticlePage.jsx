@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 // ui
 import GyCard from "../ui/GyCard/GyCard";
@@ -13,7 +13,7 @@ import ArticleDetails from "../components/article/ArticleDetails";
 import "./style/index.scss";
 // hooks
 import useAuth from "../hooks/useAuth";
-import { useRequest } from "ahooks";
+import { useRequest, useUpdateLayoutEffect } from "ahooks";
 // apis
 import { getArticleByArticleId } from "../api";
 
@@ -29,6 +29,13 @@ const ArticlePage = () => {
       setArticleDetail(result?.data);
     },
   });
+
+  useEffect(() => {
+    const setScrollTop = () => {
+      document.documentElement.scrollTop = 0;
+    };
+    setScrollTop();
+  }, []);
 
   useEffect(() => {
     isAuth && run(articleId);
