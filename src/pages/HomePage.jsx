@@ -1,18 +1,20 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
+// components
 import ArticleList from "../components/article/ArticleList";
 import TopUserList from "../components/user/TopUserList";
-// import components
+import MomentList from "../components/moments/MomentList";
+import EditorBtnsComponents from "../components/editor/EditorBtns";
+// ui
 import Gytab from "../ui/GyTab/Gytab";
 import GyBodySection from "../ui/GyBodySection/GyBodySection";
 // scss
 import "./style/index.scss";
-import EditorBtnsComponents from "../components/editor/EditorBtns";
-import MomentList from "../components/moments/MomentList";
 
 export const tabs = ["Articles", "Moments"];
 
 const Home = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  
 
   return (
     <GyBodySection>

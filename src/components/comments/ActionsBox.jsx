@@ -178,13 +178,15 @@ const ActionsBox = forwardRef(
             />
           </li>
         )}
-        <li className="ml-auto">
-          <ReplyBtn
-            show={show}
-            setShow={setShow}
-            clickHandler={() => clickBtnHandler("replyBtn")}
-          />
-        </li>
+        {state.isAuth && (
+          <li className="ml-auto">
+            <ReplyBtn
+              show={show}
+              setShow={setShow}
+              clickHandler={() => clickBtnHandler("replyBtn")}
+            />
+          </li>
+        )}
       </ul>
     );
   }
@@ -210,11 +212,11 @@ export const ActionsFlowBox = ({
     onSuccess: (result, params) => {
       setLiked(!liked);
       setLikeCount(result.data?.count);
-      addToast({
-        content: result.data?.success,
-        time: TIME.SHORT,
-        type: TYPE.SUCCESS,
-      });
+      // addToast({
+      //   content: result.data?.success,
+      //   time: TIME.SHORT,
+      //   type: TYPE.SUCCESS,
+      // });
     },
   });
 

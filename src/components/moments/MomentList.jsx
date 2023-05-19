@@ -3,9 +3,9 @@ import { useRequest } from "ahooks";
 // api
 import {
   getMomentList,
-  getMomentListByUser,
+  getMomentListAuth,
   getMomentListByUserId,
-} from "../../api";
+} from "../../api/moments";
 // components
 import UserHeader from "../user/UserHeader";
 import EditorInput from "../editor/EditorInput";
@@ -83,7 +83,7 @@ const MomentList = ({ userId = null }) => {
   const [pagination, setPagination] = useState();
 
   const { state } = useAuth();
-  const getMoments = state.isAuth ? getMomentListByUser : getMomentList;
+  const getMoments = state.isAuth ? getMomentListAuth : getMomentList;
   const getData = !userId ? getMoments : getMomentListByUserId;
 
   const { error, loading, run } = useRequest(getData, {
@@ -103,7 +103,7 @@ const MomentList = ({ userId = null }) => {
 
   return (
     <section className="moment-list">
-      {!userId && <EditorInput />}
+      {!userId && state.isAuth && <EditorInput />}
       <div className="list">
         {loading && <GyLoader />}
         {!loading && (

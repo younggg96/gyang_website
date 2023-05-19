@@ -13,9 +13,9 @@ import ArticleDetails from "../components/article/ArticleDetails";
 import "./style/index.scss";
 // hooks
 import useAuth from "../hooks/useAuth";
-import { useRequest, useUpdateLayoutEffect } from "ahooks";
+import { useRequest } from "ahooks";
 // apis
-import { getArticleByArticleId } from "../api";
+import { getArticleByArticleId, getArticleByArticleIdAuth } from "../api/article"
 
 const ArticlePage = () => {
   let params = useParams();
@@ -23,7 +23,8 @@ const ArticlePage = () => {
   const { isAuth } = state;
   const articleId = params.id;
   const [articleDetail, setArticleDetail] = useState();
-  const { error, loading, run } = useRequest(getArticleByArticleId, {
+  const getData = isAuth ? getArticleByArticleIdAuth : getArticleByArticleId;
+  const { error, loading, run } = useRequest(getData, {
     manual: true,
     onSuccess: (result) => {
       setArticleDetail(result?.data);
@@ -38,7 +39,7 @@ const ArticlePage = () => {
   }, []);
 
   useEffect(() => {
-    isAuth && run(articleId);
+    run(articleId);
   }, [articleId, run, isAuth]);
 
   return (

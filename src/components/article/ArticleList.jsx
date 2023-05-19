@@ -7,9 +7,9 @@ import "./index.scss";
 import UserHeader from "../user/UserHeader";
 import GyPagination from "../../ui/GyPagination/GyPagination";
 import { useEffect } from "react";
-import { getArticleList, getArticleListByUserId } from "../../api";
 import GyLoader from "../../ui/GyLoader/GyLoader";
 import Categories from "./Categories";
+import { getArticleList, getArticleListByUserId } from "../../api/article";
 
 const ArticleItem = ({ data }) => {
   const { title, img, description, createdAt, categories, id } = data;

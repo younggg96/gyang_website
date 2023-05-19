@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useRef, useState } from "react";
 // hooks
 import { useRequest } from "ahooks";
 // components
@@ -43,6 +43,13 @@ const ArticleDetails = ({
   const [hasMoreBtn, setHasMoreBtn] = useState(commentCount > 5);
   const [page, setPage] = useState(1);
   const [row, setRow] = useState(5);
+  const targetRef = useRef(null);
+
+  const scrollToTarget = () => {
+    if (targetRef.current) {
+      targetRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   const { error, loading, run } = useRequest(getCommentsByArticleId, {
     manual: true,
@@ -60,7 +67,9 @@ const ArticleDetails = ({
     like: { curUserLiked, count: articleLikeCount },
   };
 
-  const clickCommentBtn = () => {};
+  const clickCommentBtn = () => {
+    scrollToTarget()
+  };
 
   const refreshTopComments = () => {
     run(page, row, articleId);
@@ -106,7 +115,7 @@ const ArticleDetails = ({
           />
         </section>
       </GyCard>
-      <section className="article-comments">
+      <section className="article-comments" ref={targetRef}>
         <GyCard>
           <ArticleContext.Provider
             value={{ setArticleDetail, articleId, isAuth, refreshTopComments }}

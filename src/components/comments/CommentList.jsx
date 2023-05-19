@@ -22,6 +22,7 @@ import "./index.scss";
 // api
 import { createComment, createReply } from "../../api/comment";
 import { ArticleContext } from "../../components/article/ArticleDetails";
+import { useNavigate } from "react-router-dom";
 
 const InputPropsComment = {
   title: "Comment",
@@ -161,15 +162,19 @@ export const CommentItem = ({ data, setData, type, ...props }) => {
     replyToComment,
     _count,
   } = data;
+  // hooks
   const { articleId } = useContext(ArticleContext);
-
+  const navigate = useNavigate();
+  const { state } = useAuth();
+  const { addToast } = useToast();
+  const actionRef = useRef(null);
+  // states
   const [commentBoxOpened, setCommentBoxOpened] = useState(false);
   const [replies, setReplies] = useState();
   const [liked, setLiked] = useState(curUserLiked);
   const [openInput, setOpenInput] = useState(false);
   const [page, setPage] = useState(1);
   const [row, setRow] = useState(3);
-  const actionRef = useRef(null);
 
   const actions = {
     id,
@@ -184,6 +189,7 @@ export const CommentItem = ({ data, setData, type, ...props }) => {
     manual: true,
     onSuccess: (result, params) => {
       setReplies(result);
+      setCommentBoxOpened(!commentBoxOpened);
     },
   });
 
@@ -192,10 +198,19 @@ export const CommentItem = ({ data, setData, type, ...props }) => {
       // close comment list back to page 1
       setPage(1);
       setRow(3);
+      setCommentBoxOpened(!commentBoxOpened);
     } else {
-      run(page, row, id);
+      if (state.isAuth) {
+        run(page, row, id);
+      } else {
+        addToast({
+          content: "Please sign in to view more details.",
+          time: TIME.SHORT,
+          type: TYPE.INFO,
+        });
+        navigate("/auth");
+      }
     }
-    setCommentBoxOpened(!commentBoxOpened);
   };
 
   const clickReplyBtn = () => {
