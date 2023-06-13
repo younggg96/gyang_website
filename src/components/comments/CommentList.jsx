@@ -158,8 +158,6 @@ export const CommentItem = ({ data, setData, type, ...props }) => {
     id,
     parentId,
     curUserLiked,
-    replyTo,
-    replyToComment,
     _count,
   } = data;
   // hooks
@@ -189,7 +187,6 @@ export const CommentItem = ({ data, setData, type, ...props }) => {
     manual: true,
     onSuccess: (result, params) => {
       setReplies(result);
-      setCommentBoxOpened(!commentBoxOpened);
     },
   });
 
@@ -201,6 +198,7 @@ export const CommentItem = ({ data, setData, type, ...props }) => {
       setCommentBoxOpened(!commentBoxOpened);
     } else {
       if (state.isAuth) {
+        setCommentBoxOpened(!commentBoxOpened);
         run(page, row, id);
       } else {
         addToast({
@@ -283,7 +281,7 @@ export const CommentItem = ({ data, setData, type, ...props }) => {
         {/* comment list */}
         {commentBoxOpened && (
           <>
-            {replies && (
+            {replies && !loading && (
               <CommentList
                 data={replies?.data}
                 count={replies?.meta.total}
@@ -315,7 +313,6 @@ export const CommentSubItem = ({ data, setData, type, ...props }) => {
     id,
     parentId,
     curUserLiked,
-    replyTo,
     replyToComment,
     _count,
   } = data;

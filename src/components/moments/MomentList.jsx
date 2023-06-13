@@ -1,5 +1,7 @@
 import React, { useState, useEffect, createContext } from "react";
+// hooks
 import { useRequest } from "ahooks";
+import useAuth from "../../hooks/useAuth";
 // api
 import {
   getMomentList,
@@ -7,84 +9,24 @@ import {
   getMomentListByUserId,
 } from "../../api/moments";
 // components
-import UserHeader from "../user/UserHeader";
-import EditorInput from "../editor/EditorInput";
+import MomentItem from "./MomentItem";
 // ui
-import GyTime from "../../ui/GyTime/GyTime";
 import GyLoader from "../../ui/GyLoader/GyLoader";
 import GyPagination from "../../ui/GyPagination/GyPagination";
-
 // scss
 import "./index.scss";
-import ActionsBox from "../comments/ActionsBox";
-import CommentList from "../comments/CommentList";
-import useAuth from "../../hooks/useAuth";
+import classNames from "classnames";
 
 export const commentContext = createContext();
 
-const ImgList = ({ imgs }) => {
-  return (
-    <>
-      {!!imgs.length && (
-        <div className="imgs">
-          {imgs.map((img) => {
-            return <img src={img.url} alt={"header-img"} key={img.id} />;
-          })}
-        </div>
-      )}
-    </>
-  );
-};
-
-const MomentItem = ({ data }) => {
-  const {
-    id,
-    user,
-    content,
-    imgs,
-    createdAt,
-    momentlikes,
-    curUserLiked,
-    momentComments,
-  } = data;
-  const [commentBoxOpened, setCommentBoxOpened] = useState(false);
-  const [liked, setLiked] = useState(curUserLiked);
-  const actions = {
-    id,
-    comment: {
-      commentBoxOpened,
-      setCommentBoxOpened,
-      commentData: momentComments.length,
-    },
-    like: { liked, setLiked, likeData: momentlikes.length },
-  };
-  return (
-    <li className="moment-item">
-      {/* user header & moment date */}
-      <section className="user">
-        {user && <UserHeader user={user} size="sm" />}
-        <GyTime date={createdAt} className="date text-xs" />
-      </section>
-      {/* content */}
-      <p className="content">{content}</p>
-      {/* imgs */}
-      <ImgList imgs={imgs} />
-      {/* user actions */}
-      <ActionsBox actions={actions} />
-      {/* comment list */}
-      {commentBoxOpened && <CommentList data={momentComments} type="comment" />}
-    </li>
-  );
-};
-
-const MomentList = ({ userId = null }) => {
+const MomentList = ({ type }) => {
   const [curPage, setCurPage] = useState(1);
   const [MomentList, setMomentList] = useState([]);
   const [pagination, setPagination] = useState();
 
   const { state } = useAuth();
   const getMoments = state.isAuth ? getMomentListAuth : getMomentList;
-  const getData = !userId ? getMoments : getMomentListByUserId;
+  const getData = state.user.id ? getMoments : getMomentListByUserId;
 
   const { error, loading, run } = useRequest(getData, {
     manual: true,
@@ -93,9 +35,10 @@ const MomentList = ({ userId = null }) => {
       setPagination(result?.meta);
     },
   });
+
   useEffect(() => {
-    run(curPage, userId);
-  }, [curPage, run, userId]);
+    run(curPage, state.user.id);
+  }, [curPage, run, state.user.id]);
 
   if (error) {
     return <div>failed to load</div>;
@@ -103,27 +46,43 @@ const MomentList = ({ userId = null }) => {
 
   return (
     <section className="moment-list">
-      {!userId && state.isAuth && <EditorInput />}
-      <div className="list">
+      <div
+        className={classNames([
+          "moment-list__content",
+          { "list-layout": type === "list" },
+          { "grid-layout": type === "grid" },
+        ])}
+      >
         {loading && <GyLoader />}
         {!loading && (
           <>
-            <ul>
-              {MomentList.map((item) => {
-                return <MomentItem key={item.id} data={item} />;
-              })}
-            </ul>
-            <GyPagination
-              row={pagination?.row}
-              curPage={pagination?.current_page}
-              pageRow={pagination?.page_row}
-              onCurPageChange={(page) => {
-                setCurPage(page);
-              }}
-            />
+            {type === "list" && (
+              <ul>
+                {MomentList.map((item) => {
+                  return <MomentItem key={item.id} data={item} type={type} />;
+                })}
+              </ul>
+            )}
+            {type === "grid" && (
+              <>
+                {MomentList.map((item) => {
+                  return <MomentItem key={item.id} data={item} type={type} />;
+                })}
+              </>
+            )}
           </>
         )}
       </div>
+      {!loading && (
+        <GyPagination
+          row={pagination?.row}
+          curPage={pagination?.current_page}
+          pageRow={pagination?.page_row}
+          onCurPageChange={(page) => {
+            setCurPage(page);
+          }}
+        />
+      )}
     </section>
   );
 };

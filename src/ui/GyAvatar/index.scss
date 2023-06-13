@@ -3,5 +3,8 @@
 @layer components {
   .gy-avatar {
     @apply rounded-full w-8 h-8 object-contain;
+    &.sm {
+      @apply w-6 h-6;
+    }
   }
 }

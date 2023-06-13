@@ -3,13 +3,20 @@
 @layer components {
   // user header
   .user-info-header {
+    &-xs {
+      @apply flex items-center justify-between gap-2;
+      .link {
+        @apply text-sm font-light overflow-hidden text-ellipsis text-gray-600 hover:text-primary
+          dark:text-gray-300 dark:hover:text-primary;
+      }
+    }
     &-sm {
       @apply flex items-center justify-between gap-4;
       .user-content {
         @apply flex items-center gap-3;
         .link {
           @apply font-medium overflow-hidden text-ellipsis text-gray-600 hover:text-primary
-          dark:text-textDark dark:hover:text-primary;
+          dark:text-gray-300 dark:hover:text-primary;
         }
       }
       .article-num {

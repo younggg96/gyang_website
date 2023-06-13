@@ -4,6 +4,7 @@ import classNames from "classnames";
 import { BiSun, BiMoon } from "react-icons/bi";
 import { useToggle } from "ahooks";
 import { getTheme, switchTheme } from "../../helper/theme";
+import { colors } from "../../config"
 
 const GySwitchBtn = () => {
   const [active, setActive] = useState(false);
@@ -28,7 +29,7 @@ const GyThemeSwitchBtn = () => {
     toggle();
     switchTheme(state);
   };
-  const color = state === "dark" ? "#fdfdfe" : "";
+  const color = state === "dark" ? colors.textDark : "";
 
   useEffect(() => {
     set(getTheme() === "dark" ? "light" : "dark");

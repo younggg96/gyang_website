@@ -130,8 +130,8 @@ const ArticleDetails = ({
             {loading && <GyLoader />}
             <CommentList
               data={commentList}
-              count={commentCount}
               setData={setCommentList}
+              count={commentCount}
               type="comments"
             />
             {hasMoreBtn && (

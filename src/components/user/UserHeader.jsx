@@ -9,6 +9,20 @@ const UserHeader = ({ user, size = "normal", hasAvatar = true, ...props }) => {
 
   return (
     <div className="user-info-header" {...props}>
+      {size === "xs" && (
+        <section className="user-info-header-xs">
+          {hasAvatar && (
+            <GyAvatar
+              src={avatar}
+              alt={user?.username + "-avatar"}
+              size="sm"
+            />
+          )}
+          <Link to={`/profile/${user?.id}`} className="link">
+            {user?.username}
+          </Link>
+        </section>
+      )}
       {size === "sm" && (
         <section className="user-info-header-sm">
           <div className="user-content">

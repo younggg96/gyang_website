@@ -1,0 +1,16 @@
+@tailwind components;
+
+@layer components {
+  .gy-toggle-group {
+    @apply w-fit p-2 text-secondary text-xl border rounded-2xl border-border bg-white shadow-md dark:bg-transparent dark:shadow-none dark:border-borderDark dark:text-textDark;
+    &__wapper {
+      @apply flex items-center rounded-md gap-1;
+    }
+  }
+  .gy-toggle {
+    @apply text-text dark:text-accent p-2 cursor-pointer rounded-md hover:bg-background hover:dark:bg-accentDark;
+    &.active {
+      @apply text-primary bg-background dark:bg-accentDark;
+    }
+  }
+}

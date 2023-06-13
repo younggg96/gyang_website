@@ -3,7 +3,7 @@
 @layer components {
   .editor-wapper {
     border: 0.5px solid;
-    @apply w-full mb-4 border border-border rounded-2xl bg-white shadow-lg
+    @apply w-full mb-2 border border-border rounded-2xl bg-white shadow-lg
     dark:bg-primaryDark dark:border-borderDark dark:shadow-none;
     .editor-content {
       @apply p-2;
