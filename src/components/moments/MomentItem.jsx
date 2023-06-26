@@ -11,6 +11,7 @@ import useAuth from "../../hooks/useAuth";
 import { TIME, TYPE, useToast } from "../../ui/GyToast/ToastProvider";
 import { useNavigate } from "react-router-dom";
 import GyImgSwiper from "../../ui/GyImgSwiper/GyImgSwiper";
+import classNames from "classnames";
 
 const ImgList = ({ imgs }) => {
   return (
@@ -26,7 +27,7 @@ const ImgList = ({ imgs }) => {
   );
 };
 
-const MomentItem = ({ data, type = "list" }) => {
+const MomentItem = ({ data, type = "list", className }) => {
   const { id, user, content, imgs, createdAt, curUserLiked, _count } = data;
   // states
   const [commentBoxOpened, setCommentBoxOpened] = useState(false);
@@ -113,11 +114,11 @@ const MomentItem = ({ data, type = "list" }) => {
         </li>
       )}
       {type === "grid" && (
-        <div className="moment-item-card">
+        <div className={classNames(["moment-item-card", className])}>
           {/* imgs */}
-          <GyImgSwiper imgs={imgs} className="moment-item-card__imgs"/>
+          <GyImgSwiper imgs={imgs} className="moment-item-card__imgs" />
           {/* content */}
-          <p class="content">{content}</p>
+          <p className="content">{content}</p>
           {/* user header & moment date */}
           <section className="user">
             {user && <UserHeader user={user} size="xs" />}

@@ -16,6 +16,7 @@ import GyPagination from "../../ui/GyPagination/GyPagination";
 // scss
 import "./index.scss";
 import classNames from "classnames";
+import GyMasonryLayout from "../../ui/GyMasonryLayout/GyMasonryLayout";
 
 export const commentContext = createContext();
 
@@ -64,11 +65,18 @@ const MomentList = ({ type }) => {
               </ul>
             )}
             {type === "grid" && (
-              <>
+              <GyMasonryLayout items={MomentList}>
                 {MomentList.map((item) => {
-                  return <MomentItem key={item.id} data={item} type={type} />;
+                  return (
+                    <MomentItem
+                      key={item.id}
+                      data={item}
+                      type={type}
+                      className="grid-item"
+                    />
+                  );
                 })}
-              </>
+              </GyMasonryLayout>
             )}
           </>
         )}
