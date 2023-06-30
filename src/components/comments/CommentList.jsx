@@ -359,7 +359,7 @@ export const CommentSubItem = ({ data, setData, type, ...props }) => {
         <div className="reply-content">
           <div className="reply-content-user">
             <div className="line"></div>
-            <UserHeader user={replyToComment.user} size="sm" />:
+            <UserHeader user={replyToComment.user} size="xs" />:
           </div>
           <p className="reply-content-details">{replyToComment.content}</p>
         </div>

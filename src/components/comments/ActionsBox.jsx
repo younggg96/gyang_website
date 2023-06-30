@@ -70,7 +70,7 @@ const LinkBtn = ({ clickHandler, liked, likeCount, inactive }) => {
 const CommentBtn = ({ commentBoxOpened, clickHandler, commentCount }) => {
   if (!commentCount) return null;
   return (
-    <button className="action-btn" onClick={() => clickHandler()}>
+    <button className="action-btn" onClick={clickHandler}>
       <BiCommentDetail
         color={commentBoxOpened ? colors.primary : colors.text}
       />
@@ -81,9 +81,22 @@ const CommentBtn = ({ commentBoxOpened, clickHandler, commentCount }) => {
   );
 };
 
+const CommentMomentBtn = ({ commentBoxOpened, clickHandler, commentCount }) => {
+  return (
+    <button className="action-btn" onClick={clickHandler}>
+      <BiCommentDetail
+        color={commentBoxOpened ? colors.primary : colors.text}
+      />
+      <span className="count">
+        {commentCount} {commentCount > 1 ? "comments" : "comment"}
+      </span>
+    </button>
+  );
+};
+
 const CommentArticleBtn = ({ clickHandler, commentCount }) => {
   return (
-    <button className="action-btn" onClick={() => clickHandler()}>
+    <button className="action-btn" onClick={clickHandler}>
       <BiCommentDetail color={colors.text} />
       <span className="count">
         {commentCount} {commentCount > 1 ? "comments" : "comment"}
@@ -91,9 +104,10 @@ const CommentArticleBtn = ({ clickHandler, commentCount }) => {
     </button>
   );
 };
+
 const SaveArticleBtn = ({ clickHandler, saveStatus }) => {
   return (
-    <button className="action-btn" onClick={() => clickHandler()}>
+    <button className="action-btn" onClick={clickHandler}>
       {saveStatus ? (
         <MdOutlineBookmarkAdded color={colors.text} />
       ) : (
@@ -116,6 +130,73 @@ const ReplyBtn = ({ clickHandler, show, setShow }) => {
     >
       {!show ? "Reply" : "Hide reply"}
     </GyButton>
+  );
+};
+
+export const MomentActionsBox = ({
+  actions,
+  className,
+  clickBtnHandler,
+  type,
+  displayType = "list", // or grid
+  ...props
+}) => {
+  const { id, like, comment } = actions;
+  const { addToast } = useToast();
+  const { state } = useAuth();
+  // reply btn hide or not
+  const [show, setShow] = useState(false);
+
+  // like
+  const { liked, setLiked, count } = like;
+  const [likeCount, setLikeCount] = useState(count);
+  const likeAct = !liked ? addLikeComment : removeLikeComment;
+  const { error, loading, run } = useRequest(likeAct, {
+    manual: true,
+    onSuccess: (result, params) => {
+      setLiked(!liked);
+      setLikeCount(result.data?.count);
+      addToast({
+        content: result.data?.success,
+        time: TIME.SHORT,
+        type: TYPE.SUCCESS,
+      });
+    },
+  });
+
+  const clickLike = () => {
+    if (state.isAuth) {
+      run(id);
+    }
+  };
+
+  return (
+    <ul className={classNames(["action-box-btns", className])} {...props}>
+      <li>
+        <LinkBtn
+          clickHandler={clickLike}
+          liked={liked}
+          likeCount={likeCount}
+          inactive={!state.isAuth}
+        />
+      </li>
+      {displayType === "list" && (
+        <li>
+          <CommentMomentBtn
+            commentBoxOpened={comment?.commentBoxOpened}
+            clickHandler={() => clickBtnHandler("commentBtn")}
+            commentCount={comment?.commentCount}
+          />
+        </li>
+      )}
+      <li className="ml-auto">
+        <ReplyBtn
+          show={show}
+          setShow={setShow}
+          clickHandler={() => clickBtnHandler("replyBtn")}
+        />
+      </li>
+    </ul>
   );
 };
 

@@ -18,7 +18,9 @@
         @apply flex flex-col;
       }
       &.grid-layout {
-        // @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-2;
+        .moment-item-card > .content {
+          @apply hover:underline cursor-pointer;
+        }
       }
     }
   }
@@ -72,6 +74,15 @@
     }
     .user {
       @apply flex justify-between items-center px-2;
+    }
+    .modal.moment-modal {
+      @apply w-[600px] h-[600px] overflow-scroll p-4 bg-white dark:bg-backgroundDark;
+      .user {
+        @apply mb-4;
+      }
+      .actions {
+        @apply px-2;
+      }
     }
   }
 }
