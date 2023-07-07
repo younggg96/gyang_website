@@ -8,11 +8,9 @@ import AddEmojiBtn from "../editor/AddEmojiBtn";
 import GyButton from "../../ui/GyButton/GyButton";
 import { InputPropsComment, InputPropsReply } from "./config"
 
-const MomentCommentInput = ({
+const MomentInput = ({
   type,
-  replyObj,
-  hideReplyBtn,
-  setData,
+  onSubmit,
   ...props
 }) => {
   const { state } = useAuth();
@@ -25,15 +23,16 @@ const MomentCommentInput = ({
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    // const obj = {
-    //   content: data.comment,
-    //   articleId: articleId,
-    //   parentId: replyObj.parentId,
-    //   replyTo: replyObj.replyTo || "",
-    // };
-  };
+  // const onSubmit = (data) => {
+  //   console.log(data);
+  //   // const obj = {
+  //   //   content: data.comment,
+  //   //   momentId,
+  //   //   parentId: replyObj.parentId,
+  //   //   replyTo: replyObj.replyTo || "",
+  //   // };
+  // };
+
   const emojiClickHandler = (e) => {
     console.log(e);
   };
@@ -88,4 +87,4 @@ const MomentCommentInput = ({
   );
 };
 
-export default MomentCommentInput;
+export default MomentInput;

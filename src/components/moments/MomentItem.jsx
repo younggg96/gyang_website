@@ -14,8 +14,16 @@ import GyImgSwiper from "../../ui/GyImgSwiper/GyImgSwiper";
 import classNames from "classnames";
 import { useCycle } from "framer-motion";
 import GyModal from "../../ui/GyModal/GyModal";
-import MomentCommentInput from "./MomentCommentInput";
+import MomentInput from "./MomentInput";
 import MomentCommentList from "./MomentCommentList";
+import { useRequest } from "ahooks";
+import {
+  getChildrenMomentCommentsByPid,
+  getMomentCommentsByMomentId,
+} from "../../api/momentComment";
+import MomentCommentItem from "./MomentCommentItem";
+import MomentCommentSubItem from "./MomentCommentSubItem";
+import GyButton from "../../ui/GyButton/GyButton";
 
 const ImgList = ({ imgs }) => {
   return (
@@ -32,32 +40,51 @@ const ImgList = ({ imgs }) => {
 };
 
 const MomentItem = ({ data, type = "list", className }) => {
-  const { id, user, content, imgs, createdAt, curUserLiked, _count } = data;
+  const {
+    content,
+    createdAt,
+    curUserLiked,
+    id,
+    imgs,
+    momentComments,
+    momentlikes,
+    user,
+    _count,
+  } = data;
+
   // states
   const [commentBoxOpened, setCommentBoxOpened] = useState(false);
   const [replyInputOpened, setReplyInputOpened] = useState(false);
   const [liked, setLiked] = useState(curUserLiked);
-
+  const [momentCommentList, setMomentCommentList] = useState(momentComments);
   const [commentList, setCommentList] = useState();
+  const [page, setPage] = useState(1);
+  const [row, setRow] = useState(5);
+  // total mount of moments more than how many now shows -> hasMore -> true
+  const [hasMore, sethasMore] = useState(
+    _count.momentComments > momentComments.length
+  );
 
-  // const [page, setPage] = useState(1);
-  // const [row, setRow] = useState(3);
   // hooks
   const [isMomentModalOpen, toggleMomentModalOpen] = useCycle(false, true);
   const { addToast } = useToast();
-  const navigate = useNavigate();
   const { state } = useAuth();
+  const navigate = useNavigate();
+
+  const { error, loading, run } = useRequest(getMomentCommentsByMomentId, {
+    manual: true,
+    onSuccess: (result, params) => {
+      setMomentCommentList(result.data);
+      sethasMore(result.hasMore);
+    },
+  });
 
   const clickReplyBtn = () => {
     if (replyInputOpened) {
-      // close comment list back to page 1
-      // setPage(1);
-      // setRow(3);
       setReplyInputOpened(!replyInputOpened);
     } else {
       if (state.isAuth) {
         setReplyInputOpened(!replyInputOpened);
-        // run(page, row, id);
       } else {
         addToast({
           content: "Please sign in to view more details.",
@@ -103,6 +130,15 @@ const MomentItem = ({ data, type = "list", className }) => {
     }
   };
 
+  const submitMomentCommentHandler = (data) => {
+    console.log(data);
+  };
+
+  const showMoreComments = () => {
+    setPage((p) => p + 1);
+    run(page + 1, row, id);
+  };
+
   return (
     <>
       {type === "list" && (
@@ -120,7 +156,7 @@ const MomentItem = ({ data, type = "list", className }) => {
           <MomentActionsBox
             actions={{
               id,
-              like: { liked, setLiked, count: 0 },
+              like: { liked, setLiked, count: _count.momentlikes },
               comment: {
                 commentBoxOpened,
                 commentCount: _count.momentComments,
@@ -129,16 +165,29 @@ const MomentItem = ({ data, type = "list", className }) => {
             displayType="list"
             clickBtnHandler={(type) => clickBtnHandler(type)}
           />
+          {replyInputOpened && (
+            <MomentInput onSubmit={submitMomentCommentHandler} />
+          )}
           {/* comment list */}
-          {/* {commentBoxOpened && (
-            <>
-              <MomentCommentList
-                data={replies?.data}
-                count={replies?.meta.total}
-                type="subReply"
-              />
-            </>
-          )} */}
+          {commentBoxOpened && (
+            <MomentCommentList
+              count={_count.momentComments}
+              type="momentComment"
+            >
+              {momentCommentList.map((item) => (
+                <MomentCommentItem data={item} key={item.id} type={type} />
+              ))}
+              {hasMore && (
+                <GyButton
+                  size={["sm", "round"]}
+                  className="show-more-btn"
+                  click={() => showMoreComments()}
+                >
+                  More comments
+                </GyButton>
+              )}
+            </MomentCommentList>
+          )}
         </li>
       )}
       {type === "grid" && (
@@ -181,7 +230,7 @@ const MomentItem = ({ data, type = "list", className }) => {
                 clickBtnHandler={(type) => clickBtnHandler(type)}
               />
               {/* comment list */}
-              {replyInputOpened && <MomentCommentInput />}
+              {replyInputOpened && <MomentInput />}
             </section>
             <section>
               <MomentCommentList

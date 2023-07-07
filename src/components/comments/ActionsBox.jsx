@@ -29,6 +29,11 @@ import "./index.scss";
 // import { addLikeMoment, removeLikeMoment } from "../../api";
 import { addLikeArticle, removeLikeArticle } from "../../api/article";
 import { addLikeComment, removeLikeComment } from "../../api/comment";
+import {
+  addLikeMomentComment,
+  removeLikeMomentComment,
+} from "../../api/momentComment";
+import { addLikeMoment, removeLikeMoment } from "../../api/moments";
 
 const LinkBtn = ({ clickHandler, liked, likeCount, inactive }) => {
   const ref = useRef(0);
@@ -137,7 +142,6 @@ export const MomentActionsBox = ({
   actions,
   className,
   clickBtnHandler,
-  type,
   displayType = "list", // or grid
   ...props
 }) => {
@@ -150,7 +154,73 @@ export const MomentActionsBox = ({
   // like
   const { liked, setLiked, count } = like;
   const [likeCount, setLikeCount] = useState(count);
-  const likeAct = !liked ? addLikeComment : removeLikeComment;
+  const likeAct = !liked ? addLikeMoment : removeLikeMoment;
+  const { error, loading, run } = useRequest(likeAct, {
+    manual: true,
+    onSuccess: (result, params) => {
+      setLiked(!liked);
+      setLikeCount(result.data?.count);
+      addToast({
+        content: result.data?.success,
+        time: TIME.SHORT,
+        type: TYPE.SUCCESS,
+      });
+    },
+  });
+
+  const clickLike = () => {
+    if (state.isAuth) {
+      run(id);
+    }
+  };
+
+  return (
+    <ul className={classNames(["action-box-btns", className])} {...props}>
+      <li>
+        <LinkBtn
+          clickHandler={clickLike}
+          liked={liked}
+          likeCount={likeCount}
+          inactive={!state.isAuth}
+        />
+      </li>
+      {displayType === "list" && (
+        <li>
+          <CommentMomentBtn
+            commentBoxOpened={comment?.commentBoxOpened}
+            clickHandler={() => clickBtnHandler("commentBtn")}
+            commentCount={comment?.commentCount}
+          />
+        </li>
+      )}
+      <li className="ml-auto">
+        <ReplyBtn
+          show={show}
+          setShow={setShow}
+          clickHandler={() => clickBtnHandler("replyBtn")}
+        />
+      </li>
+    </ul>
+  );
+};
+
+export const MomentCommentActionsBox = ({
+  actions,
+  className,
+  clickBtnHandler,
+  displayType = "list", // or grid
+  ...props
+}) => {
+  const { id, like, comment } = actions;
+  const { addToast } = useToast();
+  const { state } = useAuth();
+  // reply btn hide or not
+  const [show, setShow] = useState(false);
+
+  // like
+  const { liked, setLiked, count } = like;
+  const [likeCount, setLikeCount] = useState(count);
+  const likeAct = !liked ? addLikeMomentComment : removeLikeMomentComment;
   const { error, loading, run } = useRequest(likeAct, {
     manual: true,
     onSuccess: (result, params) => {
