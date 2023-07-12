@@ -10,39 +10,24 @@ import { MomentCommentActionsBox } from "../comments/ActionsBox";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 // apis
-import { getChildrenMomentCommentsByPid } from "../../api/momentComment";
+import {
+  createMomentCommentReply,
+  getChildrenMomentCommentsByPid,
+} from "../../api/momentComment";
 // ui
 import GyTime from "../../ui/GyTime/GyTime";
 import GyLoader from "../../ui/GyLoader/GyLoader";
 import GyButton from "../../ui/GyButton/GyButton";
 import { TIME, TYPE, useToast } from "../../ui/GyToast/ToastProvider";
 import MomentCommentSubItem from "./MomentCommentSubItem";
+import { InputPropsComment } from "./config";
 
-const CommentItemContext = createContext({
-  refreshData: () => {},
-});
-
-const MomentCommentItem = ({
-  data,
-  setData,
-  type,
-  parentId = null,
-  ...props
-}) => {
-  const {
-    content,
-    createdAt,
-    curUserLiked,
-    user,
-    id,
-    momentId,
-    _count,
-  } = data;
+const MomentCommentItem = ({ data, setData, type, ...props }) => {
+  const { content, createdAt, curUserLiked, user, id, momentId, _count } = data;
 
   const navigate = useNavigate();
   const { state } = useAuth();
   const { addToast } = useToast();
-  // const actionRef = useRef(null);
   // states
   const [commentBoxOpened, setCommentBoxOpened] = useState(false);
   const [replies, setReplies] = useState();
@@ -50,6 +35,8 @@ const MomentCommentItem = ({
   const [openInput, setOpenInput] = useState(false);
   const [page, setPage] = useState(1);
   const [row, setRow] = useState(3);
+  // ref
+  const inputRef = useRef(null);
 
   const actions = {
     id,
@@ -57,13 +44,26 @@ const MomentCommentItem = ({
       commentBoxOpened,
       commentCount: _count.replies,
     },
-    like: { liked, setLiked, count: _count.commentLikes },
+    like: { liked, setLiked, count: _count.momentCommentLikes },
   };
 
   const { error, loading, run } = useRequest(getChildrenMomentCommentsByPid, {
     manual: true,
     onSuccess: (result, params) => {
       setReplies(result);
+    },
+  });
+
+  const createMomentCommentReplyRequest = useRequest(createMomentCommentReply, {
+    manual: true,
+    onSuccess: (result) => {
+      inputRef.current && inputRef.current.reset();
+      run(page, row, id);
+      addToast({
+        content: InputPropsComment.success,
+        time: TIME.SHORT,
+        type: TYPE.SUCCESS,
+      });
     },
   });
 
@@ -92,13 +92,13 @@ const MomentCommentItem = ({
     setOpenInput(!openInput);
   };
 
-  const hideReplyBtn = () => {
-    setOpenInput(false);
-    // actionRef.current.setShow(false);
-  };
-
   const submitReplyToMomentCommentHandler = (data) => {
-    console.log(data);
+    createMomentCommentReplyRequest.run({
+      content: data.comment,
+      momentId,
+      parentId: id,
+      replyTo: null,
+    });
   };
 
   const clickBtnHandler = (btnType) => {
@@ -120,23 +120,6 @@ const MomentCommentItem = ({
     run(page + 1, 5, id);
   };
 
-  const refreshData = (pid) => {
-    run(page, row, pid);
-  };
-
-  //   let actionType;
-  //   if (type === "comments") {
-  //     actionType = "reply";
-  //   } else if (type === "reply") {
-  //     actionType = "subReply";
-  //   }
-
-  const replyObj = {
-    momentId,
-    parentId: parentId ? parentId : id,
-    replyTo: parentId ? id : null,
-  };
-
   return (
     <div className="comments-item" {...props}>
       <section className="user">
@@ -147,46 +130,37 @@ const MomentCommentItem = ({
       <MomentCommentActionsBox
         actions={actions}
         clickBtnHandler={(type) => clickBtnHandler(type)}
-        // ref={actionRef}
       />
-      {/* comment input */}
-      <CommentItemContext.Provider value={{ refreshData }}>
-        {openInput && (
-          <MomentInput
-            type="reply"
-            onSubmit={submitReplyToMomentCommentHandler}
-            // replyObj={replyObj}
-            // hideReplyBtn={hideReplyBtn}
-          />
-        )}
-        {/* comment list */}
-        {commentBoxOpened && (
-          <>
-            {replies && !loading && (
-              <MomentCommentList count={replies?.meta.total} type="subReply">
-                {replies?.data.map((item) => (
-                  <MomentCommentSubItem
-                    data={item}
-                    // setData={setData}
-                    key={item.id}
-                    type={type}
-                  />
-                ))}
-              </MomentCommentList>
-            )}
-            {loading && <GyLoader />}
-            {replies?.hasMore && !loading && (
-              <GyButton
-                size={["sm", "round"]}
-                className="show-more-btn"
-                click={() => showMore()}
-              >
-                Show more replies
-              </GyButton>
-            )}
-          </>
-        )}
-      </CommentItemContext.Provider>
+      {openInput && (
+        <MomentInput
+          type="reply"
+          onSubmit={submitReplyToMomentCommentHandler}
+          loading={createMomentCommentReplyRequest.loading}
+          ref={inputRef}
+        />
+      )}
+      {/* comment list */}
+      {commentBoxOpened && (
+        <>
+          {!!replies && !loading && (
+            <MomentCommentList count={replies?.meta.total} type="replies">
+              {replies?.data.map((item) => (
+                <MomentCommentSubItem data={item} key={item.id} />
+              ))}
+            </MomentCommentList>
+          )}
+          {!!loading && <GyLoader />}
+          {!!replies?.hasMore && !loading && (
+            <GyButton
+              size={["sm", "round"]}
+              className="show-more-btn"
+              click={() => showMore()}
+            >
+              Show more replies
+            </GyButton>
+          )}
+        </>
+      )}
     </div>
   );
 };

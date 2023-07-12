@@ -208,6 +208,7 @@ export const MomentCommentActionsBox = ({
   actions,
   className,
   clickBtnHandler,
+  type,
   displayType = "list", // or grid
   ...props
 }) => {
@@ -250,7 +251,7 @@ export const MomentCommentActionsBox = ({
           inactive={!state.isAuth}
         />
       </li>
-      {displayType === "list" && (
+      {displayType === "list" && type !== "subComment" && (
         <li>
           <CommentMomentBtn
             commentBoxOpened={comment?.commentBoxOpened}

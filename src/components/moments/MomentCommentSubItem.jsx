@@ -1,10 +1,17 @@
 import React, { useRef, useState } from "react";
-import UserHeader from "../user/UserHeader"
-import GyTime from "../../ui/GyTime/GyTime"
-import { MomentCommentActionsBox } from "../comments/ActionsBox"
-import MomentInput from "./MomentInput"
+import UserHeader from "../user/UserHeader";
+import GyTime from "../../ui/GyTime/GyTime";
+import { MomentCommentActionsBox } from "../comments/ActionsBox";
+import MomentInput from "./MomentInput";
+import { useRequest } from "ahooks";
+import {
+  createMomentCommentReply,
+  getChildrenMomentCommentsByPid,
+} from "../../api/momentComment";
+import { InputPropsComment } from "./config";
+import { TIME, TYPE, useToast } from "../../ui/GyToast/ToastProvider";
 
-const MomentCommentSubItem = ({ data, setData, type, ...props }) => {
+const MomentCommentSubItem = ({ data, setData, ...props }) => {
   const {
     content,
     createdAt,
@@ -16,9 +23,12 @@ const MomentCommentSubItem = ({ data, setData, type, ...props }) => {
     replyToComment,
     _count,
   } = data;
+  const { addToast } = useToast();
+  // states
   const [liked, setLiked] = useState(curUserLiked);
   const [openInput, setOpenInput] = useState(false);
-  const actionRef = useRef(null);
+  // ref
+  const inputRef = useRef(null);
 
   const actions = {
     id,
@@ -30,15 +40,25 @@ const MomentCommentSubItem = ({ data, setData, type, ...props }) => {
     setOpenInput(!openInput);
   };
 
-  const hideReplyBtn = () => {
-    setOpenInput(false);
-    actionRef.current.setShow(false);
-  };
+  const createMomentCommentReplyRequest = useRequest(createMomentCommentReply, {
+    manual: true,
+    onSuccess: (result) => {
+      inputRef.current && inputRef.current.reset();
+      addToast({
+        content: InputPropsComment.success,
+        time: TIME.SHORT,
+        type: TYPE.SUCCESS,
+      });
+    },
+  });
 
-  const replyObj = {
-    momentId,
-    parentId: parentId ? parentId : id,
-    replyTo: parentId ? id : null,
+  const submitReplyToMomentCommentHandler = (data) => {
+    createMomentCommentReplyRequest.run({
+      content: data.comment,
+      momentId,
+      parentId: parentId,
+      replyTo: id,
+    });
   };
 
   return (
@@ -65,17 +85,17 @@ const MomentCommentSubItem = ({ data, setData, type, ...props }) => {
       )}
       <p className="content">{content}</p>
       <MomentCommentActionsBox
-        type={type}
+        type="subComment"
         actions={actions}
         clickBtnHandler={() => clickReplyBtn()}
-        ref={actionRef}
       />
       {/* comment input */}
       {openInput && (
         <MomentInput
-          type={type}
-          // replyObj={replyObj}
-          // hideReplyBtn={hideReplyBtn}
+          type="reply"
+          onSubmit={submitReplyToMomentCommentHandler}
+          loading={createMomentCommentReplyRequest.loading}
+          ref={inputRef}
         />
       )}
     </div>
