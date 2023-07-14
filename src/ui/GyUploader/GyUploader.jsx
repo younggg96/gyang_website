@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import "./index.scss";
 import classNames from "classnames";
 import { BsImage, BsCloudUploadFill } from "react-icons/bs";
-import { AiFillDelete } from "react-icons/ai";
 import { useRequest } from "ahooks";
 import { uploadImgs } from "../../api/upload";
 import GyButton from "../GyButton/GyButton";
 import PropTypes from "prop-types";
 import { TIME, TYPE, useToast } from "../GyToast/ToastProvider";
+import { colors } from "../../config";
+import { RiDeleteBinLine } from "react-icons/ri";
 
 const byteToMegaByte = (bytes) => {
   return bytes / 1048576 < 1
@@ -17,30 +18,48 @@ const byteToMegaByte = (bytes) => {
 
 export const MAX_UPLOAD_IMG_NUM = 9;
 
-export const GyUploaderPrevier = ({ fileList, fileRemove }) => (
-  <div className="uploader-preview">
-    <div className="uploader-preview__content">
-      {fileList.map((item, index) => (
-        <div className="uploader-preview__content__item" key={index}>
-          <img
-            className="uploader-preview__content__item__img"
-            alt={`${item.name} preview img`}
-            src={item.url}
-          />
-          <GyButton
-            className="uploader-preview__content__item__del"
-            type="button"
-            variant="iconOnly"
-            onClick={() => fileRemove(item)}
-          >
-            <AiFillDelete />
-            <span className="sr-only">Delete img</span>
-          </GyButton>
-        </div>
-      ))}
+export const GyUploaderPrevier = ({ fileList, fileRemove }) => {
+  const GyUploaderPrevierItem = ({ item, index }) => {
+    const [hovered, setHovered] = useState(false);
+    return (
+      <div
+        className="uploader-preview__content__item"
+        key={index}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        <img
+          className="uploader-preview__content__item__img"
+          alt={`${item.name} preview img`}
+          src={item.url}
+        />
+        {!!hovered && (
+          <>
+            <div className="uploader-preview__content__item__overlap"></div>
+            <GyButton
+              className="uploader-preview__content__item__del"
+              type="button"
+              variant="iconOnly"
+              onClick={() => fileRemove(item)}
+            >
+              <RiDeleteBinLine color={"#000"} />
+              <span className="sr-only">Delete img</span>
+            </GyButton>
+          </>
+        )}
+      </div>
+    );
+  };
+  return (
+    <div className="uploader-preview">
+      <div className="uploader-preview__content">
+        {fileList.map((item, index) => (
+          <GyUploaderPrevierItem item={item} index={index} />
+        ))}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const GyUploader = ({
   children,
@@ -145,7 +164,7 @@ const GyUploader = ({
             <GyButton
               type="button"
               variant="iconOnly"
-              icon={() => <AiFillDelete />}
+              icon={() => <RiDeleteBinLine />}
               onClick={() => fileRemove(fileList[0])}
               className="absolute top-4 right-4"
             ></GyButton>
