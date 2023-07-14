@@ -1,17 +1,23 @@
 import React, { useRef, useState } from "react";
-import UserHeader from "../user/UserHeader";
-import GyTime from "../../ui/GyTime/GyTime";
-import { MomentCommentActionsBox } from "../comments/ActionsBox";
-import MomentInput from "./MomentInput";
 import { useRequest } from "ahooks";
-import {
-  createMomentCommentReply,
-  getChildrenMomentCommentsByPid,
-} from "../../api/momentComment";
-import { InputPropsComment } from "./config";
+// components
+import UserHeader from "../user/UserHeader";
+import MomentInput from "./MomentInput";
+import { MomentCommentActionsBox } from "../comments/ActionsBox";
+import { createMomentCommentReply } from "../../api/momentComment";
+// hooks
 import { TIME, TYPE, useToast } from "../../ui/GyToast/ToastProvider";
+// config
+import { InputPropsComment } from "./config";
+// ui
+import GyTime from "../../ui/GyTime/GyTime";
 
-const MomentCommentSubItem = ({ data, setData, ...props }) => {
+const MomentCommentSubItem = ({
+  data,
+  setData,
+  updateParentData,
+  ...props
+}) => {
   const {
     content,
     createdAt,
@@ -33,7 +39,7 @@ const MomentCommentSubItem = ({ data, setData, ...props }) => {
   const actions = {
     id,
     comment: null,
-    like: { liked, setLiked, count: _count.commentLikes },
+    like: { liked, setLiked, count: _count.momentCommentLikes },
   };
 
   const clickReplyBtn = () => {
@@ -44,6 +50,7 @@ const MomentCommentSubItem = ({ data, setData, ...props }) => {
     manual: true,
     onSuccess: (result) => {
       inputRef.current && inputRef.current.reset();
+      updateParentData();
       addToast({
         content: InputPropsComment.success,
         time: TIME.SHORT,

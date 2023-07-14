@@ -28,6 +28,7 @@ import "./index.scss";
 // config
 import { InputPropsComment } from "./config";
 import { useRef } from "react";
+import GyLoader from "../../ui/GyLoader/GyLoader";
 
 const ImgList = ({ imgs }) => {
   return (
@@ -153,6 +154,11 @@ const MomentItem = ({ data, type = "list", className }) => {
     }
   };
 
+  const openMomentModal = () => {
+    toggleMomentModalOpen();
+    getMomentCommentsByMomentIdRequest.run(page, row, id);
+  };
+
   const submitMomentCommentHandler = (data) => {
     const obj = {
       content: data.comment,
@@ -198,15 +204,13 @@ const MomentItem = ({ data, type = "list", className }) => {
             <MomentInput
               onSubmit={submitMomentCommentHandler}
               loading={creatMomentCommentRequest.loading}
+              type="comments"
               ref={inputRef}
             />
           )}
           {/* comment list */}
           {commentBoxOpened && (
-            <MomentCommentList
-              count={_count.momentComments}
-              type="comments"
-            >
+            <MomentCommentList count={_count.momentComments} type="comments">
               {momentCommentList.map((item) => (
                 <MomentCommentItem data={item} key={item.id} type={type} />
               ))}
@@ -228,7 +232,7 @@ const MomentItem = ({ data, type = "list", className }) => {
           {/* imgs */}
           <GyImgSwiper imgs={imgs} className="moment-item-card__imgs" />
           {/* content */}
-          <p className="content" onClick={toggleMomentModalOpen}>
+          <p className="content" onClick={openMomentModal}>
             {content}
           </p>
           {/* user header & moment date */}
@@ -253,23 +257,28 @@ const MomentItem = ({ data, type = "list", className }) => {
             </p>
             {/* user header & moment date */}
             <section className="actions" id="actions">
+              {getMomentCommentsByMomentIdRequest.loading && <GyLoader />}
               <MomentActionsBox
                 actions={{
                   id,
-                  like: { liked, setLiked, count: 0 },
+                  like: { liked, setLiked, count: _count.momentlikes },
                   comment: null,
                 }}
                 displayType="grid"
                 clickBtnHandler={(type) => clickBtnHandler(type)}
               />
               {/* comment list */}
-              {replyInputOpened && <MomentInput />}
+              {replyInputOpened && (
+                <MomentInput
+                  onSubmit={submitMomentCommentHandler}
+                  loading={creatMomentCommentRequest.loading}
+                  type="comments"
+                  ref={inputRef}
+                />
+              )}
             </section>
             <section>
-              <MomentCommentList
-                count={_count.momentComments}
-                type="comments"
-              >
+              <MomentCommentList count={_count.momentComments} type="comments">
                 {momentCommentList.map((item) => (
                   <MomentCommentItem data={item} key={item.id} type={type} />
                 ))}

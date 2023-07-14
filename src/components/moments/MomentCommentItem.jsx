@@ -145,7 +145,11 @@ const MomentCommentItem = ({ data, setData, type, ...props }) => {
           {!!replies && !loading && (
             <MomentCommentList count={replies?.meta.total} type="replies">
               {replies?.data.map((item) => (
-                <MomentCommentSubItem data={item} key={item.id} />
+                <MomentCommentSubItem
+                  data={item}
+                  key={item.id}
+                  updateParentData={() => run(page, row, id)}
+                />
               ))}
             </MomentCommentList>
           )}

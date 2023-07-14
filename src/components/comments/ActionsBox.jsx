@@ -86,15 +86,30 @@ const CommentBtn = ({ commentBoxOpened, clickHandler, commentCount }) => {
   );
 };
 
-const CommentMomentBtn = ({ commentBoxOpened, clickHandler, commentCount }) => {
+/**
+ *
+ * @param {string} type -> comment / reply
+ * @returns
+ */
+const CommentMomentBtn = ({
+  commentBoxOpened,
+  clickHandler,
+  commentCount,
+  type = "comment",
+}) => {
+  const countText =
+    type === "comment" ? ["comment", "comments"] : ["reply", "replies"];
+
   return (
     <button className="action-btn" onClick={clickHandler}>
       <BiCommentDetail
         color={commentBoxOpened ? colors.primary : colors.text}
       />
-      <span className="count">
-        {commentCount} {commentCount > 1 ? "comments" : "comment"}
-      </span>
+      {!!commentCount && (
+        <span className="count">
+          {commentCount} {commentCount > 1 ? countText[1] : countText[0]}
+        </span>
+      )}
     </button>
   );
 };
@@ -103,9 +118,11 @@ const CommentArticleBtn = ({ clickHandler, commentCount }) => {
   return (
     <button className="action-btn" onClick={clickHandler}>
       <BiCommentDetail color={colors.text} />
-      <span className="count">
-        {commentCount} {commentCount > 1 ? "comments" : "comment"}
-      </span>
+      {!!commentCount && (
+        <span className="count">
+          {commentCount} {commentCount > 1 ? "comments" : "comment"}
+        </span>
+      )}
     </button>
   );
 };
@@ -123,17 +140,18 @@ const SaveArticleBtn = ({ clickHandler, saveStatus }) => {
   );
 };
 
-const ReplyBtn = ({ clickHandler, show, setShow }) => {
+const ReplyBtn = ({ clickHandler, show, setShow, type = "reply" }) => {
+  const btnText = type === "reply" ? "Reply" : "Comment";
   return (
     <GyButton
-      size={["sm", "round"]}
+      size={["xs"]}
       onClick={() => {
         setShow(!show);
         clickHandler();
       }}
       className="!m-0"
     >
-      {!show ? "Reply" : "Hide reply"}
+      {!show ? btnText : "Hide"}
     </GyButton>
   );
 };
@@ -190,6 +208,7 @@ export const MomentActionsBox = ({
             commentBoxOpened={comment?.commentBoxOpened}
             clickHandler={() => clickBtnHandler("commentBtn")}
             commentCount={comment?.commentCount}
+            type="comment"
           />
         </li>
       )}
@@ -198,6 +217,7 @@ export const MomentActionsBox = ({
           show={show}
           setShow={setShow}
           clickHandler={() => clickBtnHandler("replyBtn")}
+          type="comment"
         />
       </li>
     </ul>
@@ -257,6 +277,7 @@ export const MomentCommentActionsBox = ({
             commentBoxOpened={comment?.commentBoxOpened}
             clickHandler={() => clickBtnHandler("commentBtn")}
             commentCount={comment?.commentCount}
+            type="reply"
           />
         </li>
       )}
