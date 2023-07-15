@@ -2,7 +2,7 @@
 
 @layer components {
   .gy-uploader {
-    @apply flex gap-2 items-center justify-center border-2 border-border border-dashed rounded-xl bg-white relative p-10
+    @apply flex gap-2 items-center justify-center w-[80%] border-2 border-border border-dashed rounded-xl bg-white relative p-10
     hover:bg-gray-200
     dark:bg-backgroundDark dark:border-borderDark dark:hover:border-opacity-95 dark:hover:bg-accentDark;
     &.dragging {

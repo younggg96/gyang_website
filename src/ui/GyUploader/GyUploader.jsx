@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import "./index.scss";
 import classNames from "classnames";
-import { BsImage, BsCloudUploadFill } from "react-icons/bs";
 import { useRequest } from "ahooks";
-import { uploadImgs } from "../../api/upload";
-import GyButton from "../GyButton/GyButton";
-import PropTypes from "prop-types";
-import { TIME, TYPE, useToast } from "../GyToast/ToastProvider";
-import { colors } from "../../config";
+import { BsImage, BsCloudUploadFill } from "react-icons/bs";
 import { RiDeleteBinLine } from "react-icons/ri";
+// components
+import { uploadImgs } from "../../api/upload";
+// ui
+import GyButton from "../GyButton/GyButton";
+import { TIME, TYPE, useToast } from "../GyToast/ToastProvider";
+import "./index.scss";
+import PropTypes from "prop-types";
 
 const byteToMegaByte = (bytes) => {
   return bytes / 1048576 < 1

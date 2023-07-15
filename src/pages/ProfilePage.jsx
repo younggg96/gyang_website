@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import classNames from "classnames";
 // hooks
 import { useParams } from "react-router-dom";
-import { useRequest } from "ahooks";
+import { useRequest, useToggle } from "ahooks";
 import useAuth from "../hooks/useAuth";
 // import api
 import { getUserInfo } from "../api";
@@ -23,6 +23,7 @@ import { IoMdSettings } from "react-icons/io";
 // scss
 import "./style/index.scss";
 import MomentList from "../components/moments/MomentList";
+import Moments from "../components/moments/Moments";
 
 const UserBackground = ({ url, editable = false }) => {
   return (
@@ -62,6 +63,7 @@ const Profile = ({ self = false }) => {
   let params = useParams();
   const userId = params.id;
   const { state } = useAuth();
+  const [toggleState, { setLeft, setRight }] = useToggle("list", "grid");
   // states
   const [activeIndex, setActiveIndex] = useState(0);
   const [userData, setUserData] = useState({ user: null, profile: null });
@@ -113,7 +115,7 @@ const Profile = ({ self = false }) => {
                   {activeIndex === 0 ? (
                     <ArticleList userId={!self ? userId : state?.user?.id} />
                   ) : (
-                    <MomentList userId={!self ? userId : state?.user?.id} />
+                    <MomentList userId={!self ? userId : state?.user?.id} type={toggleState} />
                   )}
                 </Gytab>
               </section>

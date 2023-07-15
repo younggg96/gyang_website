@@ -20,14 +20,20 @@ import GyMasonryLayout from "../../ui/GyMasonryLayout/GyMasonryLayout";
 
 export const commentContext = createContext();
 
-const MomentList = ({ type }) => {
+/**
+ *
+ * @param {object} {type} list / grid
+ * @param {object} {userId} get moments in user profile, use userId to getMoments
+ */
+const MomentList = ({ type, userId = null }) => {
   const [curPage, setCurPage] = useState(1);
   const [MomentList, setMomentList] = useState([]);
   const [pagination, setPagination] = useState();
 
   const { state } = useAuth();
+  console.log(state.user.id);
   const getMoments = state.isAuth ? getMomentListAuth : getMomentList;
-  const getData = state.user.id ? getMoments : getMomentListByUserId;
+  const getData = !userId ? getMoments : getMomentListByUserId;
 
   const { error, loading, run } = useRequest(getData, {
     manual: true,
