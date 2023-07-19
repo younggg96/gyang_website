@@ -1,6 +1,11 @@
-import { deleteReq, get, patch } from "./axios";
+import { deleteReq, get, patch, post } from "./axios";
 
 // moments
+/**
+ * @param {obj} object {content: string, img: string[]}
+ * @returns
+ */
+export const createMoment = (body) => post("/moment", body);
 /**
  * @param {number} curPage page
  * @returns current user's moment list

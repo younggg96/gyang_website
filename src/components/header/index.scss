@@ -2,7 +2,7 @@
 
 @layer components {
   .header {
-    @apply fixed z-50 w-full px-[30px] lg:px-[100px] h-[100px] flex items-center bg-white shadow
+    @apply fixed z-[9999] w-full px-[30px] lg:px-[100px] h-[100px] flex items-center bg-white shadow
     dark:bg-primaryDark dark:shadow-none dark:border-b-[1px] dark:border-borderDark;
   }
   .header-content {

@@ -1,31 +1,72 @@
 import React, { useState } from "react";
-import "./index.scss";
-import EditorIcons from "./EditorIcons";
-import AddEmojiBtn from "./AddEmojiBtn";
-import { useForm } from "react-hook-form";
-import GyButton from "../../ui/GyButton/GyButton";
 import { useCycle } from "framer-motion";
+import "./index.scss";
+// icons
+import EditorIcons from "./EditorIcons";
+// components
+import AddEmojiBtn from "./AddEmojiBtn";
+// form
+import { useForm, Controller } from "react-hook-form";
+// ui
 import GyModal from "../../ui/GyModal/GyModal";
 import GyUploader, {
-  GyUploaderPrevier,
+  GyUploaderPreviewer,
   MAX_UPLOAD_IMG_NUM,
 } from "../../ui/GyUploader/GyUploader";
+import GyButton from "../../ui/GyButton/GyButton";
 import GyTextarea from "../../ui/GyTextarea/GyTextarea";
 import { TIME, TYPE, useToast } from "../../ui/GyToast/ToastProvider";
+import { useRequest } from "ahooks";
+// apis
+import { uploadImgs } from "../../api/upload";
+import { createMoment } from "../../api/moments";
 
 const EditorInput = () => {
   const [isImgUploaderOpen, toggleImgUploaderOpen] = useCycle(false, true);
 
   const { addToast } = useToast();
-  const [uploadImgs, setUploadImgs] = useState([]);
+  const [uploadedImgs, setUploadedImgs] = useState([]);
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm();
+
+  const uploadImgsRequest = useRequest(uploadImgs, {
+    manual: true,
+  });
+  const createMomentRequest = useRequest(createMoment, {
+    manual: true,
+    onSuccess: (res) => {
+      addToast({
+        content: "Post moment successfully!",
+        time: TIME.SHORT,
+        type: TYPE.SUCCESS,
+      });
+      console.log(res);
+    },
+  });
+
   const onSubmit = (data) => {
-    console.log(data);
+    addToast({
+      content: "Your moment is posting...",
+      time: TIME.SHORT,
+      type: TYPE.INFO,
+    });
+    uploadImgsRequest
+      .runAsync(uploadedImgs)
+      .then((imgs) => {
+        createMomentRequest.run({
+          content: data.moment,
+          imgs: imgs?.data.map((item) => item.url),
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
+
   const emojiClickHandler = (e) => {
     console.log(e);
   };
@@ -33,7 +74,7 @@ const EditorInput = () => {
   // img uploader
   const handleFileChange = (files) => {
     toggleImgUploaderOpen();
-    if (uploadImgs.length === MAX_UPLOAD_IMG_NUM) {
+    if (uploadedImgs.length === MAX_UPLOAD_IMG_NUM) {
       addToast({
         content:
           "Maximum number of images (9) has been reached. You cannot add more images.",
@@ -43,17 +84,17 @@ const EditorInput = () => {
       return;
     } else {
       addToast({
-        content: "Image added successfully.",
+        content: "Image added successfully!",
         time: TIME.SHORT,
         type: TYPE.SUCCESS,
       });
-      setUploadImgs([...uploadImgs, ...files]);
+      setUploadedImgs([...uploadedImgs, ...files]);
     }
   };
   const handleFileRemove = (file) => {
-    const updatedList = [...uploadImgs];
-    updatedList.splice(uploadImgs.indexOf(file), 1);
-    setUploadImgs(updatedList);
+    const updatedList = [...uploadedImgs];
+    updatedList.splice(uploadedImgs.indexOf(file), 1);
+    setUploadedImgs(updatedList);
   };
 
   return (
@@ -69,43 +110,71 @@ const EditorInput = () => {
             })}
             hasBorder={false}
           />
-          {uploadImgs.length > 0 && (
+          {uploadedImgs.length > 0 && (
             <>
               <hr />
               <div className="editor-imgs-previewer">
-                <GyUploaderPrevier
-                  fileList={uploadImgs}
+                <GyUploaderPreviewer
+                  fileList={uploadedImgs}
                   fileRemove={() => handleFileRemove()}
                 />
               </div>
             </>
           )}
         </div>
-        <div className="editor-btns">
-          <GyButton size={["sm"]} type="submit">
-            Post moment
-          </GyButton>
-          <div className="other-btns">
-            <AddEmojiBtn emojiClickHandler={emojiClickHandler} />
-            {/* <GyButton size={["sm", "round"]}>
+        <div className="editor-bot">
+          {errors.moment ? (
+            <div className="editor-bot__text">
+              <p className="error-msg">{errors.moment.message}</p>
+            </div>
+          ) : errors.imgs ? (
+            <div className="editor-bot__text">
+              <p className="error-msg">{errors.imgs.message}</p>
+            </div>
+          ) : null}
+          <div className="editor-bot__btns">
+            <GyButton size={["sm"]} type="submit">
+              Post moment
+            </GyButton>
+            <div className="other-btns">
+              <AddEmojiBtn emojiClickHandler={emojiClickHandler} />
+              {/* <GyButton size={["sm", "round"]}>
               <EditorIcons.LocationIcon />
               <span className="sr-only">Share Location</span>
             </GyButton> */}
-            <div>
-              <GyButton
-                size={["sm", "round"]}
-                click={() => toggleImgUploaderOpen()}
-              >
-                <EditorIcons.UploadImgIcon />
-                <span className="sr-only">Upload image</span>
-              </GyButton>
-              <GyModal
-                isOpen={isImgUploaderOpen}
-                toggleOpen={toggleImgUploaderOpen}
-                modalClass={"uploader-modal"}
-              >
-                <GyUploader onFileChange={handleFileChange} type="multiple" />
-              </GyModal>
+              <div>
+                <GyButton
+                  size={["sm", "round"]}
+                  click={() => toggleImgUploaderOpen()}
+                >
+                  <EditorIcons.UploadImgIcon />
+                  <span className="sr-only">Upload image</span>
+                </GyButton>
+                <GyModal
+                  isOpen={isImgUploaderOpen}
+                  toggleOpen={toggleImgUploaderOpen}
+                  modalClass={"uploader-modal"}
+                >
+                  <Controller
+                    name="imgs"
+                    control={control}
+                    form={register("imgs", {
+                      required: "Moment imgs are required.",
+                    })}
+                    render={({ field }) => {
+                      return (
+                        <GyUploader
+                          onFileChange={(files) => {
+                            field.onChange(files);
+                            handleFileChange(files);
+                          }}
+                          type="multiple"
+                        />
+                      );
+                    }}
+                  />
+                </GyModal>
+              </div>
             </div>
           </div>
         </div>

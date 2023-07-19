@@ -11,10 +11,20 @@
         @apply px-2;
       }
     }
-    .editor-btns {
-      @apply flex items-center justify-between px-4 py-2 border-t border-border dark:border-borderDark;
-      .other-btns {
-        @apply flex gap-2;
+
+    .editor-bot {
+      @apply px-4 py-2 border-t border-border dark:border-borderDark;
+      &__text {
+        @apply mb-2 pl-2;
+        .error-msg {
+          margin: unset;
+        }
+      }
+      &__btns {
+        @apply flex items-center justify-between;
+        .other-btns {
+          @apply flex gap-2;
+        }
       }
     }
   }

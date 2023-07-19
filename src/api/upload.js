@@ -18,9 +18,8 @@ export const uploadImg = (file) => {
  */
 export const uploadImgs = (files) => {
   const formData = new FormData();
-  for (const file of files) {
-    formData.append("file", file);
+  for (const item of files) {
+    formData.append("file", item.file);
   }
-
   return post("/upload/images/", formData);
 };

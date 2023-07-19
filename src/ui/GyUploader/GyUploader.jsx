@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import classNames from "classnames";
-import { useRequest } from "ahooks";
+// icons
 import { BsImage, BsCloudUploadFill } from "react-icons/bs";
 import { RiDeleteBinLine } from "react-icons/ri";
-// components
-import { uploadImgs } from "../../api/upload";
 // ui
 import GyButton from "../GyButton/GyButton";
 import { TIME, TYPE, useToast } from "../GyToast/ToastProvider";
+// scss
 import "./index.scss";
 import PropTypes from "prop-types";
 
@@ -19,8 +18,8 @@ const byteToMegaByte = (bytes) => {
 
 export const MAX_UPLOAD_IMG_NUM = 9;
 
-export const GyUploaderPrevier = ({ fileList, fileRemove }) => {
-  const GyUploaderPrevierItem = ({ item, index }) => {
+export const GyUploaderPreviewer = ({ fileList, fileRemove }) => {
+  const GyUploaderPreviewerItem = ({ item, index }) => {
     const [hovered, setHovered] = useState(false);
     return (
       <div
@@ -55,7 +54,7 @@ export const GyUploaderPrevier = ({ fileList, fileRemove }) => {
     <div className="uploader-preview">
       <div className="uploader-preview__content">
         {fileList.map((item, index) => (
-          <GyUploaderPrevierItem item={item} index={index} />
+          <GyUploaderPreviewerItem item={item} key={index} />
         ))}
       </div>
     </div>
@@ -134,11 +133,6 @@ const GyUploader = ({
     onFileChange(updatedList);
   };
 
-  const { error, loading, run } = useRequest(uploadImgs, {
-    manual: true,
-    onSuccess: (result) => {},
-  });
-
   return (
     <>
       <div
@@ -209,7 +203,7 @@ const GyUploader = ({
       </div>
       {hasError && <p className="error-msg">{errorMsg}</p>}
       {!!fileList.length && type === "multiple" && preview && (
-        <GyUploaderPrevier fileList={fileList} fileRemove={fileRemove} />
+        <GyUploaderPreviewer fileList={fileList} fileRemove={fileRemove} />
       )}
     </>
   );

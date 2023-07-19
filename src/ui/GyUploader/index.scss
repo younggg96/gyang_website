@@ -43,7 +43,7 @@
           @apply w-32 h-32 rounded-lg object-cover;
         }
         &__overlap {
-          @apply absolute rounded-lg inset-0 bg-gradient-to-b from-black to-transparent opacity-25;
+          @apply absolute rounded-lg inset-0 bg-gradient-to-b from-black to-transparent opacity-25 transition-all;
         }
         &__info {
           @apply flex-1;
