@@ -21,7 +21,7 @@ import { useRequest } from "ahooks";
 import { uploadImgs } from "../../api/upload";
 import { createMoment } from "../../api/moments";
 
-const EditorInput = () => {
+const EditorInput = ({ updateMomentList }) => {
   const [isImgUploaderOpen, toggleImgUploaderOpen] = useCycle(false, true);
 
   const { addToast } = useToast();
@@ -30,9 +30,13 @@ const EditorInput = () => {
     register,
     handleSubmit,
     control,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm();
+  const momentValue = watch("moment");
 
+  // apis
   const uploadImgsRequest = useRequest(uploadImgs, {
     manual: true,
   });
@@ -44,7 +48,7 @@ const EditorInput = () => {
         time: TIME.SHORT,
         type: TYPE.SUCCESS,
       });
-      console.log(res);
+      updateMomentList();
     },
   });
 
@@ -68,7 +72,7 @@ const EditorInput = () => {
   };
 
   const emojiClickHandler = (e) => {
-    console.log(e);
+    setValue("moment", `${momentValue ? momentValue : ""}${e.emoji}`);
   };
 
   // img uploader

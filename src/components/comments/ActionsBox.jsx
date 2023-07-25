@@ -101,7 +101,11 @@ const CommentMomentBtn = ({
     type === "comment" ? ["comment", "comments"] : ["reply", "replies"];
 
   return (
-    <button className="action-btn" onClick={clickHandler}>
+    <button
+      className="action-btn"
+      disabled={!!!commentCount}
+      onClick={clickHandler}
+    >
       <BiCommentDetail
         color={commentBoxOpened ? colors.primary : colors.text}
       />

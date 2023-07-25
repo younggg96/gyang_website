@@ -15,11 +15,15 @@ const MomentInput = React.forwardRef(
       register,
       handleSubmit,
       reset,
+      setValue,
+      watch,
       formState: { errors },
     } = useForm();
 
+    const commentValue = watch("comment");
+
     const emojiClickHandler = (e) => {
-      console.log(e);
+      setValue("comment", `${commentValue ? commentValue : ""}${e.emoji}`);
     };
 
     useImperativeHandle(ref, () => ({

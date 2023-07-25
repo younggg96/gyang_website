@@ -13,28 +13,29 @@ import MomentItem from "./MomentItem";
 // ui
 import GyLoader from "../../ui/GyLoader/GyLoader";
 import GyPagination from "../../ui/GyPagination/GyPagination";
+import GyMasonryLayout from "../../ui/GyMasonryLayout/GyMasonryLayout";
 // scss
 import "./index.scss";
 import classNames from "classnames";
-import GyMasonryLayout from "../../ui/GyMasonryLayout/GyMasonryLayout";
-
-export const commentContext = createContext();
+import { useImperativeHandle } from "react";
 
 /**
  *
  * @param {object} {type} list / grid
  * @param {object} {userId} get moments in user profile, use userId to getMoments
  */
-const MomentList = ({ type, userId = null }) => {
+const MomentList = React.forwardRef(({ type, userId = null }, ref) => {
+  // states
   const [curPage, setCurPage] = useState(1);
   const [MomentList, setMomentList] = useState([]);
   const [pagination, setPagination] = useState();
 
+  // get data
   const { state } = useAuth();
-  console.log(state.user.id);
   const getMoments = state.isAuth ? getMomentListAuth : getMomentList;
   const getData = !userId ? getMoments : getMomentListByUserId;
 
+  // api
   const { error, loading, run } = useRequest(getData, {
     manual: true,
     onSuccess: (result, params) => {
@@ -42,6 +43,14 @@ const MomentList = ({ type, userId = null }) => {
       setPagination(result?.meta);
     },
   });
+
+  // ref
+  useImperativeHandle(ref, () => ({
+    refreshMomentList,
+  }));
+  const refreshMomentList = () => {
+    run(curPage, state.user.id);
+  };
 
   useEffect(() => {
     run(curPage, state.user.id);
@@ -99,6 +108,6 @@ const MomentList = ({ type, userId = null }) => {
       )}
     </section>
   );
-};
+});
 
 export default MomentList;
