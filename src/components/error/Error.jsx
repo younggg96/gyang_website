@@ -1,8 +1,8 @@
 import React from "react";
 
 // imgs
-import error404 from "../../assets/errors/error404.svg";
-import error_no_found from "../../assets/errors/error_no_found.svg";
+import error404 from "../../assets/imgs/errors/error404.svg";
+import error_no_found from "../../assets/imgs/errors/error_no_found.svg";
 
 // style
 import "./index.scss";

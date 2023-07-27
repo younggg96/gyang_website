@@ -3,7 +3,7 @@ import { useEffect, useReducer } from "react";
 import { createContext } from "react";
 import axios from "axios";
 import { TIME, TYPE, useToast } from "../ui/GyToast/ToastProvider";
-import { identifyUser } from "../api";
+import { identifyUser } from "../api/user";
 
 const AUTH_TYPE = {
   INITIALIZE: "INITIALIZE",

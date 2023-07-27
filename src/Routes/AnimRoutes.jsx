@@ -1,16 +1,16 @@
 import React from "react";
 // import pages
-import Home from "../../pages/HomePage";
-import Auth from "../../pages/AuthPage";
-import Profile from "../../pages/ProfilePage";
-import ArticlePage from "../../pages/ArticlePage";
-import ErrorPage from "../../pages/ErrorPage";
+import Home from "../pages/HomePage";
+import Auth from "../pages/AuthPage";
+import Profile from "../pages/ProfilePage";
+import ArticlePage from "../pages/ArticlePage";
+import ErrorPage from "../pages/ErrorPage";
 
 // import routes route & useLocation hook
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
-import NewArticlePage from "../../pages/NewArticlePage";
-import useAuth from "../../hooks/useAuth";
+import NewArticlePage from "../pages/NewArticlePage";
+import useAuth from "../hooks/useAuth";
 
 const routes = [
   {
@@ -22,7 +22,7 @@ const routes = [
     element: Auth,
   },
   {
-    path: "/profile:id",
+    path: "/profile/:id",
     element: Profile,
   },
   {

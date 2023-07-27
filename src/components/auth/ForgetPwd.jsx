@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import { EmailInput } from "./AuthInput";
 import { TIME, TYPE, useToast } from "../../ui/GyToast/ToastProvider";
 import { useRequest } from "ahooks";
-import { postCheck } from "../../api"
-
+// api
+import { postCheck } from "../../api/auth"
 import './index.scss';
 
 const ForgetPwd = ({ handleCheck }) => {

@@ -72,7 +72,7 @@ const MomentCommentSubItem = ({
     <div className="comments-item" {...props}>
       <section className="user">
         <div className="user-wapper">
-          {user && <UserHeader user={user} size="sm" />}
+          {user && <UserHeader user={user} size="xs" />}
           {replyToComment && (
             <>
               <span className="reply-label">Replied</span>

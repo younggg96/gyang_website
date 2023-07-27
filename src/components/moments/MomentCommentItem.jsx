@@ -123,7 +123,7 @@ const MomentCommentItem = ({ data, setData, type, ...props }) => {
   return (
     <div className="comments-item" {...props}>
       <section className="user">
-        <UserHeader user={user} size="sm" className="mr-auto" />
+        <UserHeader user={user} size="xs" className="mr-auto" />
         <GyTime date={createdAt} className="date" />
       </section>
       <p className="content">{content}</p>

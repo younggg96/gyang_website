@@ -3,9 +3,9 @@ import { useForm } from "react-hook-form";
 import { PwdInput } from "./AuthInput";
 import { TIME, TYPE, useToast } from "../../ui/GyToast/ToastProvider";
 import { useRequest } from "ahooks";
-import { postReset } from "../../api";
 
-import './index.scss';
+import { postReset } from "../../api/auth";
+import "./index.scss";
 
 const ResetPwd = ({ userInfo }) => {
   const {

@@ -1,7 +1,8 @@
 import axios from "axios";
+import { BASE_SERVER_URL } from ".";
 
 axios.defaults.timeout = 100000;
-axios.defaults.baseURL = "http://localhost:3000/api";
+axios.defaults.baseURL = `${BASE_SERVER_URL}/api`;
 
 //失败提示
 const msag = (err) => {
@@ -41,7 +42,7 @@ const msag = (err) => {
         err.message = `Network error(${err.response.status})!`;
     }
   }
-}
+};
 
 /**
  * 查看返回的数据

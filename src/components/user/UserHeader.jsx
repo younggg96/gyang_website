@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import defaultAvatar from "../../assets/imgs/default-avatar.jpg";
-
+// default avatar img
+import defaultAvatar from "../../assets/imgs/avatar/default-avatar.jpg";
+// ui
 import GyAvatar from "../../ui/GyAvatar/GyAvatar";
 
 const UserHeader = ({ user, size = "normal", hasAvatar = true, ...props }) => {

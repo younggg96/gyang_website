@@ -5,12 +5,13 @@ import { useParams } from "react-router-dom";
 import { useRequest, useToggle } from "ahooks";
 import useAuth from "../hooks/useAuth";
 // import api
-import { getUserInfo } from "../api";
+import { getUserInfo } from "../api/user";
 // import components
 import UserHeader from "../components/user/UserHeader";
 import ArticleList from "../components/article/ArticleList";
 import GyBodySection from "../ui/GyBodySection/GyBodySection";
 import UserProfile from "../components/profile/UserProfile";
+import MomentList from "../components/moments/MomentList";
 import Error from "../components/error/Error";
 // ui
 import { tabs } from "./HomePage";
@@ -22,8 +23,6 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoMdSettings } from "react-icons/io";
 // scss
 import "./style/index.scss";
-import MomentList from "../components/moments/MomentList";
-import Moments from "../components/moments/Moments";
 
 const UserBackground = ({ url, editable = false }) => {
   return (
@@ -115,7 +114,10 @@ const Profile = ({ self = false }) => {
                   {activeIndex === 0 ? (
                     <ArticleList userId={!self ? userId : state?.user?.id} />
                   ) : (
-                    <MomentList userId={!self ? userId : state?.user?.id} type={toggleState} />
+                    <MomentList
+                      userId={!self ? userId : state?.user?.id}
+                      type={toggleState}
+                    />
                   )}
                 </Gytab>
               </section>

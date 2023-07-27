@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 // import components
 import UserPopup from "../user/UserPopup";
 // import Socials from "./Socials";
-import Logo from "../../img/header/logo.png";
+import Logo from "../../assets/imgs/header/logo.png";
 // import link
 import { Link } from "react-router-dom";
 // import motion

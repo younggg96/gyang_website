@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import Logo from "../../img/header/logo.png";
+// default avatar img
+import defaultAvatar from "../../assets/imgs/avatar/default-avatar.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 // style
@@ -48,7 +49,7 @@ const UserPopup = () => {
         <div className="user-info-popup-wapper">
           <section className="top">
             <GyAvatar
-              src={!user?.avatar ? Logo : user?.avatar}
+              src={!user?.avatar ? defaultAvatar : user?.avatar}
               className="avatar"
             />
             <div className="text">

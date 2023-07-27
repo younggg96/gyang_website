@@ -1,10 +1,13 @@
 import { useRequest } from "ahooks";
 import { useEffect, useState } from "react";
-import { getTopUserList } from "../../api";
+// components
 import UserHeader from "./UserHeader";
+// ui
 import GyPagination from "../../ui/GyPagination/GyPagination";
 import GyLoader from "../../ui/GyLoader/GyLoader";
 import GyCard from "../../ui/GyCard/GyCard";
+// api
+import { getTopUserList } from "../../api/user";
 import "./index.scss";
 
 const TopUserList = () => {

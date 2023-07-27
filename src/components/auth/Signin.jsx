@@ -4,10 +4,10 @@ import { useForm } from "react-hook-form";
 import { TIME, TYPE, useToast } from "../../ui/GyToast/ToastProvider";
 import { useRequest } from "ahooks";
 import { EmailInput, PwdInput } from "./AuthInput";
-import { postSignin } from "../../api";
 import useAuth from "../../hooks/useAuth";
 
-import './index.scss';
+import "./index.scss";
+import { postSignin } from "../../api/auth";
 
 const Signin = ({ children }) => {
   const {

@@ -3,9 +3,9 @@ import React, { useEffect } from "react";
 import Header from "./components/header/Header";
 // import router
 import { BrowserRouter as Router } from "react-router-dom";
-import AnimRoutes from "./components/Routes/AnimRoutes";
-import "./app.scss";
 import { initTheme } from "./helper/theme";
+import AnimRoutes from "./Routes/AnimRoutes";
+import "./app.scss";
 
 const App = () => {
   useEffect(() => {

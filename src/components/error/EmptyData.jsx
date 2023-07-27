@@ -1,7 +1,7 @@
 import React from "react";
 
 // imgs
-import no_data from "../../assets/empty/no_data.svg";
+import no_data from "../../assets/imgs/empty/no_data.svg";
 
 // style
 import "./index.scss";

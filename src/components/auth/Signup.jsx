@@ -5,9 +5,9 @@ import { TIME, TYPE, useToast } from "../../ui/GyToast/ToastProvider";
 import { useRequest } from "ahooks";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import { postRequest } from "../../api"
+import { post } from "../../api/axios";
 
-import './index.scss';
+import "./index.scss";
 
 const Signup = () => {
   const {
@@ -20,7 +20,7 @@ const Signup = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const sininUseRequest = useRequest(postRequest, {
+  const sininUseRequest = useRequest(post, {
     manual: true,
     onBefore: () => {
       addToast({
@@ -58,7 +58,7 @@ const Signup = () => {
     },
   });
 
-  const sinupUseRequest = useRequest(postRequest, {
+  const sinupUseRequest = useRequest(post, {
     manual: true,
     onBefore: () => {
       addToast({

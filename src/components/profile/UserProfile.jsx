@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import GyCard from "../../ui/GyCard/GyCard";
 import GySocial from "../../ui/GySocial/GySocial";
-import GyLoader from "../../ui/GyLoader/GyLoader";
 import "./index.scss";
 import { useRequest } from "ahooks";
-import { getUserProfile } from "../../api";
+import { getUserProfile } from "../../api/user"
 
 const UserProfile = ({ userEmail }) => {
   const [profile, setProfile] = useState();
