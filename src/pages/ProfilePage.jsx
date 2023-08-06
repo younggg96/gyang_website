@@ -23,6 +23,9 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoMdSettings } from "react-icons/io";
 // scss
 import "./style/index.scss";
+import GyModal from "../ui/GyModal/GyModal";
+import { useCycle } from "framer-motion";
+import ChatRoom from "../components/chat/ChatRoom";
 
 const UserBackground = ({ url, editable = false }) => {
   return (
@@ -39,18 +42,20 @@ const UserBackground = ({ url, editable = false }) => {
   );
 };
 
-const UserContactBtns = ({ self }) => {
+const UserContactBtns = ({ self, toggleMsgroomOpen }) => {
   return (
     <div className="user-profile-btns">
       {!self ? (
         <>
-          <GyButton className="message">message</GyButton>
-          <GyButton size={["round"]} className="icon-btn">
+          <GyButton size={["sm"]} className="message" click={toggleMsgroomOpen}>
+            message
+          </GyButton>
+          <GyButton size={["sm", "round"]}>
             <BsThreeDotsVertical />
           </GyButton>
         </>
       ) : (
-        <GyButton size={["round"]} className="icon-btn">
+        <GyButton size={["sm", "round"]}>
           <IoMdSettings />
         </GyButton>
       )}
@@ -67,6 +72,8 @@ const Profile = ({ self = false }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [userData, setUserData] = useState({ user: null, profile: null });
   const { user, profile } = userData;
+
+  const [isMsgroomOpen, toggleMsgroomOpen] = useCycle(false, true);
 
   const { error, loading, run } = useRequest(getUserInfo, {
     manual: true,
@@ -102,7 +109,10 @@ const Profile = ({ self = false }) => {
           <section className="user-profile">
             <div className="user-profile-header">
               <UserHeader size="lg" user={user} />
-              <UserContactBtns self={self} />
+              <UserContactBtns
+                self={self}
+                toggleMsgroomOpen={toggleMsgroomOpen}
+              />
             </div>
             <div className="user-profile-content">
               <section className="left-section">
@@ -130,6 +140,13 @@ const Profile = ({ self = false }) => {
           </section>
         </div>
       )}
+      <GyModal
+        isOpen={isMsgroomOpen}
+        toggleOpen={toggleMsgroomOpen}
+        modalClass={"msgroom-modal"}
+      >
+        <ChatRoom selectedUserId={userId} />
+      </GyModal>
     </GyBodySection>
   );
 };

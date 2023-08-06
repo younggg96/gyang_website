@@ -65,6 +65,7 @@
       }
     }
   }
+
   .comment-editor {
     @apply p-2;
     .comment-input {
@@ -90,9 +91,5 @@
 
   .title {
     @apply text-text dark:text-primary;
-  }
-
-  .error-msg {
-    @apply text-error;
   }
 }

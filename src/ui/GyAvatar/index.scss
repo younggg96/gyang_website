@@ -6,5 +6,8 @@
     &.sm {
       @apply w-6 h-6;
     }
+    &.lg {
+      @apply w-10 h-10;
+    }
   }
 }

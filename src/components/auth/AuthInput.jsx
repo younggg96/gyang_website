@@ -20,17 +20,11 @@ export const PwdInput = ({ form, placeholder }) => {
         {...form}
       />
       {showPwd ? (
-        <button
-          onClick={() => show(false)}
-          className="show-eye-btn"
-        >
+        <button onClick={() => show(false)} className="eye-btn" type="button">
           <BsEye />
         </button>
       ) : (
-        <button
-          onClick={() => show(true)}
-          className="show-eye-btn"
-        >
+        <button onClick={() => show(true)} className="eye-btn" type="button">
           <BsEyeSlash />
         </button>
       )}
@@ -51,7 +45,9 @@ export const EmailInput = ({ form }) => {
 };
 
 export const NormalInput = ({ form, type, category, required }) => {
-  const cateStr = `${category[0].toUpperCase()}${category.slice(1).toLowerCase()}`;
+  const cateStr = `${category[0].toUpperCase()}${category
+    .slice(1)
+    .toLowerCase()}`;
   return (
     <input
       className="input"

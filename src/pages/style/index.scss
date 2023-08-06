@@ -41,9 +41,9 @@
       .message {
         @apply flex-1 md:flex-auto;
       }
-      .icon-btn {
-        @apply w-12 h-12;
-      }
     }
+  }
+  .gy-modal-wrapper .modal.msgroom-modal {
+    @apply w-[80%] h-auto;
   }
 }

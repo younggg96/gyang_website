@@ -11,6 +11,9 @@ const GyButton = ({
   icon,
   loading = false,
   className,
+  height,
+  width,
+  style,
   ...props
 }) => {
   return (
@@ -22,8 +25,9 @@ const GyButton = ({
             ...size,
             icon && "icon",
             variant,
-            className,
+            className
           )}
+          style={{ height: height, width: width, ...style }}
           type={type}
           onClick={click}
           {...props}

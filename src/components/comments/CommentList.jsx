@@ -23,6 +23,8 @@ import "./index.scss";
 import { createComment, createReply } from "../../api/comment";
 import { ArticleContext } from "../../components/article/ArticleDetails";
 import { useNavigate } from "react-router-dom";
+// default avatar img
+import defaultAvatar from "../../assets/imgs/avatar/default-avatar.jpg";
 
 const InputPropsComment = {
   title: "Comment",
@@ -100,10 +102,12 @@ export const CommentInput = ({
     console.log(e);
   };
 
+  const avatar = user?.avatar || defaultAvatar;
+
   return (
     <section className="comment-editor" {...props}>
       <div className="comment-input">
-        <GyAvatar src={user?.avatar} className="avatar" />
+        <GyAvatar src={avatar} className="avatar" />
         <form onSubmit={handleSubmit(onSubmit)}>
           <GyTextarea
             placeholder={

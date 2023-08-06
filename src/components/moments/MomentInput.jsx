@@ -1,11 +1,18 @@
 import React, { useImperativeHandle } from "react";
+// ui
 import GyAvatar from "../../ui/GyAvatar/GyAvatar";
 import GyTextarea from "../../ui/GyTextarea/GyTextarea";
 import GyButton from "../../ui/GyButton/GyButton";
-import useAuth from "../../hooks/useAuth";
+// components
 import { useForm } from "react-hook-form";
+// hooks
+import useAuth from "../../hooks/useAuth";
 import AddEmojiBtn from "../editor/AddEmojiBtn";
+// config
 import { InputPropsComment, InputPropsReply } from "./config";
+// default avatar img
+import defaultAvatar from "../../assets/imgs/avatar/default-avatar.jpg";
+
 
 const MomentInput = React.forwardRef(
   ({ type, onSubmit, loading, ...props }, ref) => {
@@ -30,10 +37,12 @@ const MomentInput = React.forwardRef(
       reset,
     }));
 
+    const avatar = user?.avatar || defaultAvatar;
+
     return (
-      <section className="comment-editor" {...props}>
-        <div className="comment-input">
-          <GyAvatar src={user?.avatar} className="avatar" />
+      <section className="moment-comment-editor" {...props}>
+        <div className="moment-comment-input">
+          <GyAvatar src={avatar} className="avatar" />
           <form onSubmit={handleSubmit(onSubmit)}>
             <GyTextarea
               placeholder={

@@ -20,11 +20,8 @@ import { MomentActionsBox } from "../comments/ActionsBox";
 // apis
 import {
   createMomentComment,
-  getChildrenMomentCommentsByPid,
   getMomentCommentsByMomentId,
 } from "../../api/momentComment";
-// scss
-import "./index.scss";
 // config
 import { InputPropsComment } from "./config";
 import { useRef } from "react";

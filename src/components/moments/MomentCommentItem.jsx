@@ -6,6 +6,7 @@ import UserHeader from "../user/UserHeader";
 import MomentInput from "./MomentInput";
 import MomentCommentList from "./MomentCommentList";
 import { MomentCommentActionsBox } from "../comments/ActionsBox";
+import MomentCommentSubItem from "./MomentCommentSubItem";
 // hooks
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
@@ -19,7 +20,7 @@ import GyTime from "../../ui/GyTime/GyTime";
 import GyLoader from "../../ui/GyLoader/GyLoader";
 import GyButton from "../../ui/GyButton/GyButton";
 import { TIME, TYPE, useToast } from "../../ui/GyToast/ToastProvider";
-import MomentCommentSubItem from "./MomentCommentSubItem";
+
 import { InputPropsComment } from "./config";
 
 const MomentCommentItem = ({ data, setData, type, ...props }) => {

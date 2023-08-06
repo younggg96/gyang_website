@@ -14,11 +14,10 @@ import { IoMdClose } from "react-icons/io";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
 // scss
 import "./index.scss";
+// ui
 import GySwitchBtn from "../../ui/GySwitchBtn/GySwitchBtn";
 
-const Links = [
-  { name: "Home", link: "/home" },
-];
+const Links = [{ name: "Home", link: "/" }];
 
 // desktop
 const DesktopHeader = () => {

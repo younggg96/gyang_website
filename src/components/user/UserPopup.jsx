@@ -29,6 +29,7 @@ const UserPopup = () => {
       logout();
     }, 500);
   };
+  const avatar = user?.avatar || defaultAvatar;
   return (
     <div className="user-info-popup">
       <div className="user-info-popup-content">
@@ -48,10 +49,7 @@ const UserPopup = () => {
       <GyPopup open={open} setOpen={setOpen}>
         <div className="user-info-popup-wapper">
           <section className="top">
-            <GyAvatar
-              src={!user?.avatar ? defaultAvatar : user?.avatar}
-              className="avatar"
-            />
+            <GyAvatar src={avatar} className="avatar" />
             <div className="text">
               <p className="username">{user?.username}</p>
               <p className="email">{user?.email}</p>

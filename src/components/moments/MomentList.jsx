@@ -1,5 +1,7 @@
-import React, { useState, useEffect, createContext } from "react";
+import React, { useState, useEffect } from "react";
+import classNames from "classnames";
 // hooks
+import { useImperativeHandle } from "react";
 import { useRequest } from "ahooks";
 import useAuth from "../../hooks/useAuth";
 // api
@@ -14,10 +16,6 @@ import MomentItem from "./MomentItem";
 import GyLoader from "../../ui/GyLoader/GyLoader";
 import GyPagination from "../../ui/GyPagination/GyPagination";
 import GyMasonryLayout from "../../ui/GyMasonryLayout/GyMasonryLayout";
-// scss
-import "./index.scss";
-import classNames from "classnames";
-import { useImperativeHandle } from "react";
 
 /**
  *
@@ -53,8 +51,8 @@ const MomentList = React.forwardRef(({ type, userId = null }, ref) => {
   };
 
   useEffect(() => {
-    run(curPage, state.user.id);
-  }, [curPage, run, state.user.id]);
+    run(curPage, state.isAuth ? state.user.id : null);
+  }, [curPage]);
 
   if (error) {
     return <div>failed to load</div>;
