@@ -6,8 +6,9 @@ import defaultAvatar from "../../../assets/imgs/avatar/default-avatar.jpg";
 import classNames from "classnames";
 
 const ChatContactItem = ({ data, click, active }) => {
-  const { conversation } = data;
-  const sender = conversation.users[1]?.user;
+  const { conversation, createdAt } = data;
+  const { _count } = conversation;
+  const sender = conversation?.users[1]?.user;
   const avatar = sender?.avatar || defaultAvatar;
   return (
     <section
@@ -19,14 +20,16 @@ const ChatContactItem = ({ data, click, active }) => {
       </div>
       <div className="chatroom-contact__item--content">
         <p className="chatroom-contact__item--username">{sender?.username}</p>
-        <p className="chatroom-contact__item--content-text">{sender?.username}</p>
+        <p className="chatroom-contact__item--content-text">
+          {sender?.username}
+        </p>
       </div>
       <div className="chatroom-contact__item--notification">
         <GyTime
-          date={"2023-05-31T10:45:23.395Z"}
+          date={createdAt}
           className="chatroom-contact__item--date date"
         />
-        <div className="chat-num">5</div>
+        <div className="chat-num">{_count.messages}</div>
       </div>
     </section>
   );

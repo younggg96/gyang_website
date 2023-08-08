@@ -1,14 +1,14 @@
 import React from "react";
 import ChatContactItem from "./ChatContactItem";
 
-const ChatContactList = ({ activeItem, setActiveItem, userList }) => {
+const ChatContactList = ({ activeItem, setActiveItem, conversationList }) => {
   const clickHandler = (item) => {
-    setActiveItem({ ...item.conversation.users[1]?.user });
+    setActiveItem({ ...item.conversation.users[1]?.user, conversationId: item.conversationId });
   };
 
   return (
     <div className="chatroom-contact__list">
-      {userList.map((item, index) => {
+      {conversationList.map((item, index) => {
         return (
           <ChatContactItem
             data={item}

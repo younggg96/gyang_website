@@ -32,7 +32,7 @@
       }
     }
     &-messages {
-      @apply flex-1 rounded-2xl border border-border bg-background dark:border-borderDark dark:bg-backgroundDark;
+      @apply flex-1 rounded-2xl max-w-[calc(100%-400px-1rem)] border border-border bg-background dark:border-borderDark dark:bg-backgroundDark;
       &__header {
         @apply flex items-center gap-4 p-4 border-b-[1px] border-border dark:border-borderDark;
         &-btns {
@@ -40,7 +40,25 @@
         }
       }
       &__details {
-        @apply min-h-[400px] border-b-[1px] border-border dark:border-borderDark;
+        @apply flex flex-col gap-4 h-[360px] p-6 border-b-[1px] overflow-scroll border-border dark:border-borderDark;
+        .chatroom-messages__item {
+          @apply flex items-center gap-2;
+          &.right {
+            @apply flex-row-reverse;
+          }
+          &--avatar {
+            @apply w-[32px];
+          }
+          &--content {
+            @apply max-w-[50%] px-3 py-0.5 break-all mb-3;
+            &.left {
+              @apply bg-border dark:bg-backgroundDark rounded-r-full rounded-tl-full text-left;
+            }
+            &.right {
+              @apply bg-primary rounded-l-full rounded-tr-full text-right;
+            }
+          }
+        }
       }
       .chatroom-editor {
         @apply p-4;

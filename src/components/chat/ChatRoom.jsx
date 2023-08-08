@@ -11,40 +11,37 @@ import GyButton from "../../ui/GyButton/GyButton";
 // components
 import ChatEditor from "./ChatEditor";
 import ChatContactList from "./ChatContact/ChatContactList";
+// icons
 import { BsThreeDotsVertical } from "react-icons/bs";
 // scss
 import "./index.scss";
 // default avatar img
 import defaultAvatar from "../../assets/imgs/avatar/default-avatar.jpg";
 // apis
-import { getTopUserList } from "../../api/user";
-import { getConversation } from "../../api/conversation";
+import { getConversation, getMessages } from "../../api/chat";
+import ChatDetails from "./ChatDetails/ChatDetails";
 
 const ChatRoom = ({ selectedUserId }) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-  const [activeItem, setActiveItem] = useState({ id: null, avatar: "" });
-  const { state } = useAuth();
-
-  const [userList, setUserList] = useState([]);
-  const { error, loading, run } = useRequest(getTopUserList, {
-    manual: true,
-    onSuccess: (result, params) => {
-      setUserList(result?.data);
-    },
+  const [activeItem, setActiveItem] = useState({
+    conversationId: 1,
   });
+  const [conversationList, setConversationList] = useState([]);
+  const { state } = useAuth();
 
   const getConversationRequest = useRequest(getConversation, {
     manual: true,
     onSuccess: (result, params) => {
-      setUserList(result?.data);
-      // console.log(result);
+      setConversationList(result?.data);
     },
   });
-
-  useEffect(() => {
-    run(1);
-  }, []);
+  const getMessagesRequest = useRequest(getMessages, {
+    manual: true,
+    onSuccess: (result, params) => {
+      setMessages(result?.data);
+    },
+  });
   // web socket
   const socket = io(BASE_SERVER_URL, {
     query: {
@@ -53,29 +50,32 @@ const ChatRoom = ({ selectedUserId }) => {
   });
 
   useEffect(() => {
-    getConversationRequest.run(1);
-  }, []);
+    if (activeItem?.conversationId) {
+      getMessagesRequest.run(activeItem?.conversationId);
+      getConversationRequest.run(1);
+    }
+  }, [activeItem]);
 
   // 处理接收到新消息的事件
   useEffect(() => {
     socket.on("message", (message) => {
-      console.log(message);
-      // setMessages((prevMessages) => [...prevMessages, message]);
+      if (activeItem?.conversationId === message.conversationId) {
+        setMessages((prevMessages) => [...prevMessages, message]);
+      }
     });
 
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [activeItem]);
 
   const handleSendMessage = (data) => {
     setNewMessage(data["chat-input"]);
     socket.emit("message", {
       senderId: selectedUserId,
-      conversationId: 1,
+      conversationId: activeItem.conversationId,
       content: data["chat-input"],
     });
-    // setNewMessage("");
   };
   return (
     <GyCard title={"Chat"}>
@@ -85,7 +85,7 @@ const ChatRoom = ({ selectedUserId }) => {
           <ChatContactList
             activeItem={activeItem}
             setActiveItem={setActiveItem}
-            userList={userList}
+            conversationList={conversationList}
           />
         </section>
         <section className="chatroom-messages">
@@ -108,11 +108,7 @@ const ChatRoom = ({ selectedUserId }) => {
               ></GyButton>
             </section>
           </div>
-          <div className="chatroom-messages__details">
-            {/* {messages.map((message, index) => (
-              <div key={index}>{message}</div>
-            ))} */}
-          </div>
+          <ChatDetails messages={messages} />
           <ChatEditor onSubmit={handleSendMessage} />
         </section>
       </div>
