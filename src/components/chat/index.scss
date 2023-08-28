@@ -32,7 +32,7 @@
       }
     }
     &-messages {
-      @apply flex-1 rounded-2xl max-w-[calc(100%-400px-1rem)] border border-border bg-background dark:border-borderDark dark:bg-backgroundDark;
+      @apply flex-1 rounded-2xl max-w-[calc(100%-400px-1rem)] h-[637px] border border-border bg-background dark:border-borderDark dark:bg-backgroundDark;
       &__header {
         @apply flex items-center gap-4 p-4 border-b-[1px] border-border dark:border-borderDark;
         &-btns {
@@ -52,13 +52,16 @@
           &--content {
             @apply max-w-[50%] px-3 py-0.5 break-all mb-3;
             &.left {
-              @apply bg-border dark:bg-backgroundDark rounded-r-full rounded-tl-full text-left;
+              @apply bg-border dark:bg-backgroundDark rounded-r-[1rem] rounded-tl-[1rem] text-left;
             }
             &.right {
-              @apply bg-primary rounded-l-full rounded-tr-full text-right;
+              @apply bg-primary rounded-l-[1rem] rounded-tr-[1rem] text-right;
             }
           }
         }
+      }
+      &__no-chat-icon {
+        @apply h-full flex items-center justify-center;
       }
       .chatroom-editor {
         @apply p-4;

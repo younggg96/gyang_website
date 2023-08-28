@@ -6,26 +6,23 @@ import { useRequest } from "ahooks";
 import useAuth from "../../hooks/useAuth";
 // ui
 import GyCard from "../../ui/GyCard/GyCard";
-import GyAvatar from "../../ui/GyAvatar/GyAvatar";
-import GyButton from "../../ui/GyButton/GyButton";
 // components
 import ChatEditor from "./ChatEditor";
 import ChatContactList from "./ChatContact/ChatContactList";
 // icons
-import { BsThreeDotsVertical } from "react-icons/bs";
+import { IoMdChatbubbles } from "react-icons/io";
 // scss
 import "./index.scss";
-// default avatar img
-import defaultAvatar from "../../assets/imgs/avatar/default-avatar.jpg";
 // apis
 import { getConversation, getMessages } from "../../api/chat";
 import ChatDetails from "./ChatDetails/ChatDetails";
+import ChatHeader from "./ChatHeader/ChatHeader";
+import { colors } from "../../config";
 
 const ChatRoom = ({ selectedUserId }) => {
   const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
   const [activeItem, setActiveItem] = useState({
-    conversationId: 1,
+    conversationId: null,
   });
   const [conversationList, setConversationList] = useState([]);
   const { state } = useAuth();
@@ -50,9 +47,9 @@ const ChatRoom = ({ selectedUserId }) => {
   });
 
   useEffect(() => {
+    getConversationRequest.run(1);
     if (activeItem?.conversationId) {
       getMessagesRequest.run(activeItem?.conversationId);
-      getConversationRequest.run(1);
     }
   }, [activeItem]);
 
@@ -70,7 +67,6 @@ const ChatRoom = ({ selectedUserId }) => {
   }, [activeItem]);
 
   const handleSendMessage = (data) => {
-    setNewMessage(data["chat-input"]);
     socket.emit("message", {
       senderId: selectedUserId,
       conversationId: activeItem.conversationId,
@@ -89,27 +85,23 @@ const ChatRoom = ({ selectedUserId }) => {
           />
         </section>
         <section className="chatroom-messages">
-          <div className="chatroom-messages__header">
-            <GyAvatar
-              src={activeItem.avatar || defaultAvatar}
-              alt={"avatar"}
-              size="lg"
-            />
-            <p className="chatroom-messages__header-username">
-              {activeItem.username || ""}
-            </p>
-            <section className="chatroom-messages__header-btns">
-              <GyButton
-                width={"36px"}
-                height={"36px"}
-                style={{ padding: "unset" }}
-                size={["xs", "round"]}
-                icon={() => <BsThreeDotsVertical />}
-              ></GyButton>
-            </section>
-          </div>
-          <ChatDetails messages={messages} />
-          <ChatEditor onSubmit={handleSendMessage} />
+          {activeItem.conversationId ? (
+            <>
+              <ChatHeader activeItem={activeItem} />
+              <ChatDetails messages={messages} />
+              <ChatEditor onSubmit={handleSendMessage} />
+            </>
+          ) : (
+            <div className="chatroom-messages__no-chat-icon">
+              <IoMdChatbubbles
+                style={{
+                  width: "60px",
+                  height: "60px",
+                  color: colors.primaryDark,
+                }}
+              />
+            </div>
+          )}
         </section>
       </div>
     </GyCard>
