@@ -25,9 +25,14 @@ const ChatEditor = ({ onSubmit, loading, ...props }) => {
     );
   };
 
+  const onSubmitHandler = () => {
+    handleSubmit(onSubmit);
+    reset()
+  }
+
   return (
     <section className="chatroom-editor" {...props}>
-      <form className="chatroom-editor__form" onSubmit={handleSubmit(onSubmit)}>
+      <form className="chatroom-editor__form" onSubmit={onSubmitHandler}>
         <GyTextarea
           placeholder="Typing here..."
           required={true}

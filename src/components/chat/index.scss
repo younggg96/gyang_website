@@ -55,7 +55,7 @@
               @apply bg-border dark:bg-backgroundDark rounded-r-[1rem] rounded-tl-[1rem] text-left;
             }
             &.right {
-              @apply bg-primary rounded-l-[1rem] rounded-tr-[1rem] text-right;
+              @apply bg-primary rounded-l-[1rem] rounded-tr-[1rem];
             }
           }
         }
