@@ -26,6 +26,7 @@ import "./style/index.scss";
 import GyModal from "../ui/GyModal/GyModal";
 import { useCycle } from "framer-motion";
 import ChatRoom from "../components/chat/ChatRoom";
+import { createConversation } from "../api/chat";
 
 const UserBackground = ({ url, editable = false }) => {
   return (
@@ -42,12 +43,12 @@ const UserBackground = ({ url, editable = false }) => {
   );
 };
 
-const UserContactBtns = ({ self, toggleMsgroomOpen }) => {
+const UserContactBtns = ({ self, sendMsgHandler }) => {
   return (
     <div className="user-profile-btns">
       {!self ? (
         <>
-          <GyButton size={["sm"]} className="message" click={toggleMsgroomOpen}>
+          <GyButton size={["sm"]} className="message" click={sendMsgHandler}>
             message
           </GyButton>
           <GyButton size={["sm", "round"]}>
@@ -63,33 +64,46 @@ const UserContactBtns = ({ self, toggleMsgroomOpen }) => {
   );
 };
 
-const Profile = ({ self = false }) => {
-  let params = useParams();
-  const userId = params.id;
+const Profile = () => {
   const { state } = useAuth();
+  let params = useParams();
+  const userId = +params.id; // string id -> number
+  const self = userId === state.user?.id; // profile user <-> cur user
+
   const [toggleState, { setLeft, setRight }] = useToggle("list", "grid");
   // states
   const [activeIndex, setActiveIndex] = useState(0);
   const [userData, setUserData] = useState({ user: null, profile: null });
   const { user, profile } = userData;
 
-  const [isMsgroomOpen, toggleMsgroomOpen] = useCycle(false, true);
+  const [isMsgRoomOpen, toggleMsgRoomOpen] = useCycle(false, true);
 
-  const { error, loading, run } = useRequest(getUserInfo, {
+  const getUserInfoRequest = useRequest(getUserInfo, {
     manual: true,
     onSuccess: (result, params) => {
       setUserData(result?.data);
     },
   });
 
+  const createConversationRequest = useRequest(createConversation, {
+    manual: true,
+    onSuccess: (result) => {
+      // console.log(result);
+    },
+  });
+
+  const sendMsgHandler = () => {
+    createConversationRequest.run({ userIds: [state.user.id, userId] });
+    toggleMsgRoomOpen();
+  };
+
   useEffect(() => {
-    self && state.user && run(state.user?.id);
-    userId && run(userId);
-  }, [run, self, userId, state]);
+    getUserInfoRequest.run(self ? state.user.id : userId);
+  }, []);
 
   return (
     <GyBodySection>
-      {error && (
+      {getUserInfoRequest.error && (
         <Error
           content={{
             title: "The Author doesn’t exist...",
@@ -98,21 +112,18 @@ const Profile = ({ self = false }) => {
           type="error_no_found"
         ></Error>
       )}
-      {loading && (
+      {getUserInfoRequest.loading && (
         <div className="page-loading">
           <GyLoader />
         </div>
       )}
-      {!loading && user && profile && (
+      {!getUserInfoRequest.loading && user && profile && (
         <div className="mx-auto">
           <UserBackground url={profile?.backgroundImg} editable={self} />
           <section className="user-profile">
             <div className="user-profile-header">
               <UserHeader size="lg" user={user} />
-              <UserContactBtns
-                self={self}
-                toggleMsgroomOpen={toggleMsgroomOpen}
-              />
+              <UserContactBtns self={self} sendMsgHandler={sendMsgHandler} />
             </div>
             <div className="user-profile-content">
               <section className="left-section">
@@ -141,11 +152,11 @@ const Profile = ({ self = false }) => {
         </div>
       )}
       <GyModal
-        isOpen={isMsgroomOpen}
-        toggleOpen={toggleMsgroomOpen}
+        isOpen={isMsgRoomOpen}
+        toggleOpen={toggleMsgRoomOpen}
         modalClass={"msgroom-modal"}
       >
-        <ChatRoom selectedUserId={userId} />
+        <ChatRoom />
       </GyModal>
     </GyBodySection>
   );

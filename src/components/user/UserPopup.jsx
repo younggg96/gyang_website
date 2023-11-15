@@ -57,7 +57,7 @@ const UserPopup = () => {
           </section>
           <section className="btns">
             <ul>
-              <li onClick={() => navigateTo("profile/my-profile")}>
+              <li onClick={() => navigateTo("profile/" + user?.id)}>
                 <CgProfile /> Profile
               </li>
               <li>

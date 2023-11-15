@@ -40,11 +40,14 @@
         }
       }
       &__details {
-        @apply flex flex-col gap-4 h-[360px] p-6 border-b-[1px] overflow-scroll border-border dark:border-borderDark;
+        @apply flex flex-col gap-4 h-[360px] p-6 border-b-[1px] overflow-y-scroll border-border dark:border-borderDark;
         .chatroom-messages__item {
           @apply flex items-center gap-2;
           &.right {
             @apply flex-row-reverse;
+          }
+          &.left {
+            @apply flex-row;
           }
           &--avatar {
             @apply w-[32px];
@@ -52,7 +55,7 @@
           &--content {
             @apply max-w-[50%] px-3 py-0.5 break-all mb-3;
             &.left {
-              @apply bg-border dark:bg-backgroundDark rounded-r-[1rem] rounded-tl-[1rem] text-left;
+              @apply bg-border dark:bg-secondary rounded-r-[1rem] rounded-tl-[1rem] text-left;
             }
             &.right {
               @apply bg-primary rounded-l-[1rem] rounded-tr-[1rem];

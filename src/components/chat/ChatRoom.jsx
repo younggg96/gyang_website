@@ -19,7 +19,7 @@ import ChatDetails from "./ChatDetails/ChatDetails";
 import ChatHeader from "./ChatHeader/ChatHeader";
 import { colors } from "../../config";
 
-const ChatRoom = ({ selectedUserId }) => {
+const ChatRoom = () => {
   const [messages, setMessages] = useState([]);
   const [activeItem, setActiveItem] = useState({
     conversationId: null,
@@ -64,11 +64,11 @@ const ChatRoom = ({ selectedUserId }) => {
     return () => {
       socket.disconnect();
     };
-  }, [activeItem]);
+  }, [activeItem, socket]);
 
   const handleSendMessage = (data) => {
     socket.emit("message", {
-      senderId: selectedUserId,
+      senderId: state.user.id,
       conversationId: activeItem.conversationId,
       content: data["chat-input"],
     });

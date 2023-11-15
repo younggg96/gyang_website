@@ -7,7 +7,7 @@ import ArticlePage from "../pages/ArticlePage";
 import ErrorPage from "../pages/ErrorPage";
 
 // import routes route & useLocation hook
-import { Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import NewArticlePage from "../pages/NewArticlePage";
 import useAuth from "../hooks/useAuth";
@@ -24,14 +24,6 @@ const routes = [
   {
     path: "/profile/:id",
     element: Profile,
-  },
-  {
-    path: "/profile/my-profile",
-    element: Profile,
-    private: true,
-    props: {
-      self: true,
-    },
   },
   {
     path: "/article/:id",

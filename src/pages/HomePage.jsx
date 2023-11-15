@@ -8,7 +8,7 @@ import Gytab from "../ui/GyTab/Gytab";
 import GyBodySection from "../ui/GyBodySection/GyBodySection";
 // scss
 import "./style/index.scss";
-import Moments from "../components/moments/Moments"
+import Moments from "../components/moments/Moments";
 
 export const tabs = ["Articles", "Moments"];
 

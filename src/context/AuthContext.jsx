@@ -1,5 +1,5 @@
 // import localforage from "localforage";
-import { useEffect, useReducer } from "react";
+import { useEffect, useLayoutEffect, useReducer } from "react";
 import { createContext } from "react";
 import axios from "axios";
 import { TIME, TYPE, useToast } from "../ui/GyToast/ToastProvider";
@@ -58,7 +58,7 @@ const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initState);
   const { addToast } = useToast();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const init = async () => {
       const token = localStorage.getItem("accessToken");
       if (token) {
