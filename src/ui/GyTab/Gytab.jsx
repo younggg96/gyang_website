@@ -2,15 +2,15 @@ import React from "react";
 import "./index.scss";
 import classNames from "classnames";
 
-const Gytab = ({ data, activeIndex, setActiveIndex, children, ...props }) => {
+const Gytab = ({ data, activeIndex, setActiveIndex, mobile, children, ...props }) => {
   return (
     <>
-      <ul className="gy-tab" {...props}>
+      <ul className={classNames({ "gy-tab": !mobile, "gy-tab-mobile": mobile })} {...props}>
         {data.map((item, index) => {
           return (
             <li
               title={item}
-              className={classNames("p-4", { title: activeIndex === index })}
+              className={classNames({ title: activeIndex === index })}
               key={index}
               onClick={() => setActiveIndex(index)}
             >

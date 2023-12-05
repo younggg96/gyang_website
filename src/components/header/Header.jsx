@@ -16,20 +16,21 @@ import useOnClickOutside from "../../hooks/useOnClickOutside";
 import "./index.scss";
 // ui
 import GySwitchBtn from "../../ui/GySwitchBtn/GySwitchBtn";
+import GyButton from "../../ui/GyButton/GyButton";
 
-const Links = [{ name: "Home", link: "/" }];
+const Links = [{ name: "Home", link: "/" }, { name: "Home", link: "/" }, { name: "Home", link: "/" }];
 
 // desktop
 const DesktopHeader = () => {
   return (
     <div className="header-content">
       {/* logo */}
-      <Link to={"/"} className="logo">
+      <Link to={"/"} className="header-content__logo">
         <img src={Logo} alt="logo" />
-        <h3 className="logo-text">CodeFish</h3>
+        <h3 className="header-content__logo-text">CodeFish</h3>
       </Link>
       {/* nav - initially hidden - show on desktop mode */}
-      <nav className="links hidden lg:block">
+      <nav className="header-content__links">
         <ul>
           {Links.map((item, index) => {
             return (
@@ -47,14 +48,22 @@ const DesktopHeader = () => {
 
 // menu variants
 const menuVariants = {
-  hidden: {
+  closed: {
     x: "100%",
-  },
-  show: {
-    x: 0,
     transition: {
-      ease: [0.6, 0.01, -0.05, 0.9],
-    },
+      type: "spring",
+      stiffness: 400,
+      damping: 40,
+      restDelta: 2
+    }
+  },
+  open: {
+    x: "0%",
+    transition: {
+      type: "spring",
+      stiffness: 400,
+      damping: 40
+    }
   },
 };
 
@@ -64,31 +73,33 @@ const MobileHeader = () => {
   const [openMenu, setOpenMenu] = useState(false);
   useOnClickOutside(clickOutsideRef, () => setOpenMenu(false));
   return (
-    <nav className="text-text xl:hidden">
-      {/* nav open button */}
-      <div
+    <div className="header-content-mobile">
+      {/* mobile nav open button */}
+      <GyButton
+        className="header-content-mobile__open-menu-btn"
+        icon={() => <CgMenuRight style={{ width: "22px", height: "22px" }} />}
+        title="Open menu"
+        size={["sm"]}
         onClick={() => setOpenMenu(true)}
-        className="text-3xl cursor-pointer"
-      >
-        <CgMenuRight />
-      </div>
-      {/* menu */}
-      <motion.div
+      ></GyButton>
+      {/* mobile menu */}
+      <motion.nav
+        className="header-content-mobile__popup-menu"
         variants={menuVariants}
-        initial="hidden"
-        animate={openMenu ? "show" : ""}
-        className="bg-white shadow-2xl w-full absolute z-20 top-0 right-0 max-w-xs h-screen"
+        initial="closed"
+        animate={openMenu ? "open" : "closed"}
         ref={clickOutsideRef}
       >
-        {/* icon */}
-        <div
+        {/* mobile nav close button */}
+        <GyButton
+          className="header-content-mobile__close-menu-btn"
+          icon={() => <IoMdClose style={{ width: "22px", height: "22px" }} />}
+          title="Close menu"
+          size={["sm"]}
           onClick={() => setOpenMenu(false)}
-          className="text-4xl absolute z-30 left-4 top-14 text-text cursor-pointer"
-        >
-          <IoMdClose />
-        </div>
-        {/* menu list */}
-        <ul className="h-full flex flex-col justify-center items-center gap-y-8 text-text font-primary  font-bold text-3xl">
+        ></GyButton>
+        {/* mobile menu list */}
+        <ul className="header-content-mobile__links">
           {Links.map((item, index) => {
             return (
               <Link key={index} to={item.link}>
@@ -97,8 +108,8 @@ const MobileHeader = () => {
             );
           })}
         </ul>
-      </motion.div>
-    </nav>
+      </motion.nav>
+    </div>
   );
 };
 
@@ -106,9 +117,9 @@ const Header = () => {
   return (
     <header className="header">
       <DesktopHeader />
-      <UserPopup />
       {/* mobile nav */}
-      {/* <MobileHeader /> */}
+      <MobileHeader />
+      <UserPopup />
     </header>
   );
 };

@@ -27,7 +27,7 @@ const Home = () => {
             {activeIndex === 0 ? <ArticleList /> : <Moments />}
           </Gytab>
         </section>
-        <section className="right-section">
+        <section className="right-section hidden lg:block">
           <div className="sticky-side">
             <EditorBtnsComponents.EditorBtns />
             <TopUserList row={5} page={1} />

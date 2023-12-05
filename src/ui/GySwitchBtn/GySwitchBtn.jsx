@@ -33,7 +33,7 @@ const GyThemeSwitchBtn = () => {
 
   useEffect(() => {
     set(getTheme() === "dark" ? "light" : "dark");
-  }, []);
+  }, [set]);
 
   return (
     <div
