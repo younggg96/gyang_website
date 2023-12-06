@@ -2,7 +2,7 @@
 
 @layer components {
   .body-section {
-    @apply pt-[100px];
+    @apply pt-[61px] md:pt-[100px];
   }
   .error-msg {
     @apply text-error ml-2 text-sm mt-1;

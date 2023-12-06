@@ -2,16 +2,16 @@
 
 @layer components {
   .header {
-    @apply fixed z-[9999] w-full px-[30px] xl:px-[100px] h-[100px] flex items-center bg-white shadow
+    @apply fixed z-[9999] w-full px-[30px] xl:px-[100px] flex items-center bg-white shadow
     dark:bg-primaryDark dark:shadow-none dark:border-b-[1px] dark:border-borderDark;
   }
   .header-content {
-    @apply flex items-center w-full justify-between;
+    @apply flex items-center justify-between mr-auto w-full;
 
     &__logo {
       @apply flex items-center;
       img {
-        @apply w-[80px] md:w-[100px];
+        @apply w-[60px] md:w-[100px];
       }
       &-text {
         @apply hidden lg:block font-bold text-base text-gray-600
@@ -35,7 +35,7 @@
   .header-content-mobile {
     @apply block lg:hidden;
     &__popup-menu {
-      @apply bg-white shadow-2xl w-full absolute z-20 top-0 right-0 w-[60%] h-screen;
+      @apply bg-white shadow-2xl absolute z-20 top-0 right-0 w-[60%] h-screen;
     }
     &__close-menu-btn {
       @apply absolute z-30 left-4 top-14;

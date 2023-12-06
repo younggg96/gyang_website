@@ -18,7 +18,11 @@ import "./index.scss";
 import GySwitchBtn from "../../ui/GySwitchBtn/GySwitchBtn";
 import GyButton from "../../ui/GyButton/GyButton";
 
-const Links = [{ name: "Home", link: "/" }, { name: "Home", link: "/" }, { name: "Home", link: "/" }];
+const Links = [
+  { name: "Home", link: "/" },
+  { name: "Home", link: "/" },
+  { name: "Home", link: "/" },
+];
 
 // desktop
 const DesktopHeader = () => {
@@ -54,16 +58,16 @@ const menuVariants = {
       type: "spring",
       stiffness: 400,
       damping: 40,
-      restDelta: 2
-    }
+      restDelta: 2,
+    },
   },
   open: {
     x: "0%",
     transition: {
       type: "spring",
       stiffness: 400,
-      damping: 40
-    }
+      damping: 40,
+    },
   },
 };
 
@@ -79,7 +83,7 @@ const MobileHeader = () => {
         className="header-content-mobile__open-menu-btn"
         icon={() => <CgMenuRight style={{ width: "22px", height: "22px" }} />}
         title="Open menu"
-        size={["sm"]}
+        variant="iconOnly"
         onClick={() => setOpenMenu(true)}
       ></GyButton>
       {/* mobile menu */}
@@ -95,7 +99,6 @@ const MobileHeader = () => {
           className="header-content-mobile__close-menu-btn"
           icon={() => <IoMdClose style={{ width: "22px", height: "22px" }} />}
           title="Close menu"
-          size={["sm"]}
           onClick={() => setOpenMenu(false)}
         ></GyButton>
         {/* mobile menu list */}
@@ -116,8 +119,9 @@ const MobileHeader = () => {
 const Header = () => {
   return (
     <header className="header">
+      {/* desktop header */}
       <DesktopHeader />
-      {/* mobile nav */}
+      {/* mobile header */}
       <MobileHeader />
       <UserPopup />
     </header>

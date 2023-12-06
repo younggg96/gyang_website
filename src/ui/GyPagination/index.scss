@@ -2,9 +2,9 @@
 
 @layer components {
   .gy-pagination {
-    @apply grid place-items-center pt-8 pb-8;
+    @apply grid place-items-center pt-8 pb-8 px-4;
     ul {
-      @apply flex gap-2;
+      @apply flex gap-2 flex-wrap;
       .pagination-btn {
         @apply hover:border-accent w-8 h-8 px-0 flex justify-center items-center;
         &.active {
