@@ -13,4 +13,14 @@
       }
     }
   }
+  ul.gy-tab-mobile {
+    @apply flex flex-row flex-wrap my-2 px-4 items-stretch gap-2;
+    li {
+      @apply text-base leading-4 cursor-pointer text-center py-2 px-4 rounded-lg border border-border dark:border-borderDark
+      text-black dark:text-gray-400 font-primary;
+      &.title {
+        @apply border-primary text-primary;
+      }
+    }
+  }
 }

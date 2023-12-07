@@ -97,8 +97,9 @@ const MobileHeader = () => {
         {/* mobile nav close button */}
         <GyButton
           className="header-content-mobile__close-menu-btn"
-          icon={() => <IoMdClose style={{ width: "22px", height: "22px" }} />}
+          icon={() => <IoMdClose style={{ width: "30px", height: "30px", color: "black" }} />}
           title="Close menu"
+          variant="iconOnly"
           onClick={() => setOpenMenu(false)}
         ></GyButton>
         {/* mobile menu list */}
