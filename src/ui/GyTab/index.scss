@@ -2,7 +2,7 @@
 
 @layer components {
   ul.gy-tab {
-    @apply flex flex-row mb-2 px-4 items-end flex-wrap gap-2;
+    @apply flex flex-row mt-6 mb-4 px-4 items-end flex-wrap gap-2;
     li {
       @apply cursor-pointer min-w-[160px] py-4 px-2 text-center relative
       text-black dark:text-textDark;
@@ -14,7 +14,7 @@
     }
   }
   ul.gy-tab-mobile {
-    @apply flex flex-row flex-wrap my-2 px-4 items-stretch gap-2;
+    @apply flex flex-row flex-wrap mt-6 mb-4 px-4 items-stretch gap-2;
     li {
       @apply text-base leading-4 cursor-pointer text-center py-2 px-4 rounded-lg border border-border dark:border-borderDark
       text-black dark:text-gray-400 font-primary;

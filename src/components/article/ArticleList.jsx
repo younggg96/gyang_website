@@ -1,35 +1,91 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { useRequest } from "ahooks";
 import { Link } from "react-router-dom";
-import GyTime from "../../ui/GyTime/GyTime";
+import classNames from "classnames";
 
 import "./index.scss";
-import UserHeader from "../user/UserHeader";
-import GyPagination from "../../ui/GyPagination/GyPagination";
-import { useEffect } from "react";
-import GyLoader from "../../ui/GyLoader/GyLoader";
-import Categories from "./Categories";
 import { getArticleList, getArticleListByUserId } from "../../api/article";
+import Categories from "./Categories";
+import UserHeader from "../user/UserHeader";
+import GyTime from "../../ui/GyTime/GyTime";
+import GyLoader from "../../ui/GyLoader/GyLoader";
+import GyPagination from "../../ui/GyPagination/GyPagination";
+import useWindowsSize from "../../hooks/useWindowsSize";
 
 const ArticleItem = ({ data }) => {
   const { title, img, description, createdAt, categories, id } = data;
+  const window = useWindowsSize();
+  const mobileMode = window === "md" || window === "sm";
+
+  const UserSection = () => (
+    <div className="article-item__user">
+      {data.user && <UserHeader user={data.user} size={mobileMode ? "xs" : 'sm'} />}
+      <GyTime date={createdAt} className="date" />
+    </div>
+  );
+
+  const TitleSection = () => (
+    <h2 className="article-item__title">
+      <Link to={`/article/${id}`}>{title}</Link>
+    </h2>
+  );
+
+  const ContentSection = () => (
+    <div className="article-item__content">
+      <DescriptionSection />
+    </div>
+  );
+
+  const ContentSectionMobile = () => (
+    <div className="article-item__content">
+      <DescriptionSection />
+      <ImgSection />
+    </div>
+  );
+
+  const DescriptionSection = () => (
+    <p className="article-item__description">{description}</p>
+  );
+
+  const ImgSection = () => (
+    <img
+      className="article-item__content-img"
+      src={img}
+      alt={title + " header-img"}
+    />
+  );
 
   return (
-    <li className="article-item">
-      <div className="left">
-        <img src={img} alt={title + " header-img"} />
-      </div>
-      <div className="right">
-        <h2 className="title">
-          <Link to={`/article/${id}`}>{title}</Link>
-        </h2>
-        <div className="user">
-          {data.user && <UserHeader user={data.user} size="sm" />}
-          <GyTime date={createdAt} className="date" />
-        </div>
-        <p className="content">{description}</p>
-        <Categories categories={categories} />
-      </div>
+    <li
+      className={classNames([
+        "article-item",
+        {
+          desktop: !mobileMode,
+          mobile: mobileMode,
+        },
+      ])}
+    >
+      {mobileMode ? (
+        <>
+          <TitleSection />
+          <UserSection />
+          <ContentSectionMobile />
+          <Categories categories={categories} />
+        </>
+      ) : (
+        <>
+          <div className="left">
+            <ImgSection />
+          </div>
+          <div className="right">
+            <TitleSection />
+            <UserSection />
+            <ContentSection />
+            <Categories categories={categories} />
+          </div>
+        </>
+      )}
     </li>
   );
 };

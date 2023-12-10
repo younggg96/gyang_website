@@ -9,13 +9,13 @@ import GyBodySection from "../ui/GyBodySection/GyBodySection";
 // scss
 import "./style/index.scss";
 import Moments from "../components/moments/Moments";
-import useWindowsSize from "../hooks/useWindowsSize"
+import useWindowsSize from "../hooks/useWindowsSize";
 
 export const tabs = ["Articles", "Moments"];
 
 const Home = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const window = useWindowsSize()
+  const window = useWindowsSize();
 
   return (
     <GyBodySection>
@@ -25,7 +25,7 @@ const Home = () => {
             data={tabs}
             activeIndex={activeIndex}
             setActiveIndex={setActiveIndex}
-            mobile={window === 'md' || window === 'sm'}
+            mobile={window === "md" || window === "sm"}
             className="page-tabs"
           >
             {activeIndex === 0 ? <ArticleList /> : <Moments />}

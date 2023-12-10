@@ -38,7 +38,7 @@
     @apply outline-none border-b border-b-text h-[44px] sm:h-[60px] bg-transparent font-secondary w-full px-2 placeholder:text-placeHolder;
   }
   .title {
-    @apply text-2xl md:text-xl font-primary font-medium capitalize leading-[120%] tracking-[-0.01em];
+    @apply text-lg md:text-xl font-primary font-medium capitalize leading-[120%] tracking-[-0.01em];
   }
   .link {
     @apply hover:underline cursor-pointer hover:text-primary;

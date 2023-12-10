@@ -6,31 +6,21 @@
       border: 0.5px solid;
       @apply flex flex-col bg-white shadow-lg rounded-2xl border-border
       dark:bg-primaryDark dark:border-borderDark;
-
       .article-item {
         border-bottom: 1px solid;
-        @apply flex gap-2 lg:gap-4 p-4 flex-col lg:flex-row border-border dark:border-borderDark;
-        div.left {
-          @apply flex justify-center items-center lg:w-[150px] lg:h-[120px] md:h-fit;
-          img {
-            @apply w-full h-full rounded-lg object-cover;
-          }
+        @apply flex gap-2 lg:gap-4 p-4 border-border dark:border-borderDark;
+        &__title {
+          @apply font-primary mb-2 text-lg lg:text-base dark:text-primary hover:underline;
         }
-        div.right {
-          @apply flex flex-1 flex-col gap-2 lg:gap-4 px-2;
-          .title {
-            @apply dark:text-primary hover:underline;
-          }
-          .user {
-            @apply flex justify-between items-center;
-          }
-          .content {
-            @apply w-full mb-4 overflow-hidden text-ellipsis
-            dark:text-textDark;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-          }
+        &__user {
+          @apply flex justify-between items-center;
+        }
+        &__description {
+          @apply w-full overflow-hidden text-ellipsis
+          dark:text-textDark;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
         }
         &:first-child {
           border-top-left-radius: 1rem;
@@ -48,6 +38,27 @@
             &:first-letter {
               text-transform: uppercase;
             }
+          }
+        }
+      }
+      .article-item.desktop {
+        @apply flex-row;
+        div.left {
+          @apply flex justify-center items-center;
+          .article-item__content-img {
+            @apply w-[200px] h-[150px] rounded-lg object-cover;
+          }
+        }
+        div.right {
+          @apply flex flex-1 flex-col gap-2 px-2;
+        }
+      }
+      .article-item.mobile {
+        @apply flex-col;
+        .article-item__content {
+          @apply flex gap-3;
+          &-img {
+            @apply w-[120px] h-[80px] aspect-auto rounded-lg object-cover;
           }
         }
       }

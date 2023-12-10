@@ -228,15 +228,15 @@ const MomentItem = ({ data, type = "list", className }) => {
         <div className={classNames(["moment-item-card", className])}>
           {/* imgs */}
           <GyImgSwiper imgs={imgs} className="moment-item-card__imgs" />
-          {/* content */}
-          <p className="content" onClick={openMomentModal}>
-            {content}
-          </p>
           {/* user header & moment date */}
           <section className="user">
             {user && <UserHeader user={user} size="xs" />}
             <GyTime date={createdAt} className="date text-xs" />
           </section>
+          {/* content */}
+          <p className="content" onClick={openMomentModal}>
+            {content}
+          </p>
           <GyModal
             isOpen={isMomentModalOpen}
             toggleOpen={toggleMomentModalOpen}

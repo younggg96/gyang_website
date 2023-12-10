@@ -59,12 +59,12 @@
     }
   }
   .moment-item-card {
-    @apply w-full h-fit p-4 rounded-xl shadow-md border border-border dark:border-borderDark dark:shadow-none;
+    @apply w-full h-fit p-1;
     &__imgs {
       @apply mb-2;
     }
     .content {
-      @apply w-full h-[3rem] px-2 mb-4 dark:text-textDark;
+      @apply w-full h-[3rem] mb-4 dark:text-textDark;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
@@ -73,7 +73,7 @@
       line-height: 1.5rem;
     }
     .user {
-      @apply flex justify-between items-center px-2;
+      @apply flex justify-between items-center my-4;
     }
     .modal.moment-modal {
       @apply w-[600px] h-[600px] overflow-scroll p-4 bg-white dark:bg-backgroundDark;
