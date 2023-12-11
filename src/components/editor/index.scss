@@ -34,7 +34,7 @@
   .add-emoji-btn {
     @apply relative;
     .emoji-popup {
-      @apply absolute top-[calc(42px+0.5rem)] z-50;
+      @apply absolute bottom-[calc(42px+0.5rem)] z-50;
       &.left {
         @apply right-0;
       }

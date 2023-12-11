@@ -45,7 +45,7 @@ const ArticleItem = ({ data }) => {
   );
 
   const DescriptionSection = () => (
-    <p className="article-item__description">{description}</p>
+    <p className="article-item__description text-line-3">{description}</p>
   );
 
   const ImgSection = () => (

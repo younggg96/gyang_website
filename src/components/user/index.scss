@@ -6,7 +6,7 @@
     &-xs {
       @apply flex items-center justify-between gap-2;
       .link {
-        @apply text-sm font-light overflow-hidden text-ellipsis text-gray-600 hover:text-primary
+        @apply text-sm font-light text-gray-600 hover:text-primary
           dark:text-gray-300 dark:hover:text-primary;
       }
     }
@@ -15,7 +15,7 @@
       .user-content {
         @apply flex items-center gap-3;
         .link {
-          @apply font-medium overflow-hidden text-ellipsis text-gray-600 hover:text-primary
+          @apply font-medium text-gray-600 hover:text-primary
           dark:text-gray-300 dark:hover:text-primary;
         }
       }

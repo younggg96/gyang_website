@@ -10,17 +10,14 @@
         border-bottom: 1px solid;
         @apply flex gap-2 lg:gap-4 p-4 border-border dark:border-borderDark;
         &__title {
-          @apply font-primary mb-2 text-lg lg:text-base dark:text-primary hover:underline;
+          @apply font-primary text-xl lg:text-lg dark:text-primary hover:underline;
         }
         &__user {
           @apply flex justify-between items-center;
         }
         &__description {
-          @apply w-full overflow-hidden text-ellipsis
+          @apply w-full text-text
           dark:text-textDark;
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
         }
         &:first-child {
           border-top-left-radius: 1rem;

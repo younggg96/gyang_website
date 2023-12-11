@@ -26,7 +26,6 @@ const Home = () => {
             activeIndex={activeIndex}
             setActiveIndex={setActiveIndex}
             mobile={window === "md" || window === "sm"}
-            className="page-tabs"
           >
             {activeIndex === 0 ? <ArticleList /> : <Moments />}
           </Gytab>

@@ -2,8 +2,8 @@
 
 @layer components {
   .header {
-    @apply fixed z-[9999] w-full px-[30px] xl:px-[100px] flex items-center bg-white shadow
-    dark:bg-primaryDark dark:shadow-none dark:border-b-[1px] dark:border-borderDark;
+    @apply fixed z-[9999] w-full px-[30px] xl:px-[100px] flex items-center bg-white shadow border-b-[1px] border-transparent
+    dark:bg-primaryDark dark:shadow-none dark:border-borderDark;
   }
   .header-content {
     @apply flex items-center justify-between mr-auto w-full;
@@ -11,7 +11,7 @@
     &__logo {
       @apply flex items-center;
       img {
-        @apply w-[60px] md:w-[100px];
+        @apply w-[60px] md:w-[80px];
       }
       &-text {
         @apply hidden lg:block font-bold text-base text-gray-600

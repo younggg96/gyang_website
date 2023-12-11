@@ -19,7 +19,7 @@ const UserHeader = ({ user, size = "normal", hasAvatar = true, ...props }) => {
               size="sm"
             />
           )}
-          <Link to={`/profile/${user?.id}`} className="link">
+          <Link to={`/profile/${user?.id}`} className="link text-line-1">
             {user?.username}
           </Link>
         </section>
@@ -30,7 +30,7 @@ const UserHeader = ({ user, size = "normal", hasAvatar = true, ...props }) => {
             {hasAvatar && (
               <GyAvatar src={avatar} alt={user?.username + "-avatar"} />
             )}
-            <Link to={`/profile/${user?.id}`} className="link">
+            <Link to={`/profile/${user?.id}`} className="link text-line-1">
               {user?.username}
             </Link>
           </div>

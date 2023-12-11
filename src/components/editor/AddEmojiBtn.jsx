@@ -12,6 +12,11 @@ const AddEmojiBtn = ({ emojiClickHandler, emojiPopupPosition = "left" }) => {
   const clickOutsideRef = useRef();
   useOnClickOutside(clickOutsideRef, () => setOpen(false));
 
+  const onEmojiClickHandler = (e) => {
+    setOpen(false);
+    emojiClickHandler(e);
+  };
+
   return (
     <div className="add-emoji-btn">
       <GyButton
@@ -27,10 +32,7 @@ const AddEmojiBtn = ({ emojiClickHandler, emojiPopupPosition = "left" }) => {
           className={classNames(["emoji-popup", emojiPopupPosition])}
           ref={clickOutsideRef}
         >
-          <EmojiPicker
-            theme={getTheme()}
-            onEmojiClick={(e) => emojiClickHandler(e)}
-          />
+          <EmojiPicker theme={getTheme()} onEmojiClick={onEmojiClickHandler} />
         </div>
       )}
     </div>

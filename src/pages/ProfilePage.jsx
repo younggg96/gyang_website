@@ -27,6 +27,7 @@ import GyModal from "../ui/GyModal/GyModal";
 import { useCycle } from "framer-motion";
 import ChatRoom from "../components/chat/ChatRoom";
 import { createConversation } from "../api/chat";
+import useWindowsSize from "../hooks/useWindowsSize"
 
 const UserBackground = ({ url, editable = false }) => {
   return (
@@ -70,6 +71,7 @@ const Profile = () => {
   const userId = +params.id; // string id -> number
   const self = userId === state.user?.id; // profile user <-> cur user
 
+  const window = useWindowsSize();
   const [toggleState, { setLeft, setRight }] = useToggle("list", "grid");
   // states
   const [activeIndex, setActiveIndex] = useState(0);
@@ -131,6 +133,7 @@ const Profile = () => {
                   data={tabs}
                   activeIndex={activeIndex}
                   setActiveIndex={setActiveIndex}
+                  mobile={window === "md" || window === "sm"}
                 >
                   {activeIndex === 0 ? (
                     <ArticleList userId={!self ? userId : state?.user?.id} />

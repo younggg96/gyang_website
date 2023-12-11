@@ -234,7 +234,7 @@ const MomentItem = ({ data, type = "list", className }) => {
             <GyTime date={createdAt} className="date text-xs" />
           </section>
           {/* content */}
-          <p className="content" onClick={openMomentModal}>
+          <p className="content text-line-2" onClick={openMomentModal}>
             {content}
           </p>
           <GyModal
