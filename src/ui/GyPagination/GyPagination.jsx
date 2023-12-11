@@ -62,6 +62,9 @@ const GyPagination = ({
     onCurPageChange(curPage - 1);
   };
 
+  if (row === undefined || curPage === undefined || pageRow === undefined)
+    return <></>;
+
   return (
     <section className={classNames("gy-pagination", className)} {...props}>
       <ul>
