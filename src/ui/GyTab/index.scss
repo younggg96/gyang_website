@@ -2,25 +2,29 @@
 
 @layer components {
   ul.gy-tab {
-    @apply flex flex-row mt-6 mb-4 px-4 items-end flex-wrap gap-2 lg:mb-1;
+    @apply flex flex-row mt-6 mb-2 items-center flex-wrap relative;
     li {
-      @apply cursor-pointer min-w-[160px] py-4 px-2 text-center relative
+      @apply cursor-pointer min-w-[120px] pt-2 pb-3 text-center relative
       text-black dark:text-textDark;
       &.title {
-        @apply transition-all
-        after:absolute after:w-[80%] after:bg-primary after:h-1 after:bottom-1 after:left-[10%] after:rounded-md
-        dark:text-primary;
+        @apply transition-all duration-200 ease-in-out dark:text-primary;
       }
+    }
+    .underline {
+      @apply duration-300 absolute w-[100px] bg-primary h-1 bottom-1 left-[10px] rounded-md;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.76, 1.37);
     }
   }
   ul.gy-tab-mobile {
-    @apply flex flex-row flex-wrap mt-6 mb-4 px-4 items-stretch gap-2;
+    @apply relative z-20 flex flex-row my-2 p-1 rounded-lg w-fit bg-white border shadow-md dark:border-border dark:bg-accentDark dark:border-borderDark;
     li {
-      @apply text-base leading-4 cursor-pointer text-center py-2 px-4 rounded-lg border border-border dark:border-borderDark
-      text-border dark:text-borderDark font-primary;
+      @apply w-[120px] relative z-20 font-secondary text-sm leading-5 cursor-pointer text-center text-secondary px-4 py-1 rounded-md;
       &.title {
-        @apply border-primary text-primary;
+        @apply text-text dark:text-textDark;
       }
+    }
+    .underline {
+      @apply duration-300 transition-all z-0 absolute w-[120px] bg-primary h-[28px] bottom-[0.25rem] left-[4px] rounded-md;
     }
   }
 }
