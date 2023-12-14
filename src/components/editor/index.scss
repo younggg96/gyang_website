@@ -35,6 +35,12 @@
     @apply relative;
     .emoji-popup {
       @apply absolute bottom-[calc(42px+0.5rem)] z-50;
+      &.bottom {
+        @apply bottom-[calc(42px+0.5rem)];
+      }
+      &.top {
+        @apply top-[calc(42px+0.5rem)];
+      }
       &.left {
         @apply right-0;
       }

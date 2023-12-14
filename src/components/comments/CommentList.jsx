@@ -136,7 +136,8 @@ export const CommentInput = ({
             <div className="icon-btns">
               <AddEmojiBtn
                 emojiClickHandler={emojiClickHandler}
-                emojiPopupPosition="right"
+                x="right"
+                y="bottom"
               />
             </div>
             <GyButton

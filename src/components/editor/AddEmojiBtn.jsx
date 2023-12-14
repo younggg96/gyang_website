@@ -7,7 +7,7 @@ import "./index.scss";
 import { getTheme } from "../../helper/theme";
 import classNames from "classnames";
 
-const AddEmojiBtn = ({ emojiClickHandler, emojiPopupPosition = "left" }) => {
+const AddEmojiBtn = ({ emojiClickHandler, x = "left", y = "top" }) => {
   const [open, setOpen] = useState(false);
   const clickOutsideRef = useRef();
   useOnClickOutside(clickOutsideRef, () => setOpen(false));
@@ -29,7 +29,7 @@ const AddEmojiBtn = ({ emojiClickHandler, emojiPopupPosition = "left" }) => {
       </GyButton>
       {open && (
         <div
-          className={classNames(["emoji-popup", emojiPopupPosition])}
+          className={classNames(["emoji-popup", x, y])}
           ref={clickOutsideRef}
         >
           <EmojiPicker theme={getTheme()} onEmojiClick={onEmojiClickHandler} />

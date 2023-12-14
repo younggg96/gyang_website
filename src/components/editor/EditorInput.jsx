@@ -142,10 +142,6 @@ const EditorInput = ({ updateMomentList }) => {
             </GyButton>
             <div className="other-btns">
               <AddEmojiBtn emojiClickHandler={emojiClickHandler} />
-              {/* <GyButton size={["sm", "round"]}>
-              <EditorIcons.LocationIcon />
-              <span className="sr-only">Share Location</span>
-            </GyButton> */}
               <div>
                 <GyButton
                   size={["sm", "round"]}

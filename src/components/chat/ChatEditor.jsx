@@ -50,7 +50,8 @@ const ChatEditor = ({ onSubmit, loading, ...props }) => {
           <div className="chat-input-btn__icon">
             <AddEmojiBtn
               emojiClickHandler={emojiClickHandler}
-              emojiPopupPosition="right"
+              x="right"
+              y="top"
             />
           </div>
           <GyButton

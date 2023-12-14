@@ -41,6 +41,7 @@ const GyButton = ({
             "gy-button",
             ...size,
             className,
+            variant,
             icon && "icon"
           )}
           {...props}
