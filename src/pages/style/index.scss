@@ -28,7 +28,7 @@
       }
     }
     &-content {
-      @apply flex flex-col lg:flex-row gap-0 lg:gap-4 px-4;
+      @apply flex flex-col-reverse lg:flex-row gap-0 lg:gap-4 px-4;
       .left-section {
         @apply basis-2/3;
       }
@@ -44,6 +44,6 @@
     }
   }
   .gy-modal-wrapper .modal.msgroom-modal {
-    @apply w-[80%] h-auto;
+    @apply w-[96%] md:w-[80%] xl:max-w-[1200px] h-auto;
   }
 }

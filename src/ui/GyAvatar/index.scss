@@ -2,12 +2,24 @@
 
 @layer components {
   .gy-avatar {
-    @apply rounded-full w-8 h-8 object-contain;
+    @apply rounded-full w-8 h-8 object-contain relative;
     &.sm {
       @apply w-6 h-6;
     }
     &.lg {
       @apply w-10 h-10;
+    }
+    &.xl {
+      @apply w-14 h-14;
+    }
+    &.full {
+      @apply w-full h-full;
+    }
+    img {
+      @apply rounded-full w-full h-full object-contain;
+    }
+    &__badge {
+      @apply w-4 h-4 flex items-center justify-center box-content border-[2px] border-white rounded-full absolute -top-[4px] -right-[4px] bg-primary text-center dark:border-borderDark;
     }
   }
 }

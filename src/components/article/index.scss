@@ -16,7 +16,7 @@
           @apply flex justify-between items-center;
         }
         &__description {
-          @apply w-full text-text
+          @apply w-full text-text leading-6
           dark:text-textDark;
         }
         &:first-child {
@@ -55,7 +55,7 @@
         .article-item__content {
           @apply flex gap-3;
           &-img {
-            @apply w-[120px] h-[80px] aspect-auto rounded-lg object-cover;
+            @apply w-[120px] h-[4.5rem] aspect-auto rounded-lg object-cover;
           }
         }
       }

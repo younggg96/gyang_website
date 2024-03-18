@@ -4,11 +4,11 @@
   .chatroom {
     @apply flex gap-4;
     &-contact {
-      @apply w-[400px];
+      @apply w-full md:w-[300px] xl:w-[400px];
       &__header {
       }
       &__list {
-        @apply flex flex-col py-4 gap-1;
+        @apply flex flex-col md:py-4 gap-1;
         .chatroom-contact__item {
           @apply flex items-stretch gap-3 py-3 px-4 cursor-pointer rounded-2xl border-transparent border hover:border-border hover:bg-background dark:hover:bg-backgroundDark dark:hover:border-borderDark;
           &.active {
@@ -32,7 +32,7 @@
       }
     }
     &-messages {
-      @apply flex-1 rounded-2xl max-w-[calc(100%-400px-1rem)] h-[637px] border border-border bg-background dark:border-borderDark dark:bg-backgroundDark;
+      @apply flex-1 rounded-2xl h-[60vh] md:h-[637px] border border-border bg-background dark:border-borderDark dark:bg-backgroundDark;
       &__header {
         @apply flex items-center gap-4 p-4 border-b-[1px] border-border dark:border-borderDark;
         &-btns {

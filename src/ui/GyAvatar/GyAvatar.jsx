@@ -2,18 +2,18 @@ import React from "react";
 import classNames from "classnames";
 import "./index.scss";
 
-const GyAvatar = ({ src, className, size = "normal", ...props }) => {
+const GyAvatar = ({ src, className, size = "normal", hasBadge = false, badge = 4, ...props }) => {
   return (
-    <img
+    <div
       className={classNames([
         className,
         "gy-avatar",
-        { sm: size === "sm", lg: size === "lg" },
+        { sm: size === "sm", lg: size === "lg", xl: size === "xl", full: size === "full" },
       ])}
-      {...props}
-      src={src}
-      alt="gy-avatar"
-    />
+    >
+      {hasBadge && <div className="gy-avatar__badge">{badge}</div>}
+      <img src={src} alt="avatar" {...props}/>
+    </div>
   );
 };
 

@@ -13,6 +13,7 @@ import {
 } from "../../api/moments";
 // components
 import MomentItem from "./MomentItem";
+import EmptyData from "../error/EmptyData";
 // icons
 import { FaThList } from "react-icons/fa";
 import { BsGridFill } from "react-icons/bs";
@@ -56,7 +57,6 @@ const MomentList = React.forwardRef(({ userId = null }, ref) => {
     run(curPage, state.user.id);
   };
 
-  
   useEffect(() => {
     run(curPage, state.isAuth ? state.user.id : null);
   }, [curPage]);
@@ -65,7 +65,7 @@ const MomentList = React.forwardRef(({ userId = null }, ref) => {
     return <div>failed to load</div>;
   }
 
-  const MomentBtns = () => {
+  const MomentLayoutSwitch = () => {
     return (
       <section className="moments-btns">
         <GyToggleGroup className="grid-list-btn">
@@ -82,7 +82,7 @@ const MomentList = React.forwardRef(({ userId = null }, ref) => {
 
   return (
     <>
-      {!loading && <MomentBtns />}
+      {!loading && !!MomentList.length && <MomentLayoutSwitch />}
       <section className="moment-list">
         <div
           className={classNames([
@@ -91,13 +91,20 @@ const MomentList = React.forwardRef(({ userId = null }, ref) => {
             { "grid-layout": toggleState === "grid" },
           ])}
         >
-          {loading && <GyLoader />}
-          {!loading && (
+          {loading ? (
+            <GyLoader />
+          ) : (
             <>
               {toggleState === "list" && (
                 <ul>
                   {MomentList.map((item) => {
-                    return <MomentItem key={item.id} data={item} type={toggleState} />;
+                    return (
+                      <MomentItem
+                        key={item.id}
+                        data={item}
+                        type={toggleState}
+                      />
+                    );
                   })}
                 </ul>
               )}
@@ -115,19 +122,22 @@ const MomentList = React.forwardRef(({ userId = null }, ref) => {
                   })}
                 </GyMasonryLayout>
               )}
+              {!!!MomentList.length && (
+                <EmptyData content={{ sub: "No data..." }}></EmptyData>
+              )}
+              {!!pagination && !!MomentList.length && (
+                <GyPagination
+                  row={pagination?.row}
+                  curPage={pagination?.current_page}
+                  pageRow={pagination?.page_row}
+                  onCurPageChange={(page) => {
+                    setCurPage(page);
+                  }}
+                />
+              )}
             </>
           )}
         </div>
-        {!loading && (
-          <GyPagination
-            row={pagination?.row}
-            curPage={pagination?.current_page}
-            pageRow={pagination?.page_row}
-            onCurPageChange={(page) => {
-              setCurPage(page);
-            }}
-          />
-        )}
       </section>
     </>
   );

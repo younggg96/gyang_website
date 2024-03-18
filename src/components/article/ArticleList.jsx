@@ -12,6 +12,7 @@ import GyTime from "../../ui/GyTime/GyTime";
 import GyLoader from "../../ui/GyLoader/GyLoader";
 import GyPagination from "../../ui/GyPagination/GyPagination";
 import useWindowsSize from "../../hooks/useWindowsSize";
+import EmptyData from "../error/EmptyData";
 
 const ArticleItem = ({ data }) => {
   const { title, img, description, createdAt, categories, id } = data;
@@ -20,7 +21,9 @@ const ArticleItem = ({ data }) => {
 
   const UserSection = () => (
     <div className="article-item__user">
-      {data.user && <UserHeader user={data.user} size={mobileMode ? "xs" : 'sm'} />}
+      {data.user && (
+        <UserHeader user={data.user} size={mobileMode ? "xs" : "sm"} />
+      )}
       <GyTime date={createdAt} className="date" />
     </div>
   );
@@ -124,7 +127,10 @@ const ArticleList = ({ userId = null }) => {
                 return <ArticleItem key={item.id} data={item} />;
               })}
             </ul>
-            {!!pagination && (
+            {!!!articleList.length && (
+              <EmptyData content={{ sub: "No data..." }}></EmptyData>
+            )}
+            {!!pagination && !!articleList.length && (
               <GyPagination
                 row={pagination.row}
                 curPage={pagination.current_page}

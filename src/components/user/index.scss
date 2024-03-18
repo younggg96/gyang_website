@@ -27,9 +27,6 @@
       @apply flex md:h-[120px] pt-2 relative;
       .user-avatar {
         @apply absolute left-[calc(50%-4.5rem)] md:left-4 -top-24 w-32 h-32 md:w-48 md:h-48 rounded-full flex items-center justify-center overflow-hidden bg-white;
-        img {
-          @apply w-[96%] h-[96%] object-cover rounded-full indent-[10000px];
-        }
       }
       .title {
         @apply text-black mt-8 mb-6 ml-0 w-full text-center text-4xl

@@ -18,6 +18,7 @@ import { getConversation, getMessages } from "../../api/chat";
 import ChatDetails from "./ChatDetails/ChatDetails";
 import ChatHeader from "./ChatHeader/ChatHeader";
 import { colors } from "../../config";
+import useWindowsSize from "../../hooks/useWindowsSize";
 
 const ChatRoom = () => {
   const [messages, setMessages] = useState([]);
@@ -26,6 +27,9 @@ const ChatRoom = () => {
   });
   const [conversationList, setConversationList] = useState([]);
   const { state } = useAuth();
+
+  const window = useWindowsSize();
+  const mobileMode = window === "md" || window === "sm";
 
   const getConversationRequest = useRequest(getConversation, {
     manual: true,
@@ -39,6 +43,7 @@ const ChatRoom = () => {
       setMessages(result?.data);
     },
   });
+
   // web socket
   const socket = io(BASE_SERVER_URL, {
     query: {
@@ -76,33 +81,55 @@ const ChatRoom = () => {
   return (
     <GyCard title={"Chat"}>
       <div className="chatroom">
-        <section className="chatroom-contact">
-          <header className="chatroom-contact__header title">Messages</header>
-          <ChatContactList
-            activeItem={activeItem}
-            setActiveItem={setActiveItem}
-            conversationList={conversationList}
-          />
-        </section>
-        <section className="chatroom-messages">
-          {activeItem.conversationId ? (
-            <>
-              <ChatHeader activeItem={activeItem} />
-              <ChatDetails messages={messages} />
-              <ChatEditor onSubmit={handleSendMessage} />
-            </>
-          ) : (
-            <div className="chatroom-messages__no-chat-icon">
-              <IoMdChatbubbles
-                style={{
-                  width: "60px",
-                  height: "60px",
-                  color: colors.primaryDark,
-                }}
-              />
-            </div>
-          )}
-        </section>
+        {mobileMode ? (
+          <>
+            {!activeItem.conversationId ? (
+              <section className="chatroom-contact">
+                <ChatContactList
+                  activeItem={activeItem}
+                  setActiveItem={setActiveItem}
+                  conversationList={conversationList}
+                />
+              </section>
+            ) : (
+              <section className="chatroom-messages">
+                <ChatHeader activeItem={activeItem} />
+                <ChatDetails messages={messages} />
+                <ChatEditor onSubmit={handleSendMessage} />
+              </section>
+            )}
+          </>
+        ) : (
+          <section className="chatroom-contact">
+            <header className="chatroom-contact__header title">Messages</header>
+            <ChatContactList
+              activeItem={activeItem}
+              setActiveItem={setActiveItem}
+              conversationList={conversationList}
+            />
+          </section>
+        )}
+        {!mobileMode && (
+          <section className="chatroom-messages">
+            {activeItem.conversationId ? (
+              <>
+                <ChatHeader activeItem={activeItem} />
+                <ChatDetails messages={messages} />
+                <ChatEditor onSubmit={handleSendMessage} />
+              </>
+            ) : (
+              <div className="chatroom-messages__no-chat-icon">
+                <IoMdChatbubbles
+                  style={{
+                    width: "60px",
+                    height: "60px",
+                    color: colors.primaryDark,
+                  }}
+                />
+              </div>
+            )}
+          </section>
+        )}
       </div>
     </GyCard>
   );

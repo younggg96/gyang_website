@@ -2,7 +2,7 @@
 
 @layer components {
   .gy-modal-wrapper {
-    @apply flex justify-center items-center fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50;
+    @apply flex justify-center items-center fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-[9999];
     .modal {
       @apply w-80 h-80 rounded-xl;
     }

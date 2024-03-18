@@ -11,7 +11,7 @@ const GyCard = ({
 }) => {
   return (
     <div className={classNames("gy-card", className)} {...props}>
-      {title && (
+      {!!title && (
         <>
           <header
             className={classNames([

@@ -6,7 +6,7 @@
     @apply flex flex-col my-4 py-4 px-4 border border-border bg-white shadow-lg rounded-2xl
     dark:shadow-none dark:bg-primaryDark dark:text-textDark dark:border-borderDark;
     .header-title.title {
-      @apply dark:text-primary;
+      @apply overflow-hidden text-ellipsis whitespace-nowrap dark:text-primary;
       &.no-divider {
         @apply mb-4;
       }
