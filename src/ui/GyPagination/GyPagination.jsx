@@ -68,7 +68,12 @@ const GyPagination = ({
     <section className={classNames("gy-pagination", className)} {...props}>
       <ul>
         <li>
-          <GyButton className="pagination-btn" onClick={prevPage}>
+          <GyButton
+            className={classNames("pagination-btn", {
+              inactive: curPage === 1,
+            })}
+            onClick={prevPage}
+          >
             <AiOutlineArrowLeft />
           </GyButton>
         </li>
@@ -89,7 +94,12 @@ const GyPagination = ({
             );
           })}
         <li>
-          <GyButton className="pagination-btn" onClick={nextPage}>
+          <GyButton
+            className={classNames("pagination-btn", {
+              inactive: curPage === rowArray.length,
+            })}
+            onClick={nextPage}
+          >
             <AiOutlineArrowRight />
           </GyButton>
         </li>

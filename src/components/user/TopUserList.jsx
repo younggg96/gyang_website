@@ -47,14 +47,16 @@ const TopUserList = () => {
               })}
             </ul>
           )}
-          <GyPagination
-            className="user-list-bottom"
-            paginationObj={pagination}
-            hasPageBtn={false}
-            onCurPageChange={(page) => {
-              setCurPage(page);
-            }}
-          />
+          {!!pagination && (
+            <GyPagination
+              className="user-list-bottom"
+              paginationObj={pagination}
+              hasPageBtn={false}
+              onCurPageChange={(page) => {
+                setCurPage(page);
+              }}
+            />
+          )}
         </div>
       </GyCard>
     </>

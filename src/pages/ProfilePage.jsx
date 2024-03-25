@@ -30,6 +30,11 @@ import { IoMdSettings } from "react-icons/io";
 import "./style/index.scss";
 import { useCycle } from "framer-motion";
 import { createConversation } from "../api/chat";
+import {
+  getMomentList,
+  getMomentListAuth,
+  getMomentListByUserId,
+} from "../api/moments";
 
 const UserBackground = ({ url, editable = false }) => {
   return (
@@ -80,21 +85,30 @@ const Profile = () => {
   const [userData, setUserData] = useState({ user: null, profile: null });
   // article states
   const [articleList, setArticleList] = useState([]);
+  // moment states
+  const [momentList, setMomentList] = useState([]);
 
   // pagination
-  const [pagination, setPagination] = useState();
-  const [curPage, setCurPage] = useState(1);
+  const [articlePagination, setArticlePagination] = useState();
+  const [momentPagination, setMomentPagination] = useState();
+  const [curPageMoment, setCurPageMoment] = useState(1);
+  const [curPageArticle, setCurPageArticle] = useState(1);
 
-  const getArticleListRequest = useRequest(
-    !userId ? getArticleList : getArticleListByUserId,
-    {
-      manual: true,
-      onSuccess: (result, params) => {
-        setArticleList(result?.data);
-        setPagination(result?.meta);
-      },
-    }
-  );
+  const getArticleListRequest = useRequest(getArticleListByUserId, {
+    manual: true,
+    onSuccess: (result, params) => {
+      setArticleList(result?.data);
+      setArticlePagination(result?.meta);
+    },
+  });
+
+  const getMomentListRequest = useRequest(getMomentListByUserId, {
+    manual: true,
+    onSuccess: (result, params) => {
+      setMomentList(result?.data);
+      setMomentPagination(result?.meta);
+    },
+  });
 
   const { user, profile } = userData;
 
@@ -110,7 +124,7 @@ const Profile = () => {
   const createConversationRequest = useRequest(createConversation, {
     manual: true,
     onSuccess: (result) => {
-      // console.log(result);
+      console.log(result);
     },
   });
 
@@ -121,8 +135,15 @@ const Profile = () => {
 
   useEffect(() => {
     getUserInfoRequest.run(self ? state.user.id : userId);
-    getArticleListRequest.run(curPage, userId);
   }, []);
+
+  useEffect(() => {
+    getArticleListRequest.run(curPageArticle, userId);
+  }, [curPageArticle]);
+
+  useEffect(() => {
+    getMomentListRequest.run(curPageMoment, userId);
+  }, [curPageMoment]);
 
   return (
     <GyBodySection>
@@ -158,28 +179,34 @@ const Profile = () => {
                 >
                   {activeIndex === 0 ? (
                     <ArticleList
-                      userId={!self ? userId : state?.user?.id}
                       getArticleListRequest={getArticleListRequest}
                       articleList={articleList}
-                      pagination={pagination}
-                      curPage={curPage}
-                      setCurPage={setCurPage}
                     />
                   ) : (
                     <MomentList
-                      userId={!self ? userId : state?.user?.id}
-                      type={toggleState}
+                      getMomentListRequest={getArticleListRequest}
+                      momentList={momentList}
                     />
                   )}
                 </Gytab>
-                {!!pagination && !!articleList.length && (
-                  <GyPagination
-                    paginationObj={pagination}
-                    onCurPageChange={(page) => {
-                      setCurPage(page);
-                    }}
-                  />
-                )}
+                {/* pagination */}
+                {activeIndex === 0
+                  ? !!articleList.length && (
+                      <GyPagination
+                        paginationObj={articlePagination}
+                        onCurPageChange={(page) => {
+                          setCurPageArticle(page);
+                        }}
+                      />
+                    )
+                  : !!momentList.length && (
+                      <GyPagination
+                        paginationObj={momentPagination}
+                        onCurPageChange={(page) => {
+                          setCurPageMoment(page);
+                        }}
+                      />
+                    )}
               </section>
               <section className="right-section">
                 <div className="sticky-side">

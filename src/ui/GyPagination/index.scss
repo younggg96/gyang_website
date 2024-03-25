@@ -11,6 +11,9 @@
           @apply bg-primary border-accent cursor-default
           text-black;
         }
+        &.inactive {
+          @apply text-accent cursor-not-allowed hover:border-border hover:bg-white dark:hover:bg-backgroundDark dark:hover:text-accent dark:hover:border-borderDark;
+        }
         &.dot {
           @apply cursor-default hover:bg-white;
         }
