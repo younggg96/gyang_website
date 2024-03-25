@@ -15,14 +15,13 @@ import GyButton from "../GyButton/GyButton";
  * @returns
  */
 const GyPagination = ({
-  row,
-  curPage,
-  pageRow,
+  paginationObj,
   onCurPageChange,
   hasPageBtn = true,
   className,
   ...props
 }) => {
+  const { row, curPage, pageRow } = paginationObj;
   const range = (start, end) => {
     const arr = [];
     for (let i = start; i <= end; i++) {

@@ -1,7 +1,5 @@
 import React from "react";
-import { useRef } from "react";
 // hooks
-import { useToggle } from "ahooks";
 import useAuth from "../../hooks/useAuth";
 // components
 import EditorInput from "../editor/EditorInput";
@@ -9,18 +7,20 @@ import MomentList from "./MomentList";
 // scss
 import "./index.scss";
 
-const Moments = () => {
+const Moments = ({ getMomentListRequest, momentList, curPage }) => {
   const { state } = useAuth();
-  // ref
-  const listRef = useRef(null);
 
   const updateMomentList = () => {
-    listRef.current && listRef.current.refreshMomentList();
+    getMomentListRequest.run(curPage, state.user.id);
   };
+
   return (
     <div className="moments">
       {state.isAuth && <EditorInput updateMomentList={updateMomentList} />}
-      <MomentList ref={listRef} />
+      <MomentList
+        momentList={momentList}
+        getMomentListRequest={getMomentListRequest}
+      />
     </div>
   );
 };

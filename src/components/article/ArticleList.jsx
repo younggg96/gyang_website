@@ -1,16 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { useEffect } from "react";
-import { useRequest } from "ahooks";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
 
 import "./index.scss";
-import { getArticleList, getArticleListByUserId } from "../../api/article";
 import Categories from "./Categories";
 import UserHeader from "../user/UserHeader";
 import GyTime from "../../ui/GyTime/GyTime";
 import GyLoader from "../../ui/GyLoader/GyLoader";
-import GyPagination from "../../ui/GyPagination/GyPagination";
 import useWindowsSize from "../../hooks/useWindowsSize";
 import EmptyData from "../error/EmptyData";
 
@@ -93,23 +90,8 @@ const ArticleItem = ({ data }) => {
   );
 };
 
-const ArticleList = ({ userId = null }) => {
-  const [curPage, setCurPage] = useState(1);
-  const [articleList, setArticleList] = useState([]);
-  const [pagination, setPagination] = useState();
-
-  const getData = !userId ? getArticleList : getArticleListByUserId;
-
-  const { error, loading, run } = useRequest(getData, {
-    manual: true,
-    onSuccess: (result, params) => {
-      setArticleList(result?.data);
-      setPagination(result?.meta);
-    },
-  });
-  useEffect(() => {
-    run(curPage, userId);
-  }, [curPage, run, userId]);
+const ArticleList = ({ getArticleListRequest, articleList }) => {
+  const { error, loading } = getArticleListRequest;
 
   if (error) {
     return <div>failed to load</div>;
@@ -129,16 +111,6 @@ const ArticleList = ({ userId = null }) => {
             </ul>
             {!!!articleList.length && (
               <EmptyData content={{ sub: "No data..." }}></EmptyData>
-            )}
-            {!!pagination && !!articleList.length && (
-              <GyPagination
-                row={pagination.row}
-                curPage={pagination.current_page}
-                pageRow={pagination.page_row}
-                onCurPageChange={(page) => {
-                  setCurPage(page);
-                }}
-              />
             )}
           </>
         )}

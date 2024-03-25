@@ -49,9 +49,7 @@ const TopUserList = () => {
           )}
           <GyPagination
             className="user-list-bottom"
-            row={pagination?.row}
-            curPage={pagination?.current_page}
-            pageRow={pagination?.page_row}
+            paginationObj={pagination}
             hasPageBtn={false}
             onCurPageChange={(page) => {
               setCurPage(page);

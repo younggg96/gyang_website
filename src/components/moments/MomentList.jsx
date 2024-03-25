@@ -1,16 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import classNames from "classnames";
 // hooks
 import { useToggle } from "ahooks";
-import { useImperativeHandle } from "react";
-import { useRequest } from "ahooks";
-import useAuth from "../../hooks/useAuth";
-// api
-import {
-  getMomentList,
-  getMomentListAuth,
-  getMomentListByUserId,
-} from "../../api/moments";
 // components
 import MomentItem from "./MomentItem";
 import EmptyData from "../error/EmptyData";
@@ -21,45 +12,13 @@ import { BsGridFill } from "react-icons/bs";
 import GyToggle from "../../ui/GyToggle/GyToggle";
 import GyToggleGroup from "../../ui/GyToggle/GyToggleGroup";
 import GyLoader from "../../ui/GyLoader/GyLoader";
-import GyPagination from "../../ui/GyPagination/GyPagination";
 import GyMasonryLayout from "../../ui/GyMasonryLayout/GyMasonryLayout";
 
-/**
- *
- * @param {object} {userId} get moments in user profile, use userId to getMoments
- */
-const MomentList = React.forwardRef(({ userId = null }, ref) => {
+const MomentList = React.forwardRef(({ getMomentListRequest, momentList }) => {
   // states
-  const [curPage, setCurPage] = useState(1);
-  const [MomentList, setMomentList] = useState([]);
-  const [pagination, setPagination] = useState();
   const [toggleState, { setLeft, setRight }] = useToggle("list", "grid");
 
-  // get data
-  const { state } = useAuth();
-  const getMoments = state.isAuth ? getMomentListAuth : getMomentList;
-  const getData = !userId ? getMoments : getMomentListByUserId;
-
-  // api
-  const { error, loading, run } = useRequest(getData, {
-    manual: true,
-    onSuccess: (result, params) => {
-      setMomentList(result?.data);
-      setPagination(result?.meta);
-    },
-  });
-
-  // ref
-  useImperativeHandle(ref, () => ({
-    refreshMomentList,
-  }));
-  const refreshMomentList = () => {
-    run(curPage, state.user.id);
-  };
-
-  useEffect(() => {
-    run(curPage, state.isAuth ? state.user.id : null);
-  }, [curPage]);
+  const { error, loading } = getMomentListRequest;
 
   if (error) {
     return <div>failed to load</div>;
@@ -82,7 +41,7 @@ const MomentList = React.forwardRef(({ userId = null }, ref) => {
 
   return (
     <>
-      {!loading && !!MomentList.length && <MomentLayoutSwitch />}
+      {!!!loading && !!momentList.length && <MomentLayoutSwitch />}
       <section className="moment-list">
         <div
           className={classNames([
@@ -97,7 +56,7 @@ const MomentList = React.forwardRef(({ userId = null }, ref) => {
             <>
               {toggleState === "list" && (
                 <ul>
-                  {MomentList.map((item) => {
+                  {momentList.map((item) => {
                     return (
                       <MomentItem
                         key={item.id}
@@ -109,8 +68,8 @@ const MomentList = React.forwardRef(({ userId = null }, ref) => {
                 </ul>
               )}
               {toggleState === "grid" && (
-                <GyMasonryLayout items={MomentList}>
-                  {MomentList.map((item) => {
+                <GyMasonryLayout items={momentList}>
+                  {momentList.map((item) => {
                     return (
                       <MomentItem
                         key={item.id}
@@ -122,18 +81,8 @@ const MomentList = React.forwardRef(({ userId = null }, ref) => {
                   })}
                 </GyMasonryLayout>
               )}
-              {!!!MomentList.length && (
+              {!!!momentList.length && (
                 <EmptyData content={{ sub: "No data..." }}></EmptyData>
-              )}
-              {!!pagination && !!MomentList.length && (
-                <GyPagination
-                  row={pagination?.row}
-                  curPage={pagination?.current_page}
-                  pageRow={pagination?.page_row}
-                  onCurPageChange={(page) => {
-                    setCurPage(page);
-                  }}
-                />
               )}
             </>
           )}

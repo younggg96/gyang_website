@@ -1,11 +1,14 @@
 @tailwind components;
 
 @layer components {
-    .about-user {
-        .user-bio {
-        }
-        .user-social {
-            @apply my-4 px-2;
-        }
+  .about-user {
+    .gy-card {
+      @apply mb-0;
     }
+    .user-bio {
+    }
+    .user-social {
+      @apply my-4 px-2;
+    }
+  }
 }

@@ -4,30 +4,32 @@ import classNames from "classnames";
 import { useParams } from "react-router-dom";
 import { useRequest, useToggle } from "ahooks";
 import useAuth from "../hooks/useAuth";
+import useWindowsSize from "../hooks/useWindowsSize";
 // import api
 import { getUserInfo } from "../api/user";
+import { getArticleList, getArticleListByUserId } from "../api/article";
 // import components
 import UserHeader from "../components/user/UserHeader";
 import ArticleList from "../components/article/ArticleList";
-import GyBodySection from "../ui/GyBodySection/GyBodySection";
 import UserProfile from "../components/profile/UserProfile";
 import MomentList from "../components/moments/MomentList";
 import Error from "../components/error/Error";
+import ChatRoom from "../components/chat/ChatRoom";
 // ui
 import { tabs } from "./HomePage";
+import GyModal from "../ui/GyModal/GyModal";
 import GyButton from "../ui/GyButton/GyButton";
 import GyLoader from "../ui/GyLoader/GyLoader";
 import Gytab from "../ui/GyTab/Gytab";
+import GyBodySection from "../ui/GyBodySection/GyBodySection";
+import GyPagination from "../ui/GyPagination/GyPagination";
 // icons
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoMdSettings } from "react-icons/io";
 // scss
 import "./style/index.scss";
-import GyModal from "../ui/GyModal/GyModal";
 import { useCycle } from "framer-motion";
-import ChatRoom from "../components/chat/ChatRoom";
 import { createConversation } from "../api/chat";
-import useWindowsSize from "../hooks/useWindowsSize"
 
 const UserBackground = ({ url, editable = false }) => {
   return (
@@ -76,6 +78,24 @@ const Profile = () => {
   // states
   const [activeIndex, setActiveIndex] = useState(0);
   const [userData, setUserData] = useState({ user: null, profile: null });
+  // article states
+  const [articleList, setArticleList] = useState([]);
+
+  // pagination
+  const [pagination, setPagination] = useState();
+  const [curPage, setCurPage] = useState(1);
+
+  const getArticleListRequest = useRequest(
+    !userId ? getArticleList : getArticleListByUserId,
+    {
+      manual: true,
+      onSuccess: (result, params) => {
+        setArticleList(result?.data);
+        setPagination(result?.meta);
+      },
+    }
+  );
+
   const { user, profile } = userData;
 
   const [isMsgRoomOpen, toggleMsgRoomOpen] = useCycle(false, true);
@@ -101,6 +121,7 @@ const Profile = () => {
 
   useEffect(() => {
     getUserInfoRequest.run(self ? state.user.id : userId);
+    getArticleListRequest.run(curPage, userId);
   }, []);
 
   return (
@@ -136,7 +157,14 @@ const Profile = () => {
                   mobile={window === "md" || window === "sm"}
                 >
                   {activeIndex === 0 ? (
-                    <ArticleList userId={!self ? userId : state?.user?.id} />
+                    <ArticleList
+                      userId={!self ? userId : state?.user?.id}
+                      getArticleListRequest={getArticleListRequest}
+                      articleList={articleList}
+                      pagination={pagination}
+                      curPage={curPage}
+                      setCurPage={setCurPage}
+                    />
                   ) : (
                     <MomentList
                       userId={!self ? userId : state?.user?.id}
@@ -144,6 +172,14 @@ const Profile = () => {
                     />
                   )}
                 </Gytab>
+                {!!pagination && !!articleList.length && (
+                  <GyPagination
+                    paginationObj={pagination}
+                    onCurPageChange={(page) => {
+                      setCurPage(page);
+                    }}
+                  />
+                )}
               </section>
               <section className="right-section">
                 <div className="sticky-side">
